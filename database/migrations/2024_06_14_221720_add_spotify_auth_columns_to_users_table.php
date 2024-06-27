@@ -15,7 +15,8 @@ return new class extends Migration
             $table->string('spotify_id')->unique()->nullable();
             $table->string('spotify_name')->nullable();
             $table->string('spotify_avatar')->nullable();
-            $table->datetime('spotify_playlist_total')->default(0);
+            $table->datetime('spotify_playlists_total')->nullable();
+            $table->datetime('spotify_filtered_playlists_total')->nullable();
             $table->string('spotify_access_token')->nullable();
             $table->string('spotify_refresh_token')->nullable();
             $table->datetime('spotify_token_expiration')->nullable();

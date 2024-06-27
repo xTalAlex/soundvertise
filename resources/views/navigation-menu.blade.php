@@ -18,6 +18,12 @@
                     <x-nav-link href="{{ route('galaxy') }}" :active="request()->routeIs('galaxy')">
                         {{ __('Galaxy') }}
                     </x-nav-link>
+                    <x-nav-link href="{{ route('playlists.index') }}" :active="request()->routeIs('playlists.index')">
+                        {{ __('Playlists') }}
+                    </x-nav-link>
+                    <x-nav-link href="{{ route('songs.index') }}" :active="request()->routeIs('songs.index')">
+                        {{ __('Songs') }}
+                    </x-nav-link>
                     <x-nav-link href="{{ route('filament.admin.pages.dashboard') }}" :active="request()->routeIs('filament.admin.pages.dashboard')">
                         {{ __('Admin') }}
                     </x-nav-link>
@@ -161,6 +167,12 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link href="{{ route('galaxy') }}" :active="request()->routeIs('galaxy')">
                 {{ __('Galaxy') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link href="{{ route('playlists.index') }}" :active="request()->routeIs('playlists.index')">
+                {{ __('Playlists') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link href="{{ route('songs.index') }}" :active="request()->routeIs('songs.index')">
+                {{ __('Songs') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link href="{{ route('filament.admin.pages.dashboard') }}" :active="request()->routeIs('filament.admin.pages.dashboard')">
                 {{ __('Admin') }}

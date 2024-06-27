@@ -10,7 +10,7 @@ export default defineConfig({
                 "resources/css/filament/admin/theme.css",
                 "resources/js/galaxy.js",
             ],
-            refresh: [...refreshPaths, "app/Http/Livewire/**"],
+            refresh: [...refreshPaths, "app/Livewire/**"],
         }),
     ],
 });

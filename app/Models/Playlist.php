@@ -19,8 +19,8 @@ class Playlist extends Model implements HasMedia
      * @var array<int, string>
      */
     protected $fillable = [
-        'user_id',
         'spotify_user_id',
+        'genre_id',
         'spotify_id',
         'url',
         'name',
@@ -29,6 +29,7 @@ class Playlist extends Model implements HasMedia
         'followers_total',
         'tracks_total',
         'approved',
+        'rank',
     ];
 
     /**
@@ -52,13 +53,6 @@ class Playlist extends Model implements HasMedia
     }
 
     /**
-     * The relationships that should always be loaded.
-     *
-     * @var array
-     */
-    protected $with = ['media'];
-
-    /**
      * Get the user that owns the playlist.
      *
      * It could be user_id or spotify_user_id.
@@ -66,5 +60,13 @@ class Playlist extends Model implements HasMedia
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'spotify_user_id', 'spotify_id');
+    }
+
+    /**
+     * Get the genre the playlist belongs to.
+     */
+    public function genre(): BelongsTo
+    {
+        return $this->belongsTo(Genre::class);
     }
 }

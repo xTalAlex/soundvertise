@@ -40,7 +40,8 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia
         'spotify_id',
         'spotify_name',
         'spotify_avatar',
-        'spotify_playlist_total',
+        'spotify_playlists_total',
+        'spotify_filtered_playlists_total',
         'spotify_access_token',
         'spotify_refresh_token',
         'spotify_token_expiration',
@@ -99,12 +100,22 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return $this->is_admin;
+        return $this->isAdmin();
     }
 
     public function getFilamentAvatarUrl(): ?string
     {
         return $this->profile_photo_url;
+    }
+
+    public function isAdmin(): bool
+    {
+        return $this->is_admin;
+    }
+
+    public function isSpotifyAuth(): bool
+    {
+        return $this->spotify_id && $this->spotify_refresh_token;
     }
 
     /**
@@ -113,5 +124,13 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia
     public function playlists(): HasMany
     {
         return $this->hasMany(Playlist::class, 'spotify_user_id', 'spotify_id');
+    }
+
+    /**
+     * Get the songs for the user.
+     */
+    public function songs(): HasMany
+    {
+        return $this->hasMany(Song::class);
     }
 }

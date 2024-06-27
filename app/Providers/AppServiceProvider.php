@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\User;
 use Illuminate\Support\Facades\Event;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 use Opcodes\LogViewer\Facades\LogViewer;
 
@@ -26,7 +28,11 @@ class AppServiceProvider extends ServiceProvider
         });
 
         LogViewer::auth(function ($request) {
-            return $request->user()->is_admin;
+            return $request->user()->isAdmin();
+        });
+
+        Gate::define('viewPulse', function (User $user) {
+            return $user->isAdmin();
         });
     }
 }

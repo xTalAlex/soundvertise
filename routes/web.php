@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
 Route::get('/galaxy', function () {
     $genres = App\Models\Genre::query()
@@ -26,8 +26,8 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->group(function () {
-    Route::get('playlists', [\App\Http\Controllers\PlaylistController::class, 'index'])->name('playlists.index');
-    Route::post('playlists', [\App\Http\Controllers\PlaylistController::class, 'store'])->name('playlists.store');
+    Route::get('playlists', \App\Livewire\PlaylistIndex::class)->name('playlists.index');
+    Route::get('songs', \App\Livewire\SongIndex::class)->name('songs.index');
 });
 
 Route::middleware([

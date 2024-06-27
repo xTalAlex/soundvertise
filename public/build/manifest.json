@@ -1,18 +1,12 @@
 {
   "resources/css/app.css": {
-    "file": "assets/app-CdE7ki6K.css",
+    "file": "assets/app-DoM6c8xb.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
   "resources/css/filament/admin/theme.css": {
-    "file": "assets/theme-lwkQAeNS.css",
+    "file": "assets/theme-OWL-zco0.css",
     "src": "resources/css/filament/admin/theme.css",
-    "isEntry": true
-  },
-  "resources/js/animatebg.js": {
-    "file": "assets/animatebg-B2goLA7T.js",
-    "name": "animatebg",
-    "src": "resources/js/animatebg.js",
     "isEntry": true
   },
   "resources/js/app.js": {
@@ -21,10 +15,10 @@
     "src": "resources/js/app.js",
     "isEntry": true
   },
-  "resources/js/mousetrail.js": {
-    "file": "assets/mousetrail-DEn1a5cD.js",
-    "name": "mousetrail",
-    "src": "resources/js/mousetrail.js",
+  "resources/js/galaxy.js": {
+    "file": "assets/galaxy-BOuliFIL.js",
+    "name": "galaxy",
+    "src": "resources/js/galaxy.js",
     "isEntry": true
   }
 }

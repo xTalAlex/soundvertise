@@ -17,8 +17,10 @@ class GenreSeeder extends Seeder
         $genresNames = config('soundvertise.genres');
         $genresIcons = collect(File::files(storage_path('app/assets/planets')))->map(fn ($file) => $file->getPathname());
         $genres = Genre::factory(count($genresNames))->sequence(fn (Sequence $sequence) => ['name' => $genresNames[$sequence->index]])->create();
-        foreach ($genres as $index => $genre) {
-            $genre->addMedia($genresIcons[$index % count($genresIcons)])->preservingOriginal()->toMediaCollection();
+        if (count($genresIcons)) {
+            foreach ($genres as $index => $genre) {
+                $genre->addMedia($genresIcons[$index % count($genresIcons)])->preservingOriginal()->toMediaCollection();
+            }
         }
     }
 }

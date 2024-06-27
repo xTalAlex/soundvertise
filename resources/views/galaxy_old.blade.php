@@ -103,10 +103,6 @@
         </div>
     </div>
 
-    <div class="size-6 blur-sm shadow-2xl animate-pulse bg-emerald-500  bg-violet-500 fixed top-0 left-0 z-50 pointer-events-none rounded-full opacity-0 mix-blend-hue"
-        id="mouse-trail">
-    </div>;
-
     @push('bottom-scripts')
         <script>
             function createDot(x, y, planetId) {

@@ -21,5 +21,5 @@ return [
         'Rock / Metal',
     ],
 
-    'min_playlist_followers' => 1000,
+    'min_playlist_followers' => 0,
 ];

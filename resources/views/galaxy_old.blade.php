@@ -1,5 +1,5 @@
 <x-guest-layout>
-    @push('head-scripts')
+    @push('head')
         <script src="https://cdn.jsdelivr.net/npm/pushin@6/dist/umd/pushin.min.js"></script>
     @endpush
 
@@ -103,7 +103,7 @@
         </div>
     </div>
 
-    @push('bottom-scripts')
+    @push('bottom')
         <script>
             function createDot(x, y, planetId) {
                 var elem = document.createElement("div");

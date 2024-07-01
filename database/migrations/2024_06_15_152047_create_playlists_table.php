@@ -25,7 +25,7 @@ return new class extends Migration
             $table->unsignedInteger('followers_total')->default(0);
             $table->unsignedInteger('tracks_total')->default(0);
             $table->boolean('approved')->default(false);
-            $table->unsignedSmallInteger('rank')->nullable();
+            $table->unsignedSmallInteger('level')->nullable();
             $table->timestamps();
 
             $table->foreign('spotify_user_id')->references('spotify_id')->on('users');

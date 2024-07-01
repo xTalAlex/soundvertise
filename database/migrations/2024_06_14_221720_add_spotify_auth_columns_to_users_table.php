@@ -12,14 +12,16 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->string('spotify_id')->unique()->nullable();
-            $table->string('spotify_name')->nullable();
-            $table->string('spotify_avatar')->nullable();
-            $table->datetime('spotify_playlists_total')->nullable();
-            $table->datetime('spotify_filtered_playlists_total')->nullable();
-            $table->string('spotify_access_token')->nullable();
-            $table->string('spotify_refresh_token')->nullable();
-            $table->datetime('spotify_token_expiration')->nullable();
+            $table->after('current_team_id', function (Blueprint $table) {
+                $table->string('spotify_id')->unique()->nullable();
+                $table->string('spotify_name')->nullable();
+                $table->string('spotify_avatar')->nullable();
+                $table->datetime('spotify_playlists_total')->nullable();
+                $table->datetime('spotify_filtered_playlists_total')->nullable();
+                $table->string('spotify_access_token')->nullable();
+                $table->string('spotify_refresh_token')->nullable();
+                $table->datetime('spotify_token_expiration')->nullable();
+            });
         });
     }
 

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('genres', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->string('slug')->nullable()->unique();
+            $table->string('slug')->unique();
             $table->string('spotify_name')->nullable();
             $table->string('primary_color')->nullable();
             $table->string('secondary_color')->nullable();

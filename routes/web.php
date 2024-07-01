@@ -15,6 +15,10 @@ Route::get('/galaxy', function () {
     return view('galaxy', compact('genres'));
 })->name('galaxy');
 
+Route::get('/planet/{genre:slug}', function (\App\Models\Genre $genre) {
+    return view('planet', compact('genre'));
+})->name('planet');
+
 Route::prefix('spotify')->group(function () {
     Route::get('auth', [\App\Http\Controllers\SpotifyController::class, 'redirect'])->name('spotify.redirect');
     Route::get('callback', [\App\Http\Controllers\SpotifyController::class, 'callback']);
@@ -36,6 +40,10 @@ Route::middleware([
     'verified',
 ])->group(function () {
     Route::get('/dashboard', function () {
-        return view('dashboard');
+        $submissions = auth()->user()->submissions()
+            ->with('song', 'playlist')
+            ->orderBy('created_at', 'desc')->get();
+
+        return view('dashboard', compact('submissions'));
     })->name('dashboard');
 });

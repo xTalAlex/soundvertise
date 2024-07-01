@@ -9,9 +9,12 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
+use Livewire\Features\SupportFileUploads\WithFileUploads;
 
 class PlaylistIndex extends Component
 {
+    use WithFileUploads;
+
     public Collection $playlists;
 
     public Collection $liveFetchedPlaylists;
@@ -23,16 +26,17 @@ class PlaylistIndex extends Component
     #[Validate('required|exists:genres,id')]
     public ?int $selectedGenreId = null;
 
-    /**
-     * Indicates if team deletion is being confirmed.
-     *
-     * @var bool
-     */
+    public $screenshots;
+
     public $confirmingPlaylistCreation = false;
+
+    public $showedPlaylist = null;
+
+    public $showingPlaylistAttachments = false;
 
     public function mount()
     {
-        $this->playlists = auth()->user()->playlists;
+        $this->playlists = auth()->user()->playlists()->with('genre', 'media')->get();
         $this->liveFetchedPlaylists = collect();
     }
 
@@ -133,6 +137,31 @@ class PlaylistIndex extends Component
 
     }
 
+    public function showPlaylistAttachments($playlistId)
+    {
+        $playlist = $this->playlists->firstWhere('id', $playlistId);
+
+        //$this->screenshots = $playlist->getMedia('screenshots')->map(fn ($media) => $media->getUrl())->toArray();
+        $this->reset('screenshots');
+        $this->showedPlaylist = $playlist;
+
+        $this->showingPlaylistAttachments = true;
+    }
+
+    public function attachScreenshotsToPlaylist()
+    {
+        if (! $this->screenshots) {
+            return;
+        }
+        collect($this->screenshots)->each(fn ($screenshot) => $this->showedPlaylist
+            ->addMedia($screenshot->getRealPath())
+            ->toMediaCollection('screenshots')
+        );
+        $this->reset('screenshots');
+
+        $this->showingPlaylistAttachments = false;
+    }
+
     public function deletePlaylist($id)
     {
         $removed = Playlist::where('id', $id)->delete();
@@ -146,7 +175,7 @@ class PlaylistIndex extends Component
 
     public function render()
     {
-        $this->playlists = auth()->user()->playlists()->with('genre')->get();
+        $this->playlists = auth()->user()->playlists()->with('genre', 'media')->get();
 
         return view('livewire.playlist-index', [
             'playlists' => $this->playlists,

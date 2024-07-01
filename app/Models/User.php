@@ -24,9 +24,8 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia
     use HasProfilePhoto;
     use InteractsWithMedia;
     use Notifiable;
-
-    //use SoftDeletes;
     use TwoFactorAuthenticatable;
+    //use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -132,5 +131,13 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia
     public function songs(): HasMany
     {
         return $this->hasMany(Song::class);
+    }
+
+    /**
+     * Get the submissions for the user.
+     */
+    public function submissions(): HasMany
+    {
+        return $this->hasMany(Submission::class);
     }
 }

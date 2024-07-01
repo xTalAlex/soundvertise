@@ -25,7 +25,7 @@
                             @foreach ($songs as $song)
                                 <div>
                                     <x-song-embed :id="$song->spotify_id" />
-                                    <div class="mt-4">
+                                    <div class="mt-4 grid place-items-center">
                                         <x-danger-button type="submit"
                                             wire:click="confirmSongDeletion('{{ $song->id }}')">
                                             <x-loading-spinner wire:loading

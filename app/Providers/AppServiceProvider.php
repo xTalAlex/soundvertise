@@ -28,7 +28,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         LogViewer::auth(function ($request) {
-            return $request->user()->isAdmin();
+            return $request->user()?->isAdmin();
         });
 
         Gate::define('viewPulse', function (User $user) {

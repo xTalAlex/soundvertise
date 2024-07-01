@@ -5,8 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
+use Spatie\MediaLibrary\MediaCollections\File;
 
 class Playlist extends Model implements HasMedia
 {
@@ -29,7 +31,7 @@ class Playlist extends Model implements HasMedia
         'followers_total',
         'tracks_total',
         'approved',
-        'rank',
+        'level',
     ];
 
     /**
@@ -52,6 +54,14 @@ class Playlist extends Model implements HasMedia
         ];
     }
 
+    public function registerMediaCollections(): void
+    {
+        $this->addMediaCollection('screenshots')
+            ->acceptsFile(function (File $file) {
+                return in_array($file->mimeType, ['image/jpeg', 'image/png']);
+            });
+    }
+
     /**
      * Get the user that owns the playlist.
      *
@@ -68,5 +78,13 @@ class Playlist extends Model implements HasMedia
     public function genre(): BelongsTo
     {
         return $this->belongsTo(Genre::class);
+    }
+
+    /**
+     * Get the submissions for the playlsit.
+     */
+    public function submissions(): HasMany
+    {
+        return $this->hasMany(Submission::class);
     }
 }

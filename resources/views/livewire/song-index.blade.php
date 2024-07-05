@@ -24,7 +24,7 @@
                         <div class="grid grid-cols-3 gap-12">
                             @foreach ($songs as $song)
                                 <div>
-                                    <x-song-embed :id="$song->spotify_id" />
+                                    <x-song-embed compact :id="$song->spotify_id" />
                                     <div class="mt-4 grid place-items-center">
                                         <x-danger-button type="submit"
                                             wire:click="confirmSongDeletion('{{ $song->id }}')">

@@ -6,8 +6,10 @@ namespace App\Models;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasAvatar;
 use Filament\Panel;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -122,7 +124,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia
      */
     public function playlists(): HasMany
     {
-        return $this->hasMany(Playlist::class, 'spotify_user_id', 'spotify_id');
+        return $this->hasMany(Playlist::class);
     }
 
     /**
@@ -139,5 +141,32 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia
     public function submissions(): HasMany
     {
         return $this->hasMany(Submission::class);
+    }
+
+    /**
+     * Get the pairings for the user.
+     */
+    public function pairings(): HasManyThrough
+    {
+        return $this->hasManyThrough(Pairing::class, Submission::class);
+    }
+
+    /**
+     * Get the pairings for the user.
+     */
+    public function matches(): HasManyThrough
+    {
+        return $this->hasManyThrough(Pairing::class, Submission::class)
+            ->where('pairings.is_match', true);
+    }
+
+    /**
+     * Get the user spotify url if it is not defined.
+     */
+    protected function url(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => $value ?? ('https://open.spotify.com/user/'.$this->spotify_id),
+        );
     }
 }

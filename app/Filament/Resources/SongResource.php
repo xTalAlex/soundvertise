@@ -3,15 +3,12 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\SongResource\Pages;
-use App\Filament\Resources\SongResource\RelationManagers;
 use App\Models\Song;
 use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class SongResource extends Resource
 {
@@ -70,6 +67,7 @@ class SongResource extends Resource
                     ->numeric(),
                 Forms\Components\TextInput::make('time_signature')
                     ->numeric(),
+                Forms\Components\DateTimePicker::make('updated_at'),
             ]);
     }
 

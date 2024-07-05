@@ -60,6 +60,16 @@ class UserFactory extends Factory
     }
 
     /**
+     * Indicate that the model's connected to spotify.
+     */
+    public function withSpotify(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'spotify_id' => Str::random(22),
+        ]);
+    }
+
+    /**
      * Indicate that the user should have a personal team.
      */
     public function withPersonalTeam(?callable $callback = null): static

@@ -14,15 +14,15 @@ return new class extends Migration
     {
         Schema::create('songs', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->unsignedBigInteger('genre_id')->nullable();
+            $table->foreignId('user_id')->nullable()->constrained();
+            $table->foreignId('genre_id')->nullable()->constrained();
             $table->string('spotify_id');
-            $table->string('url');
+            $table->string('url')->nullable();
             $table->string('name');
-            $table->string('artist_id');
-            $table->string('artist_name');
-            $table->json('artist_genres');
-            $table->unsignedInteger('duration_ms');
+            $table->string('artist_id')->nullable();
+            $table->string('artist_name')->nullable();
+            $table->string('artist_genres')->nullable();
+            $table->unsignedInteger('duration_ms')->nullable();
             $table->unsignedInteger('popularity')->default(0);
             $table->float('acousticness')->nullable();
             $table->float('instrumentalness')->nullable();
@@ -37,9 +37,6 @@ return new class extends Migration
             $table->float('tempo')->nullable();
             $table->unsignedSmallInteger('time_signature')->nullable();
             $table->timestamps();
-
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('genre_id')->references('id')->on('genres');
         });
     }
 
@@ -48,7 +45,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('playlists', function ($table) {
+        Schema::table('songs', function ($table) {
             if (DB::getDriverName() !== 'sqlite') {
                 $table->dropForeign(['genre_id']);
                 $table->dropForeign(['user_id']);

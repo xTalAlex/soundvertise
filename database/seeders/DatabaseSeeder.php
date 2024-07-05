@@ -15,6 +15,9 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
             GenreSeeder::class,
+            SongSeeder::class,
+            PlaylistSeeder::class,
+            SubmissionSeeder::class,
         ]);
     }
 }

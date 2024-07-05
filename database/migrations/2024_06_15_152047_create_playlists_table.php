@@ -14,23 +14,19 @@ return new class extends Migration
     {
         Schema::create('playlists', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained();
+            $table->foreignId('genre_id')->nullable()->constrained();
             $table->string('spotify_user_id');
-            $table->unsignedBigInteger('user_id')->nullable();
-            $table->unsignedBigInteger('genre_id')->nullable();
             $table->string('spotify_id');
-            $table->string('url');
+            $table->string('url')->nullable();
             $table->string('name');
             $table->string('description')->nullable();
-            $table->boolean('collaborative');
+            $table->boolean('collaborative')->default(false);
             $table->unsignedInteger('followers_total')->default(0);
             $table->unsignedInteger('tracks_total')->default(0);
             $table->boolean('approved')->default(false);
-            $table->unsignedSmallInteger('level')->nullable();
+            $table->unsignedInteger('monthly_listeners')->nullable();
             $table->timestamps();
-
-            $table->foreign('spotify_user_id')->references('spotify_id')->on('users');
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('genre_id')->references('id')->on('genres');
         });
     }
 
@@ -43,7 +39,6 @@ return new class extends Migration
             if (DB::getDriverName() !== 'sqlite') {
                 $table->dropForeign(['genre_id']);
                 $table->dropForeign(['user_id']);
-                $table->dropForeign(['spotify_user_id']);
             }
         });
 

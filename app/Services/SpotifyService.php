@@ -66,7 +66,7 @@ class SpotifyService
     {
         return $user->update([
             'name' => $user->name,
-            'spotify_id' => null,
+            //'spotify_id' => null, Do not delete to allow user recovery
             'spotify_name' => null,
             'spotify_avatar' => null,
             'spotify_access_token' => null,

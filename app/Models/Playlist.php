@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -30,8 +31,8 @@ class Playlist extends Model implements HasMedia
         'collaborative',
         'followers_total',
         'tracks_total',
+        'monthly_listeners',
         'approved',
-        'level',
     ];
 
     /**
@@ -64,12 +65,10 @@ class Playlist extends Model implements HasMedia
 
     /**
      * Get the user that owns the playlist.
-     *
-     * It could be user_id or spotify_user_id.
      */
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'spotify_user_id', 'spotify_id');
+        return $this->belongsTo(User::class);
     }
 
     /**
@@ -86,5 +85,15 @@ class Playlist extends Model implements HasMedia
     public function submissions(): HasMany
     {
         return $this->hasMany(Submission::class);
+    }
+
+    /**
+     * Get the playlist spotify url if it is not defined.
+     */
+    protected function url(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => $value ?? ('https://open.spotify.com/playlist/'.$this->spotify_id),
+        );
     }
 }

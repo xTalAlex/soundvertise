@@ -43,7 +43,7 @@ class SongIndex extends Component
                 'name' => $songData['name'],
                 'artist_id' => collect($songData['artists'])->pluck('id')->implode(','),
                 'artist_name' => collect($songData['artists'])->pluck('name')->implode(','),
-                'artist_genres' => collect($songData['artists'])->pluck('name')->implode(','),
+                'artist_genres' => collect($songData['artists'])->pluck('genres')->flatten()->unique()->implode(','),
                 'duration_ms' => $songData['duration_ms'],
                 'popularity' => $songData['popularity'],
                 ...$audioFeatures->only([

@@ -7,9 +7,11 @@
         <canvas id="space" class="bg-black fixed h-screen w-screen inset-0 -z-10">
         </canvas>
         <div class="">
-            <div class="w-fit mx-auto mt-12">
-                <livewire:submitter class="ml-32" :genre="$genre" />
-            </div>
+            @auth
+                <div class="w-fit mx-auto mt-12">
+                    <livewire:submitter class="ml-32" :genre="$genre" />
+                </div>
+            @endauth
             <div class="grid grid-cols-1 mt-32 container mx-auto place-items-center gap-10">
                 <div class="planet w-52 relative hover:scale-105 transition duration-1000"
                     style="top:{{ $genre->position_y ?? 0 }}px; left:{{ $genre->position_x ?? 0 }}px">

@@ -17,6 +17,6 @@ class UserSeeder extends Seeder
             'email' => 'test@example.com',
         ]);
         User::factory(2)->unverified()->create();
-        User::factory(2)->create();
+        User::factory(10)->withSpotify()->create();
     }
 }

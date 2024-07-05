@@ -14,16 +14,14 @@ return new class extends Migration
     {
         Schema::create('submissions', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
-            $table->unsignedBigInteger('song_id');
-            $table->unsignedBigInteger('playlist_id');
-            $table->unsignedSmallInteger('level')->nullable();
+            $table->foreignId('user_id')->constrained();
+            $table->foreignId('song_id')->constrained();
+            $table->foreignId('playlist_id')->constrained();
+            $table->unsignedInteger('song_popularity_before')->nullable();
+            $table->unsignedInteger('song_popularity_after')->nullable();
+            $table->unsignedInteger('min_monthly_listeners')->nullable();
             $table->timestamps();
             $table->softDeletes();
-
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('song_id')->references('id')->on('songs');
-            $table->foreign('playlist_id')->references('id')->on('playlists');
         });
     }
 

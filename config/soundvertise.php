@@ -22,4 +22,6 @@ return [
     ],
 
     'min_playlist_followers' => 0,
+
+    'levels' => [50, 100, 300],
 ];

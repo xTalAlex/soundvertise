@@ -24,6 +24,9 @@
                     <x-nav-link href="{{ route('songs.index') }}" :active="request()->routeIs('songs.index')">
                         {{ __('Songs') }}
                     </x-nav-link>
+                    <x-nav-link href="{{ route('pairings.index') }}" :active="request()->routeIs('pairings.index')">
+                        {{ __('Pairings') }}
+                    </x-nav-link>
                     <x-nav-link href="{{ route('filament.admin.pages.dashboard') }}" :active="request()->routeIs('filament.admin.pages.dashboard')">
                         {{ __('Admin') }}
                     </x-nav-link>
@@ -173,6 +176,9 @@
             </x-responsive-nav-link>
             <x-responsive-nav-link href="{{ route('songs.index') }}" :active="request()->routeIs('songs.index')">
                 {{ __('Songs') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link href="{{ route('pairings.index') }}" :active="request()->routeIs('pairings.index')">
+                {{ __('Pairings') }}
             </x-responsive-nav-link>
             <x-responsive-nav-link href="{{ route('filament.admin.pages.dashboard') }}" :active="request()->routeIs('filament.admin.pages.dashboard')">
                 {{ __('Admin') }}

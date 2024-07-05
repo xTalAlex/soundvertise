@@ -2,6 +2,8 @@
 
 namespace App\Livewire;
 
+use App\Events\SubmissionCreated;
+use App\Jobs\MakePairings;
 use App\Models\Genre;
 use App\Models\Submission;
 use Livewire\Attributes\Validate;
@@ -26,9 +28,9 @@ class Submitter extends Component
     public function mount()
     {
         $this->songs = auth()->user()->songs()
-            ->where('genre_id', $this->genre->id)
-            ->orWhere('genre_id', null)
-            ->get();
+            ->where(fn ($query) => $query->where('genre_id', $this->genre->id)
+                ->orWhere('genre_id', null)
+            )->get();
         $this->playlists = auth()->user()->playlists()->where('genre_id', $this->genre->id)->get();
         $this->selectedSongId = $this->songs->first()?->id;
         $this->selectedPlaylistId = $this->playlists->first()?->id;
@@ -46,6 +48,8 @@ class Submitter extends Component
         ]);
 
         if ($submission) {
+            SubmissionCreated::dispatch($submission);
+            MakePairings::dispatch($submission);
             $this->submitted = true;
             $this->redirectRoute('dashboard');
         }

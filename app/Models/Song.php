@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -80,5 +81,15 @@ class Song extends Model
     public function submissions(): HasMany
     {
         return $this->hasMany(Submission::class);
+    }
+
+    /**
+     * Get the song spotify url if it is not defined.
+     */
+    protected function url(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => $value ?? ('https://open.spotify.com/track/'.$this->spotify_id),
+        );
     }
 }

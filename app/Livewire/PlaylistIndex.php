@@ -109,6 +109,7 @@ class PlaylistIndex extends Component
                     'spotify_id' => $spotifyPlaylist['id'],
                 ], [
                     'user_id' => auth()->user()->id,
+                    'spotify_user_id' => auth()->user()->spotify_id,
                     'genre_id' => $this->selectedGenreId,
                     'url' => $spotifyPlaylist['external_urls']['spotify'],
                     'name' => $spotifyPlaylist['name'],

@@ -39,6 +39,7 @@ class Submitter extends Component
     public function storeSubmission()
     {
         // disabilita se è già stata effettuata una submission durante il periodo
+        // policy per non mandare submission doppie
 
         $this->validate();
 

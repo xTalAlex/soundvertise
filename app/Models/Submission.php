@@ -76,4 +76,12 @@ class Submission extends Model
         return $this->pairings()
             ->wherePivot('is_match', 1);
     }
+
+    public function isExpired(): bool
+    {
+        // submission was created before monday 00:00?
+        $daysOffset = ($this->created_at >= $this->created_at->startOfWeek()->addDays(4)) ? 11 : 4;
+
+        return $this->created_at->startOfWeek()->addDays($daysOffset) <= now();
+    }
 }

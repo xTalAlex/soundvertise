@@ -39,6 +39,8 @@ class MakePairings implements ShouldQueue
             ->whereHas('playlist', fn ($query) => $query->where('genre_id', $this->submission->playlist->genre_id))
             ->get();
 
+        //chunk submissions into smaller jobs
+
         foreach ($pairableSubmissions as $submission) {
             // create pairing for the submission user
             $pairing = Pairing::firstOrCreate([

@@ -86,3 +86,7 @@ https://d3js.org/
 ### Remove playlist items
 
 ### Search for item
+
+https://github.com/DO-Solutions/DigitalOcean-AppPlatform-Cron
+
+https://www.memcachier.com/documentation/laravel

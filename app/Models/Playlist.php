@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\Blacklistable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,6 +14,7 @@ use Spatie\MediaLibrary\MediaCollections\File;
 
 class Playlist extends Model implements HasMedia
 {
+    use Blacklistable;
     use HasFactory;
     use InteractsWithMedia;
 

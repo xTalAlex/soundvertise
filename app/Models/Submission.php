@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -23,6 +24,17 @@ class Submission extends Model
         'song_popularity_after',
         'min_monthly_listeners',
     ];
+
+    /**
+     * Scope a query to only include not expired submissions.
+     */
+    public function scopeActive(Builder $query): void
+    {
+        // if now is friday,saturday or sunday, get this friday
+        // if now is monday,tuesday, wednesday or thursday, get last friday
+        $daysOffset = now() >= now()->startOfWeek()->addDays(4) ? 4 : -3;
+        $query->where('created_at', '>=', now()->startOfWeek()->addDays($daysOffset));
+    }
 
     /**
      * Get the user the submission belongs to.

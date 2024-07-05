@@ -28,7 +28,7 @@ class MakePairings implements ShouldQueue
      */
     public function handle(): void
     {
-        $pairableSubmissions = Submission::with('song', 'playlist')
+        $pairableSubmissions = Submission::active()->with('song', 'playlist')
             // submission made by a different user
             ->where('user_id', '!=', $this->submission->user_id)
             // having their playlist genre matching with submitted song genre

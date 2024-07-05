@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Traits\Traits\HasBlacklist;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasAvatar;
 use Filament\Panel;
@@ -22,6 +24,7 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia
 {
     use HasApiTokens;
+    use HasBlacklist;
     use HasFactory;
     use HasProfilePhoto;
     use InteractsWithMedia;

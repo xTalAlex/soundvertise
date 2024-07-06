@@ -48,3 +48,46 @@ Route::middleware([
         return view('dashboard', compact('submissions'));
     })->name('dashboard');
 });
+
+Route::get('/checkout', function (Illuminate\Http\Request $request) {
+    $prices = Laravel\Cashier\Cashier::stripe()->prices->all();
+    $stripePriceId = $prices->last()->id;
+
+    $quantity = 1;
+
+    return $request->user()->allowPromotionCodes()->checkout([$stripePriceId => $quantity], [
+        'success_url' => route('checkout-success').'?session_id={CHECKOUT_SESSION_ID}',
+        'cancel_url' => route('checkout-cancel'),
+        'metadata' => [],
+    ]);
+})->name('checkout');
+
+Route::get('/checkout/success', function (Illuminate\Http\Request $request) {
+    $sessionId = $request->get('session_id');
+
+    if ($sessionId === null) {
+        return;
+    }
+
+    /**
+     * Data contained in $session: https://docs.stripe.com/api/checkout/sessions/object
+     */
+    $session = Laravel\Cashier\Cashier::stripe()->checkout->sessions->retrieve($sessionId);
+
+    if ($session->payment_status !== 'paid') {
+        return;
+    }
+
+    $orderId = $session['metadata']['order_id'] ?? null;
+
+    //$order = Order::findOrFail($orderId);
+    //$order->update(['status' => 'completed']);
+
+    //return view('checkout-success');
+    return view('welcome');
+})->name('checkout-success');
+Route::view('/checkout/cancel', 'welcome')->name('checkout-cancel');
+
+Route::get('/billing', function (Illuminate\Http\Request $request) {
+    return $request->user()->redirectToBillingPortal(route('home'));
+})->middleware(['auth'])->name('billing');

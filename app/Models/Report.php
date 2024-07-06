@@ -32,16 +32,27 @@ class Report extends Model
         return $this->morphTo();
     }
 
+    /**
+     * Get the conclusion for the Report Model
+     */
     public function conclusion(): HasOne
     {
         return $this->hasOne(ReportConclusion::class);
     }
 
+    /**
+     * Get the admin who managed the report for the Model (only available if there is a conclusion)
+     */
     public function admin(): User
     {
         return $this->conclusion->admin;
     }
 
+    /**
+     * @param  array  $data  Includes optional 'conclusion' and
+     *                       'action_taken' as a strings and 'meta' array of strings.
+     *                       All inputs are optionals.
+     */
     public function conclude($data, User $admin): ReportConclusion
     {
         $conclusion = (new ReportConclusion())->fill(array_merge($data, [

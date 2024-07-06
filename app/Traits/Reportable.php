@@ -13,7 +13,11 @@ trait Reportable
         return $this->morphMany(Report::class, 'reportable');
     }
 
-    public function report($data, User $reporter): Report
+    /**
+     * @param  array  $data  Include a 'reason' as a string
+     *                       and an optional 'meta' array of strings
+     */
+    public function report(array $data, User $reporter): Report
     {
         $report = (new Report())->fill(array_merge($data, [
             'user_id' => $reporter->id,

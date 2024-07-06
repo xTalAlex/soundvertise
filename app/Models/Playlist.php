@@ -62,7 +62,8 @@ class Playlist extends Model implements HasMedia
         $this->addMediaCollection('screenshots')
             ->acceptsFile(function (File $file) {
                 return in_array($file->mimeType, ['image/jpeg', 'image/png']);
-            });
+            })
+            ->onlyKeepLatest(2);
     }
 
     /**

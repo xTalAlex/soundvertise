@@ -1,11 +1,10 @@
 <?php
 
-namespace App\Traits\Traits;
+namespace App\Traits;
 
 use App\Models\BlacklistItem;
 use App\Models\Playlist;
 use App\Models\Song;
-use App\Traits\Blacklistable;
 
 trait HasBlacklist
 {

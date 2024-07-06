@@ -22,8 +22,8 @@ return new class extends Migration
             $table->string('artist_id')->nullable();
             $table->string('artist_name')->nullable();
             $table->string('artist_genres')->nullable();
-            $table->unsignedInteger('duration_ms')->nullable();
             $table->unsignedInteger('popularity')->default(0);
+            $table->unsignedInteger('duration_ms')->nullable();
             $table->float('acousticness')->nullable();
             $table->float('instrumentalness')->nullable();
             $table->float('speechiness')->nullable();

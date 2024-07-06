@@ -90,3 +90,5 @@ https://d3js.org/
 https://github.com/DO-Solutions/DigitalOcean-AppPlatform-Cron
 
 https://www.memcachier.com/documentation/laravel
+
+https://www.digitalocean.com/community/questions/how-to-setup-laravel-queue-for-app

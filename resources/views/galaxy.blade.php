@@ -9,15 +9,17 @@
         <div class="">
             <div class="grid grid-cols-4 mt-32 container mx-auto place-items-center gap-10">
                 @foreach ($genres as $genre)
-                    <a href="{{ route('planet', $genre) }}" wire:navigate>
-                        <div class="w-52 planet relative hover:scale-105 transition duration-1000 ease-out"
+                    <a class="cursor-none" href="{{ route('planet', $genre) }}" wire:navigate>
+                        <div class="py-12 w-52 planet relative hover:scale-105 transition duration-1000 ease-out"
                             style="top:{{ $genre->position_y ?? 0 }}px; left:{{ $genre->position_x ?? 0 }}px">
                             @if ($genre->icon)
                                 <img class="drop-shadow-2xl" src="{{ $genre->icon }}" />
                             @else
                                 <div
-                                    class="shadow-2xl m-auto rounded-full size-40 bg-gradient-to-br from-primary to-secondary">
-                                    {{ $genre->name }}
+                                    class="shadow-2xl m-auto grid place-items-center rounded-full size-40 bg-gradient-to-br from-primary to-secondary">
+                                    <div class="text-white font-extrabold uppercase text-center text-sm px-4">
+                                        {{ $genre->name }}
+                                    </div>
                                 </div>
                             @endif
                         </div>

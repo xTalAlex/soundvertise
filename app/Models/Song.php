@@ -3,18 +3,17 @@
 namespace App\Models;
 
 use App\Traits\Blacklistable;
-use App\Traits\Reportable;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 
 class Song extends Model
 {
     use Blacklistable;
     use HasFactory;
-    use Reportable;
 
     /**
      * The attributes that are mass assignable.
@@ -85,6 +84,22 @@ class Song extends Model
     public function submissions(): HasMany
     {
         return $this->hasMany(Submission::class);
+    }
+
+    /**
+     * Get current pairings for the song
+     */
+    public function pairings(): HasManyThrough
+    {
+        return $this->hasManyThrough(Pairing::class, Submission::class);
+    }
+
+    /**
+     * Get current matches for the song
+     */
+    public function matches(): HasManyThrough
+    {
+        return $this->pairings()->where('pairings.is_match', true);
     }
 
     /**

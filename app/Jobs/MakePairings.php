@@ -28,28 +28,45 @@ class MakePairings implements ShouldQueue
      */
     public function handle(): void
     {
+
+        // playlists containing the submitted song
+        $playlistIds = Submission::query()
+            ->whereHas('pairings', fn ($query) => $query
+                ->ongoingMatches()
+                ->whereHas('pairedSubmission', fn ($query) => $query
+                    ->where('song_id', $this->submission->song_id)
+                )
+            )->get()->pluck('playlist_id');
+
+        // songs already added to the submitted playlist
+        $songIds = Submission::query()
+            ->whereHas('pairings', fn ($query) => $query
+                ->ongoingMatches()
+                ->whereHas('pairedSubmission', fn ($query) => $query
+                    ->where('playlist_id', $this->submission->playlist_id)
+                )
+            )->get()->pluck('song_id');
+
         $pairableSubmissions = Submission::active()->with('song', 'playlist')
             // submission made by a different user
             ->where('user_id', '!=', $this->submission->user_id)
-            // having their playlist genre matching with submitted song genre
-            //->whereHas('playlist', fn ($query) => $query->where('genre_id', $this->submission->song->genre_id))
-            // and having their song genre matching with submitted playlis genre
-            //->whereHas('song', fn ($query) => $query->where('genre_id', $this->submission->playlist->genre_id))
+            // exclude active matches
+            ->whereNotIn('song_id', $songIds)->whereNotIn('playlist_id', $playlistIds)
             // having matching playlist generes
             ->whereHas('playlist', fn ($query) => $query->where('genre_id', $this->submission->playlist->genre_id))
             ->get();
 
         //chunk submissions into smaller jobs
 
-        foreach ($pairableSubmissions as $submission) {
+        foreach ($pairableSubmissions as $otherSubmission) {
             // create pairing for the submission user
             $pairing = Pairing::firstOrCreate([
                 'submission_id' => $this->submission->id,
-                'paired_submission_id' => $submission->id,
+                'paired_submission_id' => $otherSubmission->id,
             ], []);
             // create pairing for the other submission user
             $otherPairing = Pairing::firstOrCreate([
-                'submission_id' => $submission->id,
+                'submission_id' => $otherSubmission->id,
                 'paired_submission_id' => $this->submission->id,
             ], []);
         }

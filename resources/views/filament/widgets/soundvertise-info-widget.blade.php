@@ -3,12 +3,16 @@
         <div class="flex items-center gap-x-3">
             <div class="flex-1">
                 <a href="{{ route('home') }}" rel="noopener noreferrer">
-                    <x-application-mark class="h-10"></x-application-mark>
+                    <x-application-mark class="h-6"></x-application-mark>
                 </a>
 
-                <p class="mt-2 text-xs text-gray-500 dark:text-gray-400">
-                    {{ \Composer\InstalledVersions::getPrettyVersion('filament/filament') }}
-                </p>
+                <div class="mt-2 text-xs text-gray-500 dark:text-gray-400">
+                    <div>
+                        Laravel {{ Illuminate\Foundation\Application::VERSION }} |
+                        Filament {{ \Composer\InstalledVersions::getPrettyVersion('filament/filament') }} |
+                        PHP {{ PHP_VERSION }}
+                    </div>
+                </div>
             </div>
 
             <div class="flex flex-col items-end gap-y-1">
@@ -18,7 +22,7 @@
                     {{ __('filament-panels::widgets/filament-info-widget.actions.open_documentation.label') }}
                 </x-filament::link>
 
-                <x-filament::link color="gray" href="https://github.com/filamentphp/filament"
+                <x-filament::link color="gray" href="https://github.com/xTalAlex/soundvertise"
                     icon-alias="panels::widgets.filament-info.open-github-button" rel="noopener noreferrer"
                     target="_blank">
                     <x-slot name="icon">

@@ -179,12 +179,11 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia
     }
 
     /**
-     * Get the pairings for the user.
+     * Get the matches for the user.
      */
     public function matches(): HasManyThrough
     {
-        return $this->hasManyThrough(Pairing::class, Submission::class)
-            ->where('pairings.is_match', true);
+        return $this->pairings()->where('pairings.is_match', true);
     }
 
     /**

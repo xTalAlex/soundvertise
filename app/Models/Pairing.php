@@ -17,8 +17,14 @@ class Pairing extends Pivot
 
     /*
     |
+    | Each match is composed of 2 pairings having sumbission_id and paired_submission_id inverted
+    |
+    | is_match value must be set once both pairings have been accepted
+    |
     | song_added_at e song_removed_at refer to submission_id song
     | and are set by paired_submissiom_id operations
+    |
+    | accepted and reviewed_at refer to the paired_submission_id and are set by the submission user_id
     |
     */
 
@@ -32,7 +38,7 @@ class Pairing extends Pivot
         'paired_submission_id',
         'is_match',
         'accepted',
-        'answered_at',
+        'reviewed_at',
         'submission_song_added_at',
         'submission_song_removed_at',
     ];
@@ -47,7 +53,7 @@ class Pairing extends Pivot
         return [
             'is_match' => 'boolean',
             'accepted' => 'boolean',
-            'answered_at' => 'datetime',
+            'reviewed_at' => 'datetime',
             'submission_song_added_at' => 'datetime',
             'submission_song_removed_at' => 'datetime',
         ];
@@ -70,10 +76,15 @@ class Pairing extends Pivot
         $query->whereHas('submission', fn ($query) => $query->active());
     }
 
+    public function scopeWithoutDupliactes(Builder $query): void
+    {
+        $query->whereColumn('submission_id', '<', 'paired_submission_id');
+    }
+
     /**
      * Scope a query to only include matches with song not removed from the pairedSubmission playlist
      */
-    public function scopeOngoingMatches(Builder $query): void
+    public function scopeOngoingMatch(Builder $query): void
     {
         $query->where('is_match', true)
             ->whereNull('submission_song_removed_at')

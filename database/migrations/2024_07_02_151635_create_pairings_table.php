@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('paired_submission_id')->constrained('submissions');
             $table->boolean('is_match')->nullable();
             $table->boolean('accepted')->nullable();
-            $table->datetime('answered_at')->nullable();
+            $table->datetime('reviewed_at')->nullable();
             $table->datetime('submission_song_added_at')->nullable();
             $table->datetime('submission_song_removed_at')->nullable();
             $table->timestamps();

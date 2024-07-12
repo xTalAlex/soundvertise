@@ -22,15 +22,10 @@ class Genre extends Model implements HasMedia
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-        'slug',
-        'spotify_name',
-        'primary_color',
-        'secondary_color',
-        'order',
-        'position_x',
-        'position_y',
+    protected $protected = [
+        'id',
+        'created_at',
+        'updated_at',
     ];
 
     /**
@@ -39,19 +34,6 @@ class Genre extends Model implements HasMedia
      * @var array
      */
     protected $appends = ['icon'];
-
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            'collaborative' => 'boolean',
-            'approved' => 'boolean',
-        ];
-    }
 
     /**
      * The relationships that should always be loaded.

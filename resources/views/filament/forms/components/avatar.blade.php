@@ -1,3 +1,5 @@
 <div>
-    <img class="rounded-full size-32" src="{{ $getState() }}" />
+    @if ($getState())
+        <img class="rounded-full size-32" src="{{ $getState() }}" />
+    @endif
 </div>

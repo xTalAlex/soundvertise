@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Genre;
 use App\Models\Playlist;
 use Illuminate\Database\Seeder;
 
@@ -13,7 +14,7 @@ class PlaylistSeeder extends Seeder
     public function run(): void
     {
         Playlist::factory(5)
-            ->withGenre()
+            ->withGenre(Genre::inRandomOrder()->first())
             ->create();
     }
 }

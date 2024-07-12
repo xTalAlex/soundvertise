@@ -32,8 +32,12 @@ class PlaylistFactory extends Factory
     /**
      * Indicate that the model's genre should be filled.
      */
-    public function withGenre(): static
+    public function withGenre(?Genre $genre = null): static
     {
+        if (! $genre) {
+            Genre::inRandomOrder()->first()->id;
+        }
+
         return $this->state(fn (array $attributes) => [
             'genre_id' => Genre::inRandomOrder()->first()->id,
         ]);

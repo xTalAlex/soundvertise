@@ -35,6 +35,7 @@ class Playlist extends Model implements HasMedia
         'tracks_total',
         'monthly_listeners',
         'approved',
+        'reviewed_at',
     ];
 
     /**
@@ -54,6 +55,7 @@ class Playlist extends Model implements HasMedia
         return [
             'collaborative' => 'boolean',
             'approved' => 'boolean',
+            'reviewed_at' => 'datetime',
         ];
     }
 

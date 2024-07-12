@@ -17,7 +17,7 @@ class SubmissionFactory extends Factory
      */
     public function definition(): array
     {
-        $user = User::withWhereHas('playlists')->withWhereHas('songs')->inRandomOrder()->first();
+        $user = User::whereHas('playlists')->whereHas('songs')->inRandomOrder()->first();
 
         return [
             'user_id' => $user->id,

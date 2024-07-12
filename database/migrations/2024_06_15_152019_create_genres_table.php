@@ -15,13 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->string('slug')->unique();
-            $table->string('spotify_name')->nullable();
             $table->string('primary_color')->nullable();
             $table->string('secondary_color')->nullable();
             $table->string('order')->nullable();
             $table->string('position_x')->nullable();
             $table->string('position_y')->nullable();
-
             $table->timestamps();
         });
     }

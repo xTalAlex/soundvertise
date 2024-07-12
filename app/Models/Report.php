@@ -5,7 +5,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Report extends Model
@@ -27,25 +26,17 @@ class Report extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function reportable(): MorphTo
-    {
-        return $this->morphTo();
-    }
-
-    /**
-     * Get the conclusion for the Report Model
-     */
-    public function conclusion(): HasOne
-    {
-        return $this->hasOne(ReportConclusion::class);
-    }
-
     /**
      * Get the admin who managed the report for the Model (only available if there is a conclusion)
      */
-    public function admin(): User
+    public function admin(): BelongsTo
     {
-        return $this->conclusion->admin;
+        return $this->belongsTo(User::class);
+    }
+
+    public function reportable(): MorphTo
+    {
+        return $this->morphTo();
     }
 
     /**
@@ -53,14 +44,15 @@ class Report extends Model
      *                       'action_taken' as a strings and 'meta' array of strings.
      *                       All inputs are optionals.
      */
-    public function conclude($data, User $admin): ReportConclusion
+    public function conclude($data, User $admin): bool
     {
-        $conclusion = (new ReportConclusion())->fill(array_merge($data, [
+        $res = $this->update([
             'admin_id' => $admin->id,
-        ]));
+            'conclusion' => $data['conclusion'] ?? null,
+            'action_taken' => $data['action_taken'] ?? null,
+            'meta' => $data['meta'] ?? $this->attributes['meta'],
+        ]);
 
-        $this->conclusion()->save($conclusion);
-
-        return $conclusion;
+        return $res;
     }
 }

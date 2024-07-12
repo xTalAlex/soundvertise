@@ -14,16 +14,9 @@ return new class extends Migration
         Schema::create('reports', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('admin_id')->nullable()->constrained('users');
             $table->morphs('reportable');
             $table->text('reason');
-            $table->json('meta')->nullable();
-            $table->timestamps();
-        });
-
-        Schema::create('report_conclusions', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('report_id')->unique()->constrained()->cascadeOnDelete();
-            $table->foreignId('admin_id')->constrained('users');
             $table->text('conclusion')->nullable();
             $table->text('action_taken')->nullable();
             $table->json('meta')->nullable();
@@ -36,7 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('report_conclusions');
         Schema::dropIfExists('reports');
     }
 };

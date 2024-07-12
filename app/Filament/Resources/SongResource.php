@@ -9,12 +9,15 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class SongResource extends Resource
 {
     protected static ?string $model = Song::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-musical-note';
+
+    protected static ?string $navigationGroup = 'Music';
 
     public static function form(Form $form): Form
     {
@@ -74,62 +77,26 @@ class SongResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(fn (Builder $query) => $query->with('user', 'genre'))
             ->columns([
+                Tables\Columns\TextColumn::make('name')
+                    ->url(function (Song $record): string {
+                        return $record->url;
+                    })
+                    ->openUrlInNewTab()
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('spotify_id')
+                    ->searchable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('user.name')
                     ->numeric()
+                    ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('genre.name')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('spotify_id')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('url')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('artist_id')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('artist_name')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('duration_ms')
-                    ->numeric()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('popularity')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('acousticness')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('instrumentalness')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('speechiness')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('danceability')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('energy')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('valence')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('liveness')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('loudness')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\IconColumn::make('mode')
-                    ->boolean(),
-                Tables\Columns\TextColumn::make('key')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('tempo')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('time_signature')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')

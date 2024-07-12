@@ -14,7 +14,9 @@ class SubmissionResource extends Resource
 {
     protected static ?string $model = Submission::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-arrow-up-tray';
+
+    protected static ?int $navigationSort = 3;
 
     public static function form(Form $form): Form
     {

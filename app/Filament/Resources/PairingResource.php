@@ -9,12 +9,15 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class PairingResource extends Resource
 {
     protected static ?string $model = Pairing::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-arrows-right-left';
+
+    protected static ?int $navigationSort = 2;
 
     public static function form(Form $form): Form
     {
@@ -37,24 +40,56 @@ class PairingResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(fn (Builder $query) => $query->with(
+                'submission.user',
+                'submission.song',
+                'submission.playlist',
+                'pairedSubmission.user',
+                'pairedSubmission.song',
+                'pairedSubmission.playlist')
+            )
             ->columns([
+                Tables\Columns\TextColumn::make('id')
+                    ->numeric()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('submission.id')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('pairedSubmission.id')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('submission.user.name')
                     ->sortable(),
+                Tables\Columns\TextColumn::make('submission.song.name')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('submission.playlist.name')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\IconColumn::make('accepted')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('answered_at')
                     ->dateTime()
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('pairedSubmission.id')
+                    ->numeric()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('pairedSubmission.user.name')
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('pairedSubmission.song.name')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('pairedSubmission.playlist.name')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\IconColumn::make('is_match')
+                    ->boolean(),
                 Tables\Columns\TextColumn::make('submission_song_added_at')
                     ->dateTime()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('submission_song_removed_at')
                     ->dateTime()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -63,8 +98,6 @@ class PairingResource extends Resource
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
-                Tables\Columns\IconColumn::make('is_match')
-                    ->boolean(),
             ])
             ->filters([
                 //

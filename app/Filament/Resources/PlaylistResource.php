@@ -9,12 +9,15 @@ use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 
 class PlaylistResource extends Resource
 {
     protected static ?string $model = Playlist::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-sparkles';
+
+    protected static ?string $navigationGroup = 'Music';
 
     public static function form(Form $form): Form
     {
@@ -49,29 +52,32 @@ class PlaylistResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+            ->modifyQueryUsing(fn (Builder $query) => $query->with('user'))
             ->columns([
-                Tables\Columns\TextColumn::make('spotify_user_id')
+                Tables\Columns\TextColumn::make('name')
+                    ->url(function (Playlist $record): string {
+                        return $record->url;
+                    })
+                    ->openUrlInNewTab()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('user.name')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('spotify_id')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('url')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('name')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('description')
-                    ->searchable(),
-                Tables\Columns\IconColumn::make('collaborative')
+                    ->searchable(['spotify_id', 'spotify_user_id'])
+                    ->toggleable()
+                    ->toggledHiddenByDefault('true'),
+                Tables\Columns\IconColumn::make('approved')
                     ->boolean(),
+                Tables\Columns\IconColumn::make('collaborative')
+                    ->boolean()
+                    ->toggleable()
+                    ->toggledHiddenByDefault('true'),
                 Tables\Columns\TextColumn::make('followers_total')
                     ->numeric()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('tracks_total')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\IconColumn::make('approved')
-                    ->boolean(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

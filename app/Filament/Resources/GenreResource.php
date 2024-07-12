@@ -16,7 +16,9 @@ class GenreResource extends Resource
 {
     protected static ?string $model = Genre::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-globe-alt';
+
+    protected static ?string $navigationGroup = 'Music';
 
     public static function form(Form $form): Form
     {
@@ -25,7 +27,6 @@ class GenreResource extends Resource
                 Forms\Components\TextInput::make('name')
                     ->required(),
                 Forms\Components\TextInput::make('slug'),
-                Forms\Components\TextInput::make('spotify_name'),
                 SpatieMediaLibraryFileUpload::make('icon'),
                 Forms\Components\TextInput::make('primary_color'),
                 Forms\Components\TextInput::make('secondary_color'),
@@ -42,9 +43,10 @@ class GenreResource extends Resource
                 SpatieMediaLibraryImageColumn::make('icon')
                     ->size(100),
                 Tables\Columns\TextColumn::make('name')
+                    ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('spotify_name')
-                    ->searchable(),
+                Tables\Columns\TextColumn::make('order')
+                    ->sortable(),
             ])
             ->filters([
                 //

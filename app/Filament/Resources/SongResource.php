@@ -3,8 +3,10 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\SongResource\Pages;
+use App\Filament\Resources\SongResource\RelationManagers;
 use App\Models\Song;
 use Filament\Forms;
+use Filament\Forms\Components\Actions\Action;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
@@ -23,54 +25,91 @@ class SongResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('user_id')
-                    ->relationship('user', 'name'),
-                Forms\Components\Select::make('genre_id')
-                    ->relationship('genre', 'name'),
-                Forms\Components\TextInput::make('spotify_id')
-                    ->required(),
-                Forms\Components\TextInput::make('url')
-                    ->required(),
-                Forms\Components\TextInput::make('name')
-                    ->required(),
-                Forms\Components\TextInput::make('artist_id')
-                    ->required(),
-                Forms\Components\TextInput::make('artist_name')
-                    ->required(),
-                Forms\Components\Textarea::make('artist_genres')
-                    ->required()
-                    ->columnSpanFull(),
-                Forms\Components\TextInput::make('duration_ms')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\TextInput::make('popularity')
-                    ->required()
-                    ->numeric()
-                    ->default(0),
-                Forms\Components\TextInput::make('acousticness')
-                    ->numeric(),
-                Forms\Components\TextInput::make('instrumentalness')
-                    ->numeric(),
-                Forms\Components\TextInput::make('speechiness')
-                    ->numeric(),
-                Forms\Components\TextInput::make('danceability')
-                    ->numeric(),
-                Forms\Components\TextInput::make('energy')
-                    ->numeric(),
-                Forms\Components\TextInput::make('valence')
-                    ->numeric(),
-                Forms\Components\TextInput::make('liveness')
-                    ->numeric(),
-                Forms\Components\TextInput::make('loudness')
-                    ->numeric(),
-                Forms\Components\Toggle::make('mode'),
-                Forms\Components\TextInput::make('key')
-                    ->numeric(),
-                Forms\Components\TextInput::make('tempo')
-                    ->numeric(),
-                Forms\Components\TextInput::make('time_signature')
-                    ->numeric(),
-                Forms\Components\DateTimePicker::make('updated_at'),
+                Forms\Components\Grid::make(3)
+                    ->schema([
+                        Forms\Components\Group::make()
+                            ->columnSpan(2)
+                            ->schema([
+                                Forms\Components\Section::make()
+                                    ->schema([
+                                        Forms\Components\TextInput::make('name')
+                                            ->required(),
+                                        Forms\Components\Select::make('genre_id')
+                                            ->relationship('genre', 'name'),
+                                    ]),
+                                Forms\Components\Tabs::make('Tabs')
+                                    ->tabs([
+                                        Forms\Components\Tabs\Tab::make('Spotify info')
+                                            ->columns(2)
+                                            ->schema([
+                                                Forms\Components\Section::make()
+                                                    ->columns(2)
+                                                    ->schema([
+                                                        Forms\Components\TextInput::make('spotify_id')
+                                                            ->required(),
+                                                        Forms\Components\TextInput::make('spotify_user_id'),
+                                                        Forms\Components\TextInput::make('artist_id'),
+                                                        Forms\Components\TextInput::make('artist_name'),
+                                                        Forms\Components\TextInput::make('artist_genres'),
+                                                        Forms\Components\TextInput::make('popularity')
+                                                            ->numeric()
+                                                            ->required(),
+                                                    ])
+                                                    ->footerActions([
+                                                        Action::make('Open on Spotify')
+                                                            ->icon('heroicon-o-link')
+                                                            ->url(fn (?Song $record): ?string => $record?->url)
+                                                            ->openUrlInNewTab(),
+                                                    ]),
+                                            ]),
+                                        Forms\Components\Tabs\Tab::make('Audio features')
+                                            ->columns(2)
+                                            ->schema([
+                                                Forms\Components\Fieldset::make()
+                                                    ->columns(2)
+                                                    ->schema([
+                                                        Forms\Components\TextInput::make('duration_ms'),
+                                                        Forms\Components\TextInput::make('time_signature'),
+                                                        Forms\Components\TextInput::make('tempo'),
+                                                        Forms\Components\TextInput::make('key'),
+                                                        Forms\Components\TextInput::make('mode'),
+                                                    ]),
+                                                Forms\Components\TextInput::make('acousticness'),
+                                                Forms\Components\TextInput::make('instrumentalness'),
+                                                Forms\Components\TextInput::make('speechiness'),
+                                                Forms\Components\TextInput::make('danceability'),
+                                                Forms\Components\TextInput::make('energy'),
+                                                Forms\Components\TextInput::make('valence'),
+                                                Forms\Components\TextInput::make('liveness'),
+                                                Forms\Components\TextInput::make('loudness'),
+                                            ]),
+                                    ]),
+                                Forms\Components\Section::make()
+                                    ->schema([
+                                        Forms\Components\ViewField::make('embed')
+                                            ->hiddenLabel()
+                                            ->view('filament.forms.components.song-embed')
+                                            ->dehydrated(false),
+                                    ])->visibleOn('edit'),
+                            ]),
+                        Forms\Components\Group::make()
+                            ->schema([
+                                Forms\Components\Section::make()
+                                    ->columnSpan(1)
+                                    ->schema([
+                                        Forms\Components\Select::make('user_id')
+                                            ->relationship('user', 'name'),
+                                    ]),
+                                Forms\Components\Section::make()
+                                    ->columnSpan(1)
+                                    ->schema([
+                                        Forms\Components\Placeholder::make('created_at')
+                                            ->content(fn (?Song $record): ?string => $record?->created_at->toFormattedDateString()),
+                                        Forms\Components\Placeholder::make('updated_at')
+                                            ->content(fn (?Song $record): ?string => $record?->updated_at->toFormattedDateString()),
+                                    ]),
+                            ]),
+                    ]),
             ]);
     }
 
@@ -80,8 +119,8 @@ class SongResource extends Resource
             ->modifyQueryUsing(fn (Builder $query) => $query->with('user', 'genre'))
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->url(function (Song $record): string {
-                        return $record->url;
+                    ->url(function (?Song $record): ?string {
+                        return $record?->url;
                     })
                     ->openUrlInNewTab()
                     ->searchable()
@@ -124,7 +163,8 @@ class SongResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\PairingsRelationManager::class,
+            RelationManagers\SubmissionsRelationManager::class,
         ];
     }
 

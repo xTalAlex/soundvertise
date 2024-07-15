@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -13,7 +14,11 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->after('spotify_token_expiration', function (Blueprint $table) {
-                $table->string('stripe_id')->collation('utf8_bin')->nullable()->index();
+                if (DB::getDriverName() !== 'sqlite') {
+                    $table->string('stripe_id')->collation('utf8_bin')->nullable()->index();
+                } else {
+                    $table->string('stripe_id')->nullable()->index();
+                }
                 $table->string('pm_type')->nullable();
                 $table->string('pm_last_four', 4)->nullable();
                 $table->timestamp('trial_ends_at')->nullable();
@@ -27,12 +32,14 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn([
-                'stripe_id',
-                'pm_type',
-                'pm_last_four',
-                'trial_ends_at',
-            ]);
+            if (DB::getDriverName() !== 'sqlite') {
+                $table->dropColumn([
+                    'stripe_id',
+                    'pm_type',
+                    'pm_last_four',
+                    'trial_ends_at',
+                ]);
+            }
         });
     }
 };

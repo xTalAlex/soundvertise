@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\ReportResource\Pages;
+use App\Models\Pairing;
 use App\Models\Report;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -22,27 +23,44 @@ class ReportResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('user_id')
-                    ->relationship('user', 'name')
-                    ->required(),
-                Forms\Components\Select::make('admin_id')
-                    ->relationship('admin', 'name')
-                    ->default(null),
-                Forms\Components\TextInput::make('reportable_type')
-                    ->required()
-                    ->maxLength(255),
-                Forms\Components\TextInput::make('reportable_id')
-                    ->required()
-                    ->numeric(),
-                Forms\Components\Textarea::make('reason')
-                    ->required()
-                    ->columnSpanFull(),
-                Forms\Components\Textarea::make('conclusion')
-                    ->columnSpanFull(),
-                Forms\Components\Textarea::make('action_taken')
-                    ->columnSpanFull(),
-                Forms\Components\Textarea::make('meta')
-                    ->columnSpanFull(),
+                Forms\Components\Grid::make(3)
+                    ->schema([
+                        Forms\Components\Group::make()
+                            ->columnSpan(2)
+                            ->schema([
+                                Forms\Components\Section::make()
+                                    ->schema([
+                                        Forms\Components\Select::make('user_id')
+                                            ->relationship('user', 'name')
+                                            ->required(),
+                                        Forms\Components\Textarea::make('reason')
+                                            ->required()
+                                            ->columnSpanFull(),
+                                    ]),
+                                Forms\Components\Section::make()
+                                    ->schema([
+                                        Forms\Components\Select::make('admin_id')
+                                            ->relationship('admin', 'name')
+                                            ->default(null),
+                                        Forms\Components\TextInput::make('action_taken'),
+                                        Forms\Components\Textarea::make('conclusion'),
+                                    ]),
+                            ]),
+                        Forms\Components\Section::make()
+                            ->columnSpan(1)
+                            ->schema([
+                                Forms\Components\MorphToSelect::make('reportable')
+                                    ->types([
+                                        Forms\Components\MorphToSelect\Type::make(Pairing::class)
+                                            ->titleAttribute('id'),
+                                    ]),
+                                Forms\Components\Repeater::make('meta')
+                                    ->schema([
+                                        Forms\Components\TextInput::make('key'),
+                                        Forms\Components\TextInput::make('value'),
+                                    ]),
+                            ]),
+                    ]),
             ]);
     }
 
@@ -50,17 +68,23 @@ class ReportResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('user.name')
+                Tables\Columns\TextColumn::make('id')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('admin.name')
-                    ->numeric()
+                Tables\Columns\TextColumn::make('user.name')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('reportable_type')
                     ->searchable(),
                 Tables\Columns\TextColumn::make('reportable_id')
                     ->numeric()
                     ->sortable(),
+                Tables\Columns\TextColumn::make('reason')
+                    ->searchable(),
+                Tables\Columns\TextColumn::make('admin.name')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+                Tables\Columns\TextColumn::make('conclusion')
+                    ->searchable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()

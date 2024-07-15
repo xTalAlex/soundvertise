@@ -141,7 +141,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia
         return $this->is_admin;
     }
 
-    public function isSpotifyAuth(): bool
+    public function isSpotifyConnected(): bool
     {
         return $this->spotify_id && $this->spotify_refresh_token;
     }
@@ -184,6 +184,14 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia
     public function matches(): HasManyThrough
     {
         return $this->pairings()->where('pairings.is_match', true);
+    }
+
+    /**
+     * Get the reports for the user.
+     */
+    public function reports(): HasMany
+    {
+        return $this->hasMany(Report::class);
     }
 
     /**

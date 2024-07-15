@@ -4,7 +4,7 @@ namespace App\Jobs;
 
 use App\Models\Pairing;
 use App\Models\Submission;
-use App\Services\SubmissionService;
+use App\Services\PairingService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -25,23 +25,15 @@ class MakePairings implements ShouldQueue
     /**
      * Execute the job.
      */
-    public function handle(SubmissionService $submissionService): void
+    public function handle(PairingService $pairingService): void
     {
-        $pairableSubmissions = $submissionService->pairableSubmissionsFor($this->submission);
+        $pairableSubmissions = $pairingService->pairableSubmissionsFor($this->submission);
 
         //chunk submissions into smaller jobs
 
-        foreach ($pairableSubmissions as $otherSubmission) {
+        foreach ($pairableSubmissions as $pairedSubmission) {
             // create pairing for the submission user
-            $pairing = Pairing::firstOrCreate([
-                'submission_id' => $this->submission->id,
-                'paired_submission_id' => $otherSubmission->id,
-            ], []);
-            // create pairing for the other submission user
-            $otherPairing = Pairing::firstOrCreate([
-                'submission_id' => $otherSubmission->id,
-                'paired_submission_id' => $this->submission->id,
-            ], []);
+            $pairingService->create($this->submission, $pairedSubmission);
         }
     }
 }

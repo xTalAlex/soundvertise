@@ -23,7 +23,13 @@ return new class extends Migration
             $table->string('artist_name')->nullable();
             $table->string('artist_genres')->nullable();
             $table->unsignedInteger('popularity')->default(0);
+
             $table->unsignedInteger('duration_ms')->nullable();
+            $table->unsignedSmallInteger('time_signature')->nullable();
+            $table->float('tempo')->nullable();
+            $table->integer('key')->nullable();
+            $table->boolean('mode')->nullable();
+
             $table->float('acousticness')->nullable();
             $table->float('instrumentalness')->nullable();
             $table->float('speechiness')->nullable();
@@ -32,10 +38,7 @@ return new class extends Migration
             $table->float('valence')->nullable();
             $table->float('liveness')->nullable();
             $table->float('loudness')->nullable();
-            $table->boolean('mode')->nullable();
-            $table->integer('key')->nullable();
-            $table->float('tempo')->nullable();
-            $table->unsignedSmallInteger('time_signature')->nullable();
+
             $table->timestamps();
         });
     }

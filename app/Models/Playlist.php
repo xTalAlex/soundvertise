@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\File;
@@ -90,6 +91,22 @@ class Playlist extends Model implements HasMedia
     public function submissions(): HasMany
     {
         return $this->hasMany(Submission::class);
+    }
+
+    /**
+     * Get current pairings for the song
+     */
+    public function pairings(): HasManyThrough
+    {
+        return $this->hasManyThrough(Pairing::class, Submission::class);
+    }
+
+    /**
+     * Get current matches for the song
+     */
+    public function matches(): HasManyThrough
+    {
+        return $this->pairings()->where('pairings.is_match', true);
     }
 
     /**

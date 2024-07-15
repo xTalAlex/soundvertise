@@ -4,16 +4,16 @@ namespace App\Filament\Resources\PairingResource\Pages;
 
 use App\Filament\Resources\PairingResource;
 use Filament\Actions;
-use Filament\Resources\Pages\EditRecord;
+use Filament\Resources\Pages\ManageRecords;
 
-class EditPairing extends EditRecord
+class ManagePairing extends ManageRecords
 {
     protected static string $resource = PairingResource::class;
 
     protected function getHeaderActions(): array
     {
         return [
-            Actions\DeleteAction::make(),
+            //Actions\CreateAction::make(),
         ];
     }
 }

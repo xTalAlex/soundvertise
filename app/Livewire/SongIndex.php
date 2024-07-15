@@ -23,7 +23,7 @@ class SongIndex extends Component
 
     public function storeSong(SpotifyService $spotifyService)
     {
-        if (! auth()->user()->isSpotifyAuth()) {
+        if (! auth()->user()->isSpotifyConnected()) {
             return $this->redirectRoute('spotify.redirect');
         }
 

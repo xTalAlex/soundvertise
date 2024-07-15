@@ -3,6 +3,7 @@
 namespace App\Filament\Resources;
 
 use App\Filament\Resources\SubmissionResource\Pages;
+use App\Filament\Resources\SubmissionResource\RelationManagers;
 use App\Models\Submission;
 use Filament\Forms;
 use Filament\Forms\Form;
@@ -22,24 +23,47 @@ class SubmissionResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('user_id')
-                    ->relationship('user', 'name')
-                    ->required(),
-                Forms\Components\Select::make('song_id')
-                    ->relationship('song', 'name')
-                    ->required(),
-                Forms\Components\Select::make('playlist_id')
-                    ->relationship('playlist', 'name')
-                    ->required(),
-                Forms\Components\TextInput::make('song_popularity_before')
-                    ->numeric()
-                    ->default(null),
-                Forms\Components\TextInput::make('song_popularity_after')
-                    ->numeric()
-                    ->default(null),
-                Forms\Components\TextInput::make('min_monthly_listeners')
-                    ->numeric()
-                    ->default(null),
+                Forms\Components\Grid::make(3)
+                    ->schema([
+                        Forms\Components\Section::make()
+                            ->columnSpan(2)
+                            ->schema([
+                                Forms\Components\Select::make('user_id')
+                                    ->relationship('user', 'name')
+                                    ->required(),
+                                Forms\Components\Select::make('song_id')
+                                    ->relationship('song', 'name')
+                                    ->required(),
+                                Forms\Components\Select::make('playlist_id')
+                                    ->relationship('playlist', 'name')
+                                    ->required(),
+                            ]),
+                        Forms\Components\Group::make()
+                            ->columnSpan(1)
+                            ->schema([
+                                Forms\Components\Section::make()
+                                    ->schema([
+                                        Forms\Components\TextInput::make('min_monthly_listeners')
+                                            ->numeric()
+                                            ->default(null),
+                                    ]),
+                                Forms\Components\Section::make()
+                                    ->columns(2)
+                                    ->schema([
+                                        Forms\Components\Fieldset::make('Song popularity')
+                                            ->schema([
+                                                Forms\Components\TextInput::make('song_popularity_before')
+                                                    ->label('Before')
+                                                    ->numeric()
+                                                    ->default(null),
+                                                Forms\Components\TextInput::make('song_popularity_after')
+                                                    ->label('After')
+                                                    ->numeric()
+                                                    ->default(null),
+                                            ]),
+                                    ]),
+                            ]),
+                    ]),
             ]);
     }
 
@@ -47,6 +71,9 @@ class SubmissionResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\TextColumn::make('id')
+                    ->numeric()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('user.name')
                     ->numeric()
                     ->sortable(),
@@ -56,15 +83,10 @@ class SubmissionResource extends Resource
                 Tables\Columns\TextColumn::make('playlist.name')
                     ->numeric()
                     ->sortable(),
-                Tables\Columns\TextColumn::make('song_popularity_before')
-                    ->numeric()
-                    ->sortable(),
-                Tables\Columns\TextColumn::make('song_popularity_after')
-                    ->numeric()
-                    ->sortable(),
                 Tables\Columns\TextColumn::make('min_monthly_listeners')
                     ->numeric()
-                    ->sortable(),
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -78,6 +100,7 @@ class SubmissionResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->defaultSort('id', 'desc')
             ->filters([
                 //
             ])
@@ -94,7 +117,7 @@ class SubmissionResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            RelationManagers\PairingsRelationManager::class,
         ];
     }
 

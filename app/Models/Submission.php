@@ -65,7 +65,7 @@ class Submission extends Model
      */
     public function pairings(): BelongsToMany
     {
-        return $this->belongsToMany(self::class, 'pairings', 'paired_submission_id', 'submission_id')
+        return $this->belongsToMany(self::class, 'pairings', 'submission_id', 'paired_submission_id')
             ->withPivot('id', 'is_match', 'accepted', 'reviewed_at', 'submission_song_added_at', 'submission_song_removed_at')
             ->withTimestamps();
     }
@@ -75,7 +75,7 @@ class Submission extends Model
      */
     public function relatedPairings(): BelongsToMany
     {
-        return $this->belongsToMany(self::class, 'pairings', 'submission_id', 'paired_submission_id')
+        return $this->belongsToMany(self::class, 'pairings', 'paired_submission_id', 'submission_id')
             ->withPivot('id', 'is_match', 'accepted', 'reviewed_at', 'submission_song_added_at', 'submission_song_removed_at')
             ->withTimestamps();
     }

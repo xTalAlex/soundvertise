@@ -6,6 +6,8 @@ use App\Traits\Reportable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class Pairing extends Pivot
@@ -105,5 +107,18 @@ class Pairing extends Pivot
     public function pairedSubmission(): BelongsTo
     {
         return $this->belongsTo(Submission::class, 'paired_submission_id', 'id');
+    }
+
+    /**
+     * Get the second submission the pairing belongs to.
+     */
+    public function reports(): MorphMany
+    {
+        return $this->morphMany(Report::class, 'reportable');
+    }
+
+    public function relatedPairings(): HasMany
+    {
+        return $this->HasMany(Pairing::class, 'paired_submission_id', 'submission_id');
     }
 }

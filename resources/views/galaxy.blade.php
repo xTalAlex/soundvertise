@@ -15,8 +15,11 @@
                             @if ($genre->icon)
                                 <img class="drop-shadow-2xl" src="{{ $genre->icon }}" />
                             @else
-                                <div
-                                    class="shadow-2xl m-auto grid place-items-center rounded-full size-40 bg-gradient-to-br from-primary to-secondary">
+                                <div class="shadow-2xl m-auto grid place-items-center rounded-full size-40 bg-gradient-to-br from-primary to-secondary"
+                                    @if ($genre->primary_color && $genre->secondary_color) style="
+                                        --tw-gradient-from: {{ $genre->primary_color }} var(--tw-gradient-from-position);
+                                        --tw-gradient-to: {{ $genre->secondary_color }} var(--tw-gradient-to-position);
+                                    " @endif>
                                     <div class="text-white font-extrabold uppercase text-center text-sm px-4">
                                         {{ $genre->name }}
                                     </div>

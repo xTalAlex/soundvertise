@@ -5,7 +5,7 @@ namespace App\Services;
 use App\Models\Pairing;
 use App\Models\Submission;
 
-class SubmissionService
+class PairingService
 {
     public function pairableSubmissionsFor(Submission $submission)
     {
@@ -28,6 +28,23 @@ class SubmissionService
             ->whereHas('playlist', fn ($query) => $query->where('genre_id', $submission->playlist->genre_id))
             ->get();
 
+        // filter submissions after both user blacklists
+
         return $pairableSubmissions;
+    }
+
+    public function create(Submission $submission, Submission $pairedSubmission)
+    {
+        $pairing = Pairing::firstOrCreate([
+            'submission_id' => $submission->id,
+            'paired_submission_id' => $pairedSubmission->id,
+        ], []);
+        // create pairing for the other submission user
+        $otherPairing = Pairing::firstOrCreate([
+            'submission_id' => $pairedSubmission->id,
+            'paired_submission_id' => $submission->id,
+        ], []);
+
+        return $pairing;
     }
 }

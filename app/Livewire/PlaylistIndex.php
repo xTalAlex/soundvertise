@@ -42,7 +42,7 @@ class PlaylistIndex extends Component
 
     public function fetchSpotifyPlaylists(SpotifyService $spotifyService)
     {
-        if (! auth()->user()->isSpotifyAuth()) {
+        if (! auth()->user()->isSpotifyConnected()) {
             return $this->redirectRoute('spotify.redirect');
         }
         $allFetchedPlaylists = $spotifyService->getUserPlaylists(auth()->user());
@@ -58,7 +58,7 @@ class PlaylistIndex extends Component
 
     public function fetchSpotifyPlaylist(SpotifyService $spotifyService, $spotifyId = null)
     {
-        if (! auth()->user()->isSpotifyAuth()) {
+        if (! auth()->user()->isSpotifyConnected()) {
             return $this->redirectRoute('spotify.redirect');
         }
 
@@ -92,7 +92,7 @@ class PlaylistIndex extends Component
 
     public function storePlaylist(SpotifyService $spotifyService)
     {
-        if (! auth()->user()->isSpotifyAuth()) {
+        if (! auth()->user()->isSpotifyConnected()) {
             return $this->redirectRoute('spotify.redirect');
         }
 

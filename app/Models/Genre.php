@@ -22,7 +22,7 @@ class Genre extends Model implements HasMedia
      *
      * @var array<int, string>
      */
-    protected $protected = [
+    protected $guarded = [
         'id',
         'created_at',
         'updated_at',

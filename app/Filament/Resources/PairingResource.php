@@ -23,17 +23,26 @@ class PairingResource extends Resource
     {
         return $form
             ->schema([
-                Forms\Components\Select::make('submission_id')
-                    ->relationship('submission', 'id')
-                    ->required(),
-                Forms\Components\Select::make('paired_submission_id')
-                    ->relationship('pairedSubmission', 'id')
-                    ->required(),
-                Forms\Components\Toggle::make('accepted'),
-                Forms\Components\DateTimePicker::make('answered_at'),
-                Forms\Components\DateTimePicker::make('submission_song_added_at'),
-                Forms\Components\DateTimePicker::make('submission_song_removed_at'),
-                Forms\Components\Toggle::make('is_match'),
+                Forms\Components\Grid::make()
+                    ->schema([
+                        Forms\Components\Section::make()
+                            ->schema([
+                                Forms\Components\Select::make('submission_id')
+                                    ->relationship('submission', 'id')
+                                    ->required(),
+                                Forms\Components\Toggle::make('accepted'),
+                                Forms\Components\DateTimePicker::make('answered_at'),
+                                Forms\Components\DateTimePicker::make('submission_song_added_at'),
+                                Forms\Components\DateTimePicker::make('submission_song_removed_at'),
+                            ])->columnSpan(1),
+                        Forms\Components\Section::make()
+                            ->schema([
+                                Forms\Components\Select::make('paired_submission_id')
+                                    ->relationship('pairedSubmission', 'id')
+                                    ->required(),
+                                Forms\Components\Toggle::make('is_match'),
+                            ])->columnSpan(1),
+                    ]),
             ]);
     }
 
@@ -112,19 +121,10 @@ class PairingResource extends Resource
             ]);
     }
 
-    public static function getRelations(): array
-    {
-        return [
-            //
-        ];
-    }
-
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListPairings::route('/'),
-            'create' => Pages\CreatePairing::route('/create'),
-            'edit' => Pages\EditPairing::route('/{record}/edit'),
+            'index' => Pages\ManagePairing::route('/'),
         ];
     }
 }

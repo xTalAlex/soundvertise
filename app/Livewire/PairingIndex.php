@@ -6,10 +6,7 @@ use Livewire\Component;
 
 class PairingIndex extends Component
 {
-    public function mount()
-    {
-
-    }
+    public function mount() {}
 
     public function render()
     {

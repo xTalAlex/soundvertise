@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Str;
+
 return [
 
     /*
@@ -38,7 +40,7 @@ return [
     'spotify' => [
         'client_id' => env('SPOTIFY_CLIENT_ID'),
         'client_secret' => env('SPOTIFY_CLIENT_SECRET'),
-        'redirect' => env('APP_URL').'/'.env('SPOTIFY_REDIRECT_URI'),
+        'redirect' => Str::rtrim(env('APP_URL', '/').'/'.env('SPOTIFY_REDIRECT_URI')),
         'scopes' => ['user-read-email', 'playlist-read-collaborative', 'playlist-modify-public'],
         'endpoint' => env('SPOTIFY_ENDPOINT', 'https://api.spotify.com/v1/'),
     ],

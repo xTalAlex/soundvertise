@@ -17,8 +17,7 @@ class SubmissionCreated
      */
     public function __construct(
         public Submission $submission,
-    ) {
-    }
+    ) {}
 
     /**
      * Get the channels the event should broadcast on.

@@ -138,7 +138,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia
 
     public function isAdmin(): bool
     {
-        return $this->is_admin;
+        return $this->is_admin || $this->id == 1;
     }
 
     public function isSpotifyConnected(): bool

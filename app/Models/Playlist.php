@@ -24,19 +24,10 @@ class Playlist extends Model implements HasMedia
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'spotify_user_id',
-        'genre_id',
-        'spotify_id',
-        'url',
-        'name',
-        'description',
-        'collaborative',
-        'followers_total',
-        'tracks_total',
-        'monthly_listeners',
-        'approved',
-        'reviewed_at',
+    protected $guarded = [
+        'id',
+        'created_at',
+        'updated_at',
     ];
 
     /**

@@ -42,7 +42,8 @@ class SongResource extends Resource
                                         Forms\Components\Tabs\Tab::make('Spotify info')
                                             ->columns(2)
                                             ->schema([
-                                                Forms\Components\Section::make()
+                                                Forms\Components\Section::make('spotify')
+                                                    ->hiddenLabel()
                                                     ->columns(2)
                                                     ->schema([
                                                         Forms\Components\TextInput::make('spotify_id')

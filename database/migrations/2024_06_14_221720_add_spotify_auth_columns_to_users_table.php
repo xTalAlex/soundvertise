@@ -15,7 +15,7 @@ return new class extends Migration
             $table->after('current_team_id', function (Blueprint $table) {
                 $table->string('spotify_id')->unique()->nullable();
                 $table->string('spotify_name')->nullable();
-                $table->string('spotify_avatar')->nullable();
+                $table->text('spotify_avatar')->nullable();
                 $table->unsignedInteger('spotify_playlists_total')->nullable();
                 $table->unsignedInteger('spotify_filtered_playlists_total')->nullable();
                 $table->string('spotify_access_token')->nullable();

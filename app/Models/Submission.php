@@ -18,6 +18,7 @@ class Submission extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'user_id',
         'song_id',
         'playlist_id',
         'song_popularity_before',

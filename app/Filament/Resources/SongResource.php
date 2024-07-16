@@ -42,7 +42,7 @@ class SongResource extends Resource
                                         Forms\Components\Tabs\Tab::make('Spotify info')
                                             ->columns(2)
                                             ->schema([
-                                                Forms\Components\Section::make('spotify')
+                                                Forms\Components\Section::make('Spotify')
                                                     ->hiddenLabel()
                                                     ->columns(2)
                                                     ->schema([
@@ -54,6 +54,7 @@ class SongResource extends Resource
                                                         Forms\Components\TextInput::make('artist_genres'),
                                                         Forms\Components\TextInput::make('popularity')
                                                             ->numeric()
+                                                            ->default(0)
                                                             ->required(),
                                                     ])
                                                     ->footerActions([

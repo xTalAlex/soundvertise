@@ -16,9 +16,9 @@ class PairingIndex extends Component
                 ->with([
                     'submission.song',
                     'submission.playlist',
-                    'relatedSubmission.user',
-                    'relatedSubmission.song',
-                    'relatedSubmission.playlist',
+                    'pairedSubmission.user',
+                    'pairedSubmission.song',
+                    'pairedSubmission.playlist',
                 ])->get(),
         ]);
     }

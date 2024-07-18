@@ -36,25 +36,35 @@ class SpotifyController extends Controller
         $tokenResponse = $spotifyUser->accessTokenResponseBody;
         $user = User::where('spotify_id', $spotifyUser->id)->first();
 
-        //validare dati es. spotify_id unique
-
         if (Auth::check()) {
+            // If spotify_id is not registered or it is associated with the current user
             if (! $user || $user->id == Auth::user()->id) {
-                $this->spotifyService->updateUser(Auth::user(), $spotifyUser);
+                if ($user) {
+                    $this->spotifyService->updateUser($user, $spotifyUser);
+                }
 
-                return redirect('/dashboard')->banner('Spotify connected successfully.');
-            } else {
-                return redirect('dashboard')->dangerBanner('Spotify ID is already associated to another email.');
+                return ! $user ?
+                    redirect()->route('register')->with(
+                        'spotifyUser', $spotifyUser,
+                    ) :
+                    redirect()->route('galaxy')->banner('Spotify connected successfully.');
+            }
+            // If spotify_id is registered but is associated with another user
+            else {
+                return redirect()->route('galaxy')->dangerBanner('Spotify ID is already associated to another email.');
             }
         } else {
             if ($user) {
                 $this->spotifyService->updateUser($user, $spotifyUser);
+                Auth::login($user);
+
+                return redirect()->route('galaxy')->banner('Logged in successfully.');
             } else {
-                $user = $this->spotifyService->createUser($spotifyUser);
+                //$user = $this->spotifyService->createUser($spotifyUser);
+                return redirect()->route('register')->with('spotifyUser', $spotifyUser);
             }
-            Auth::login($user);
         }
 
-        return redirect('/dashboard');
+        return redirect()->route('login')->dangerBanner('Unexpected error. Please, try again later.');
     }
 }

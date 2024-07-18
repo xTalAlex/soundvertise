@@ -6,7 +6,6 @@ use App\Models\Genre;
 use App\Models\Playlist;
 use App\Services\SpotifyService;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Str;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
@@ -98,7 +97,7 @@ class PlaylistIndex extends Component
 
         $this->validate();
 
-        $spotifyId = $this->getPlaylistIdFromUrl($this->newPlaylistId);
+        $spotifyId = $spotifyService->getPlaylistIdFromUrl($this->newPlaylistId);
         $spotifyPlaylist = $spotifyService->getUserPlaylist(auth()->user(), $spotifyId);
 
         if ($spotifyPlaylist) {
@@ -190,11 +189,6 @@ class PlaylistIndex extends Component
     |-----------------------------
     */
 
-    public function getPlaylistIdFromUrl($playlistUrl): string
-    {
-        return Str::between($playlistUrl ?? '', 'playlist/', '?');
-    }
-
     public function isSpotifyPlaylistStored($spotifyPlaylistId): bool
     {
         return $this->playlists->pluck('spotify_id')->contains($spotifyPlaylistId);
@@ -202,7 +196,7 @@ class PlaylistIndex extends Component
 
     public function getSpotifyPlaylistNameById($spotifyPlaylistId): string
     {
-        $spotifyPlaylistId = $this->getPlaylistIdFromUrl($spotifyPlaylistId);
+        $spotifyPlaylistId = app(SpotifyService::class)->getPlaylistIdFromUrl($spotifyPlaylistId);
         $playlist = $this->liveFetchedPlaylists->first(fn ($playlist) => $playlist['id'] == $spotifyPlaylistId);
 
         return $playlist['name'] ?? '';

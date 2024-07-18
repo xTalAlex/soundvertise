@@ -5,7 +5,7 @@
             <div class="flex justify-between container mx-auto max-w-5xl pt-10">
                 <div class="flex flex-col items-center space-y-2 w-64">
                     {{-- <div class="mt-6">
-                        <div class="text-white font-display text-2xl uppercase font-bold tracking-tight">
+                        <div class="text-white text-2xl uppercase font-bold tracking-tight">
                             <span class="-mr-3">SOUND</span>
                             <img class="h-10 -mt-4 inline" src="images/soundvertise_icon.png" />
                             <span class="-ml-3">ERTISE</span>
@@ -25,12 +25,12 @@
                                     Log in
                                 </a>
 
-                                @if (Route::has('register'))
+                                {{-- @if (Route::has('register'))
                                     <a href="{{ route('register') }}"
                                         class="rounded-md px-3 py-2 text-white ring-1 ring-transparent transition hover:text-white/70 focus:outline-none focus-visible:ring-[#FF2D20]">
                                         Register
                                     </a>
-                                @endif
+                                @endif --}}
                             @endauth
                         </nav>
                     @endif
@@ -57,7 +57,7 @@
             <div class="class grid place-items-center">
                 {{-- <img class="h-28 mt-44" src="images/soundvertise_logo.png" /> --}}
                 <div class="mt-32">
-                    <div class="text-white font-display text-6xl uppercase font-bold tracking-tight">
+                    <div class="text-white text-6xl uppercase font-bold tracking-tight">
                         <span class="-mr-9">SOUND</span>
                         <img class="h-24 inline -mt-12" src="images/soundvertise_icon.png" />
                         <span class="-ml-9">ERTISE</span>
@@ -75,7 +75,7 @@
     <div class=" bg-black text-white pt-32">
         <div class="container max-w-5xl mx-auto px-5 relative">
             <div class="">
-                <h2 class="text-6xl font-display font-thin leading-tight">Elevate Your Music with Authentic
+                <h2 class="text-6xl font-thin leading-tight">Elevate Your Music with Authentic
                     Connections</h2>
                 <p class="max-w-4xl mt-5 text-3xl pr-28 leading-10 font-thin">With our expertise, we become the magnet
                     that
@@ -100,7 +100,7 @@
         </div>
         <div class="mt-64">
             <div class="container max-w-5xl mx-auto px-5 relative text-center">
-                <h2 class="text-6xl font-display font-thin leading-tight">The Art of Playlist Curation</h2>
+                <h2 class="text-6xl font-thin leading-tight">The Art of Playlist Curation</h2>
                 <p class="mt-5 text-3xl leading-10 font-thin text-center max-w-xl mx-auto">Together we will
                     create and
                     manage your playlist with active and targeted listeners for your music.
@@ -115,7 +115,7 @@
         <div class="mt-32">
             <div class="container max-w-5xl mx-auto px-5 grid grid-cols-2 gap-y-20">
                 <div class="text-left">
-                    <h2 class="text-5xl font-display font-thin leading-tight">Be a part of our Network</h2>
+                    <h2 class="text-5xl font-thin leading-tight">Be a part of our Network</h2>
                     <p class="mt-5 text-3xl leading-10 font-thin">
                         Soundvertise goes beyond music and playlist promotion. We're building a network where artists
                         and curators support each other, fostering career growth, lasting friendships, and creative
@@ -125,7 +125,7 @@
                 <div></div>
                 <div></div>
                 <div class="text-right">
-                    <h2 class="text-5xl font-display font-thin leading-tight">We care about you</h2>
+                    <h2 class="text-5xl font-thin leading-tight">We care about you</h2>
                     <p class="mt-5 text-3xl leading-10 font-thin">
                         We're dedicated to staying connected with all our artists, offering guidance, assistance, or
                         simply being a sounding board for ideas.
@@ -137,7 +137,7 @@
         </div>
         <div class="mt-64">
             <div class="container mx-auto px-5">
-                <h2 class="text-6xl font-display font-thin leading-tight mx-auto text-center">Don't trust us?
+                <h2 class="text-6xl font-thin leading-tight mx-auto text-center">Don't trust us?
                     <br />Trust them!
                 </h2>
 
@@ -146,7 +146,7 @@
         </div>
         <div class="mt-32">
             <div class="container mx-auto px-5">
-                <h2 class="text-6xl font-display font-thin leading-tight mx-auto text-center">
+                <h2 class="text-6xl font-thin leading-tight mx-auto text-center">
                     Talk with us
                 </h2>
 
@@ -155,7 +155,7 @@
                     <div>WHATSAPP</div>
                 </div>
 
-                <h3 class="text-2xl font-display font-thin leading-tight mx-auto text-center">Let's schedule a free
+                <h3 class="text-2xl font-thin leading-tight mx-auto text-center">Let's schedule a free
                     videocall together!</h3>
 
                 <div class="h-96 mx-auto w-64 mt-32 bg-gradient-to-br from-primary to-secondary blur-xl">
@@ -216,7 +216,7 @@
         </div>
         <div class="mt-64 pb-32">
             <div class="w-fit mx-auto">
-                <div class="text-white font-display text-2xl uppercase font-bold tracking-tight">
+                <div class="text-white text-2xl uppercase font-bold tracking-tight">
                     <span class="-mr-3">SOUND</span>
                     <img class="h-10 -mt-4 inline" src="images/soundvertise_icon.png" />
                     <span class="-ml-3">ERTISE</span>

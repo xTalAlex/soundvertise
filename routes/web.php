@@ -22,7 +22,6 @@ Route::get('/planet/{genre:slug}', function (\App\Models\Genre $genre) {
 Route::prefix('spotify')->group(function () {
     Route::get('auth', [\App\Http\Controllers\SpotifyController::class, 'redirect'])->name('spotify.redirect');
     Route::get('callback', [\App\Http\Controllers\SpotifyController::class, 'callback']);
-    Route::get('playlists', [\App\Http\Controllers\SpotifyController::class, 'playlists']);
 });
 
 Route::middleware([

@@ -20,10 +20,10 @@
     @livewireStyles
 </head>
 
-<body>
+<body class="bg-black text-white">
     <x-banner />
 
-    <div class="font-display text-gray-900 antialiased">
+    <div class="font-sans antialiased">
         {{ $slot }}
     </div>
 

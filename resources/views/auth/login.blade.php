@@ -30,20 +30,15 @@
             <div class="block mt-4">
                 <label for="remember_me" class="flex items-center">
                     <x-checkbox id="remember_me" name="remember" />
-                    <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
+                    <span class="ms-2 text-sm text-white">{{ __('Remember me') }}</span>
                 </label>
             </div>
 
-            <div class="mt-8 flex items-center border-2 w-fit p-2 rounded-md border-green-500 bg-green-500/20">
-                <img src="/images/spotify_icon.png" class="size-5 sm:size-6" />
-                <h2 class="ms-3 text-xl font-semibold text-gray-900">
-                    <a href="{{ route('spotify.redirect') }}">Login with Spotify</a>
-                </h2>
-            </div>
+            <x-spotify-button class="my-4 mx-auto w-fit" />
 
             <div class="flex items-center justify-end mt-4">
                 @if (Route::has('password.request'))
-                    <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                    <a class="underline text-sm text-white hover:text-primary-500 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-secondary-500"
                         href="{{ route('password.request') }}">
                         {{ __('Forgot your password?') }}
                     </a>
@@ -54,5 +49,6 @@
                 </x-button>
             </div>
         </form>
+
     </x-authentication-card>
 </x-guest-layout>

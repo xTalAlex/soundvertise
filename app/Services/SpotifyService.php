@@ -36,16 +36,28 @@ class SpotifyService
 
     public function createUser($spotifyData)
     {
+        // return User::create([
+        //     'email' => $spotifyData->email,
+        //     'password' => Hash::make(Str::random(20)),
+        //     'name' => $spotifyData->name,
+        //     'spotify_id' => $spotifyData->id,
+        //     'spotify_name' => $spotifyData->name,
+        //     'spotify_avatar' => $spotifyData->user['images'][1]['url'] ?? null,
+        //     'spotify_access_token' => $spotifyData->accessTokenResponseBody['access_token'],
+        //     'spotify_refresh_token' => $spotifyData->accessTokenResponseBody['refresh_token'],
+        //     'spotify_token_expiration' => Carbon::now()->addSeconds($spotifyData->accessTokenResponseBody['expires_in']),
+        // ]);
+
         return User::create([
-            'email' => $spotifyData->email,
+            'email' => $spotifyData['email'],
             'password' => Hash::make(Str::random(20)),
-            'name' => $spotifyData->name,
-            'spotify_id' => $spotifyData->id,
-            'spotify_name' => $spotifyData->name,
-            'spotify_avatar' => $spotifyData->user['images'][1]['url'] ?? null,
-            'spotify_access_token' => $spotifyData->accessTokenResponseBody['access_token'],
-            'spotify_refresh_token' => $spotifyData->accessTokenResponseBody['refresh_token'],
-            'spotify_token_expiration' => Carbon::now()->addSeconds($spotifyData->accessTokenResponseBody['expires_in']),
+            'name' => $spotifyData['name'],
+            'spotify_id' => $spotifyData['id'],
+            'spotify_name' => $spotifyData['name'],
+            'spotify_avatar' => $spotifyData['images'][1]['url'] ?? null,
+            'spotify_access_token' => $spotifyData['accessTokenResponseBody']['access_token'],
+            'spotify_refresh_token' => $spotifyData['accessTokenResponseBody']['refresh_token'],
+            'spotify_token_expiration' => Carbon::now()->addSeconds($spotifyData['accessTokenResponseBody']['expires_in']),
         ]);
     }
 
@@ -86,6 +98,20 @@ class SpotifyService
         }
     }
 
+    public function getSpotifyUserPlaylist($spotifyUserId, $spotifyPlaylistId, $accessToken)
+    {
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer '.$accessToken,
+        ])->get($this->endpoint.'/playlists/'.$spotifyPlaylistId, [
+        ]);
+
+        if ($response->ok()) {
+            if ($this->isSpotifyPlaylistImportableByUser($response->collect()->toArray(), $spotifyUserId)) {
+                return $response->collect();
+            }
+        }
+    }
+
     public function getUserPlaylist(User $user, string $playlistId)
     {
         $response = Http::withHeaders([
@@ -94,9 +120,45 @@ class SpotifyService
         ]);
 
         if ($response->ok()) {
-            if ($this->isSpotifyPlaylistImportableByUser($response->collect()->toArray(), $user)) {
+            if ($this->isSpotifyPlaylistImportableByUser($response->collect()->toArray(), $user->spotify_id)) {
                 return $response->collect();
             }
+        }
+    }
+
+    public function getSpotifyUserPlaylists($spotifyUserId, $accessToken)
+    {
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer '.$accessToken,
+        ])->get($this->endpoint.'/users/'.$spotifyUserId.'/playlists', [
+            'limit' => 50,
+        ]);
+
+        if ($response->ok()) {
+            $playlists = collect([]);
+
+            // filtrare playlist in base a owner e collaborative
+
+            collect($response->collect()['items'])->each(fn ($playlist) => $playlists->push($playlist));
+
+            $playlists = $playlists->filter(fn ($playlist) => $this->isSpotifyPlaylistImportableByUser($playlist, $spotifyUserId));
+
+            $response->collect()['next'];
+
+            return $playlists;
+        }
+
+        if ($response->unauthorized()) {
+            // prova un refresh token
+
+        }
+
+        if ($response->forbidden()) {
+            // niente da fare
+
+        }
+
+        if ($response->tooManyRequests()) {
         }
     }
 
@@ -117,7 +179,7 @@ class SpotifyService
 
             collect($response->collect()['items'])->each(fn ($playlist) => $playlists->push($playlist));
 
-            $playlists = $playlists->filter(fn ($playlist) => $this->isSpotifyPlaylistImportableByUser($playlist, $user));
+            $playlists = $playlists->filter(fn ($playlist) => $this->isSpotifyPlaylistImportableByUser($playlist, $user->spotify_id));
 
             $user->update([
                 'spotify_playlists_total' => $response->collect()['total'],
@@ -230,8 +292,13 @@ class SpotifyService
     |
     */
 
-    public function isSpotifyPlaylistImportableByUser(array $playlist, User $user): bool
+    public function isSpotifyPlaylistImportableByUser(array $playlist, $spotifyUserId): bool
     {
-        return $playlist['public'] && $playlist['owner']['id'] == $user->spotify_id;
+        return $playlist['public'] == 'true' && $playlist['owner']['id'] == $spotifyUserId;
+    }
+
+    public function getPlaylistIdFromUrl($playlistUrl): string
+    {
+        return Str::between($playlistUrl ?? '', 'playlist/', '?');
     }
 }

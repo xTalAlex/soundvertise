@@ -19,7 +19,7 @@ export function createSpace(canvasElement) {
 
     background.width = width;
     background.height = height;
-    bgCtx.fillStyle = "#000";
+    bgCtx.fillStyle = "#171717";
     bgCtx.fillRect(0, 0, width, height);
 
     // stars
@@ -97,7 +97,7 @@ export function createSpace(canvasElement) {
     //animate background
     function animate() {
         bgCtx.fillRect(0, 0, width, height);
-        bgCtx.fillStyle = "#000";
+        bgCtx.fillStyle = "#171717";
         bgCtx.fillRect(0, 0, width, height);
         bgCtx.fillStyle = "#ffffff";
         bgCtx.strokeStyle = "#ffffff";

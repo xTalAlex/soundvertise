@@ -1,3 +1,6 @@
+@import "@fontsource/schoolbell";
+@import "@fontsource-variable/montserrat";
+
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";

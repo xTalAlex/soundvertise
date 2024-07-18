@@ -15,8 +15,8 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                display: ["Figtree", ...defaultTheme.fontFamily.sans],
-                sans: ["Nunito", ...defaultTheme.fontFamily.sans],
+                display: ["Schoolbell", ...defaultTheme.fontFamily.sans],
+                sans: ["Montserrat", ...defaultTheme.fontFamily.sans],
             },
             colors: {
                 primary: {
@@ -48,7 +48,7 @@ export default {
                     950: "#040205",
                 },
                 black: {
-                    DEFAULT: colors.neutral["950"],
+                    DEFAULT: colors.neutral["900"],
                     ...colors.neutral,
                 },
             },

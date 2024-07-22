@@ -52,7 +52,7 @@ class GenreSeeder extends Seeder
                 'position_y' => 20,
             ],
         ];
-        $genresIcons = collect(File::files(storage_path('app/assets/planets')))->map(fn ($file) => $file->getPathname());
+        $genresIcons = collect(File::files(public_path('images/planets')))->map(fn ($file) => $file->getPathname());
         foreach ($genresData as $name => $genreData) {
             $newGenre = Genre::create(['name' => $name, ...$genreData]);
             if (count($genresIcons)) {

@@ -38,7 +38,7 @@
         totSteps: 1
     }" x-init="totSteps = $refs.stepsContainer.childElementCount;">
         <div x-ref="stepsContainer">
-            <div x-cloak x-show="step==1">
+            <div x-show="step==1">
 
                 <div>
                     <x-input id="spotify_id" type="hidden" name="spotify_id" wire:model="userForm.spotify_id"

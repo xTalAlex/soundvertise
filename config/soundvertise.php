@@ -9,16 +9,8 @@ return [
     |
     */
 
-    'genres' => [
-        'Pop',
-        'Indie Acoustic / Folk',
-        'Piano / Classical',
-        'Instrumental / Ambient',
-        'Rock',
-        'Electronic',
-        'Lofi / Jazz',
-        'Trap / Hip Hop',
-        'Rock / Metal',
+    'register' => [
+        'max_playlists' => 5,
     ],
 
     'min_playlist_followers' => 0,

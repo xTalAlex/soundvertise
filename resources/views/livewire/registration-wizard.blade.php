@@ -139,7 +139,8 @@
                             </div>
                             <div class="absolute z-50 w-full bg-black shadow-lg mt-1 rounded-md py-4 px-6" x-cloak
                                 x-show="open">
-                                <div class="mb-6 select-none text-sm opacity-50">{{ __('Your most recent playlists') }}
+                                <div class="mb-6 select-none text-sm opacity-50">
+                                    {{ __('Your most recent playlists') }}
                                 </div>
                                 <div class="w-full" wire:loading wire:target="fetchPlaylists">
                                     <div class="w-fit mx-auto">
@@ -172,7 +173,7 @@
                     @if (count($playlists))
                         <div class="space-y-2">
                             @forelse($playlists as $key => $playlist)
-                                <div>
+                                <div wire:key="{{ $key }}">
                                     <div class="flex flex-col sm:flex-row justify-between items-center space-x-2">
                                         <div class="flex items-center flex-grow space-x-2 relative">
                                             <div class="hidden">

@@ -18,6 +18,8 @@ class RegistrationWizard extends Component
 {
     use WithFileUploads;
 
+    public int $totSteps = 2;
+
     public int $step = 1;
 
     public UserForm $userForm;

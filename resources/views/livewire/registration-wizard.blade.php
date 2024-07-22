@@ -3,8 +3,8 @@
         <ol class="text-white flex items-center w-full p-3 space-x-2 text-sm font-medium text-center shadow-sm sm:text-base sm:p-4 sm:space-x-4 rtl:space-x-reverse"
             x-data="{
                 step: $wire.entangle('step'),
-                totSteps: 1
-            }" x-init="totSteps = $refs.ol.childElementCount;" x-ref="ol">
+                totSteps: {{ $totSteps }}
+            }">
             <li class="flex items-center" x-bind:class="step == 1 ? 'text-primary-500' : ''">
                 <span class="flex items-center justify-center w-5 h-5 me-2 text-xs border rounded-full shrink-0"
                     x-bind:class="step == 1 ?
@@ -35,9 +35,9 @@
 
     <div x-data="{
         step: $wire.entangle('step'),
-        totSteps: 1
-    }" x-init="totSteps = $refs.stepsContainer.childElementCount;">
-        <div x-ref="stepsContainer">
+        totSteps: {{ $totSteps }}
+    }">
+        <div>
             <div x-show="step==1">
 
                 <div>

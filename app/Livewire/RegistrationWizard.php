@@ -2,115 +2,186 @@
 
 namespace App\Livewire;
 
+use App\Livewire\Forms\UserForm;
 use App\Models\Genre;
+use App\Models\User;
 use App\Services\SpotifyService;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Livewire\Attributes\Computed;
+use Livewire\Attributes\Validate;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class RegistrationWizard extends Component
 {
-    public $spotifyUser;
+    use WithFileUploads;
 
-    public $spotifyId;
+    public int $step = 1;
 
-    public $accessToken;
+    public UserForm $userForm;
 
-    public $avatar;
+    public string $newPlaylistUrl = '';
 
-    public $name;
-
-    public $email;
+    #[Validate([
+        'playlists' => 'array|max:5',
+        'playlists.*' => 'array',
+        'playlists.*.genre_id' => 'required|exists:genres,id',
+        'playlists.*.spotify_user_id' => 'required|string',
+        'playlists.*.spotify_id' => 'required|string',
+        'playlists.*.url' => 'nullable|string',
+        'playlists.*.name' => 'required|string',
+        'playlists.*.description' => 'nullable|string',
+        'playlists.*.collaborative' => 'nullable|boolean',
+        'playlists.*.followers_total' => 'required|integer',
+        'playlists.*.tracks_total' => 'required|integer',
+        // 'playlists.*.screenshots' => 'required|min:2|max:2'
+    ], attribute: [
+        'playlists.*.genre_id' => 'playlist genre',
+    ])]
+    public Collection $playlists;
 
     public Collection $fetchedPlaylists;
 
-    public $fetchedPlaylist = null;
-
-    public ?string $newPlaylist;
-
-    public ?string $selectedPlaylist;
-
-    public ?int $selectedGenre;
-
     public function mount(SpotifyService $spotifyService)
     {
-        $spotifyUser = collect(session('spotifyUser'));
-        if ($spotifyUser->isEmpty()) {
+        $spotifyUser = session('spotifyUser');
+        if (! $spotifyUser) {
             session()->flash('flash.banner', 'Session expired.');
             session()->flash('flash.bannerStyle', 'danger');
 
             return $this->redirectRoute('login');
         }
+        $this->userForm->setUser(collect($spotifyUser));
+        if ($this->userForm->spotify_token_expiration <= now()) {
+            session()->forget('spotifyUser');
+            session()->flash('flash.banner', 'Session timed out.');
+            session()->flash('flash.bannerStyle', 'danger');
 
-        $this->spotifyUser = $spotifyUser;
-
-        $this->spotifyId = $spotifyUser['id'];
-        $this->avatar = $spotifyUser['images'][1]['url'] ?? null;
-        $this->name = $spotifyUser['name'];
-        $this->email = $spotifyUser['email'];
-        $this->accessToken = $spotifyUser['accessTokenResponseBody']['access_token'];
-
+            return $this->redirectRoute('login');
+        }
+        $this->playlists = collect();
         $this->fetchedPlaylists = collect();
+    }
+
+    #[Computed]
+    public function genres()
+    {
+        return Genre::all();
+    }
+
+    public function previousStep()
+    {
+        if ($this->step > 1) {
+            $this->step--;
+        }
+        $this->resetErrorBag();
+    }
+
+    public function nextStep()
+    {
+        if ($this->step == 1) {
+            $this->userForm->validate();
+            $this->step++;
+        }
+        $this->resetErrorBag();
     }
 
     public function fetchPlaylists(SpotifyService $spotifyService)
     {
-        $this->fetchedPlaylists = $spotifyService->getSpotifyUserPlaylists($this->spotifyId, $this->accessToken);
-    }
-
-    public function selectPlaylist($playlistId)
-    {
-        $this->selectedPlaylist = $playlistId;
-    }
-
-    public function checkPlaylist(SpotifyService $spotifyService)
-    {
-        $this->selectedPlaylist = $this->newPlaylist ?? $this->selectedPlaylist;
-        $this->fetchPlaylist($spotifyService);
+        $response = $spotifyService->getSpotifyUserPlaylists($this->userForm->spotify_id, $this->userForm->spotify_access_token);
+        if ($response) {
+            $this->fetchedPlaylists = $response;
+        }
     }
 
     public function fetchPlaylist(SpotifyService $spotifyService)
     {
-        $spotifyPlaylistId = $spotifyService->getPlaylistIdFromUrl($this->selectedPlaylist);
+        $this->resetErrorBag();
 
-        $this->fetchedPlaylist = $spotifyService->getSpotifyUserPlaylist($this->spotifyId, $spotifyPlaylistId, $this->accessToken);
+        if (! $this->newPlaylistUrl) {
+            return;
+        }
 
-        if ($this->fetchedPlaylist) {
-            // $this->fetchedPlaylists = $this->fetchedPlaylists->filter(
-            //     fn ($spotifyPlaylist) => $spotifyPlaylist['id'] != $fetchedPlaylist['id']
-            // )->prepend($fetchedPlaylist);
+        if ($this->playlists->count() >= config('soundvertise.register.max_playlists')) {
+            return;
+        }
+
+        $playliustSpotifyId = $spotifyService->getPlaylistIdFromUrl($this->newPlaylistUrl);
+
+        if ($this->playlists->contains('spotify_id', $playliustSpotifyId)) {
+            $this->addError('newPlaylistUrl', __('You have already added this playlist.'));
+            $this->reset('newPlaylistUrl');
+
+            return;
+        }
+
+        $response = $spotifyService->getSpotifyUserPlaylist($this->userForm->spotify_id, $playliustSpotifyId, $this->userForm->spotify_access_token);
+
+        if (isset($response['errors'])) {
+            foreach ($response['errors'] as $error => $message) {
+                $this->addError('newPlaylistUrl', $message);
+            }
+
+            return;
+        }
+        $fetchedPlaylist = $response;
+
+        if ($fetchedPlaylist) {
+            $this->playlists->push([
+                'spotify_user_id' => $fetchedPlaylist['owner']['id'] ?? null,
+                'spotify_id' => $fetchedPlaylist['id'],
+                'url' => $fetchedPlaylist['external_urls']['spotify'] ?? null,
+                'name' => $fetchedPlaylist['name'],
+                'description' => $fetchedPlaylist['description'] ?? null,
+                'collaborative' => $fetchedPlaylist['collaborative'],
+                'followers_total' => $fetchedPlaylist['tracks']['total'] ?? 0,
+                'tracks_total' => $fetchedPlaylist['followers']['total'] ?? 0,
+                'genre_id' => null,
+                'screenshots' => null,
+                'image' => $fetchedPlaylist['images'][0]['url'] ?? null, // temporary
+            ]);
+            $this->reset('newPlaylistUrl');
         } else {
-            $this->addError('fetchedPlaylist', 'Spotify found no playlists with given ID');
+            // playlist non di proprietà
+            // playlist con pochi follower
+            // id non valido
+            // token scaduto
+            $this->addError('fetchedPlaylist', __('You do not own any playlist with given URL or ID'));
+        }
+    }
+
+    public function removePlaylist($spotifyId)
+    {
+        $this->resetErrorBag();
+
+        $key = $this->playlists->search(fn ($playlist) => $playlist['spotify_id'] == $spotifyId);
+        if ($key !== null) {
+            $this->playlists->pull($key);
         }
     }
 
     public function register(SpotifyService $spotifyService)
     {
-        DB::transaction(function () use ($spotifyService) {
+        $this->validate();
+
+        DB::transaction(function () {
             // crea utente
-            //$spotifyUser = collect(session('spotifyUser'));
-            $spotifyUser = $this->spotifyUser;
-            $user = $spotifyService->createUser($spotifyUser);
+            //$user = $spotifyService->createUser($this->userForm->all());
+            $user = User::create($this->userForm->all());
 
             // crea playlist
-            $playlist = $user->playlists()->create([
-                'spotify_id' => $this->fetchedPlaylist['id'],
-                'user_id' => $user->id,
-                'spotify_user_id' => $user->spotify_id,
-                'genre_id' => $this->selectedGenre,
-                'url' => $this->fetchedPlaylist['external_urls']['spotify'],
-                'name' => $this->fetchedPlaylist['name'],
-                'description' => $this->fetchedPlaylist['description'],
-                'collaborative' => $this->fetchedPlaylist['collaborative'],
-                'tracks_total' => $this->fetchedPlaylist['tracks']['total'],
-                'followers_total' => $this->fetchedPlaylist['followers']['total'],
-            ]);
+            foreach ($this->playlists as $playlist) {
+                $playlist = $user->playlists()->create(collect($playlist)->except('image', 'screenshots')->toArray());
+                //attach $playlist['screenshots']
+            }
 
             Auth::login($user);
         });
 
         // redirect a profilo
+        session()->forget('spotifyUser');
         session()->flash('flash.banner', 'We are reviewing your playlist. Upload some screenshots.');
         session()->flash('flash.bannerStyle', 'warning');
 

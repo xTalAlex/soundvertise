@@ -54,7 +54,7 @@ class SpotifyService
             'name' => $spotifyData['name'],
             'spotify_id' => $spotifyData['id'],
             'spotify_name' => $spotifyData['name'],
-            'spotify_avatar' => $spotifyData['images'][1]['url'] ?? null,
+            'spotify_avatar' => $spotifyData['user']['images'][1]['url'] ?? null,
             'spotify_access_token' => $spotifyData['accessTokenResponseBody']['access_token'],
             'spotify_refresh_token' => $spotifyData['accessTokenResponseBody']['refresh_token'],
             'spotify_token_expiration' => Carbon::now()->addSeconds($spotifyData['accessTokenResponseBody']['expires_in']),
@@ -106,8 +106,19 @@ class SpotifyService
         ]);
 
         if ($response->ok()) {
-            if ($this->isSpotifyPlaylistImportableByUser($response->collect()->toArray(), $spotifyUserId)) {
+            $playlist = $response->collect()->toArray();
+            if ($this->isSpotifyPlaylistImportableByUser($playlist, $spotifyUserId)) {
                 return $response->collect();
+            } else {
+                $errors = [];
+                if ($playlist['public'] != 'true') {
+                    $errors['not_public'] = __('The playlist is private');
+                }
+                if ($playlist['owner']['id'] != $spotifyUserId) {
+                    $errors['not_owned'] = __('You are not the playlist owner');
+                }
+
+                return collect(compact('errors'));
             }
         }
     }
@@ -120,8 +131,19 @@ class SpotifyService
         ]);
 
         if ($response->ok()) {
+            $playlist = $response->collect()->toArray();
             if ($this->isSpotifyPlaylistImportableByUser($response->collect()->toArray(), $user->spotify_id)) {
                 return $response->collect();
+            } else {
+                $errors = [];
+                if ($playlist['public'] != 'true') {
+                    $errors['not_public'] = __('The playlist is private');
+                }
+                if ($playlist['owner']['id'] != $user->spotify_id) {
+                    $errors['not_owned'] = __('You are not the playlist owner');
+                }
+
+                return collect(compact('errors'));
             }
         }
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Services\SpotifyService;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 class SpotifyController extends Controller
@@ -60,8 +61,10 @@ class SpotifyController extends Controller
 
                 return redirect()->route('galaxy')->banner('Logged in successfully.');
             } else {
-                //$user = $this->spotifyService->createUser($spotifyUser);
-                return redirect()->route('register')->with('spotifyUser', $spotifyUser);
+                $spotifyUser->accessTokenResponseBody['expiration_date'] = Carbon::now()->addSeconds($spotifyUser->accessTokenResponseBody['expires_in']);
+                session()->put('spotifyUser', $spotifyUser);
+
+                return redirect()->route('register');
             }
         }
 

@@ -148,7 +148,7 @@
                                 </div>
                                 <div wire:loading.remove wire:target="fetchPlaylists"
                                     class="space-y-1 max-h-64 overflow-y-auto">
-                                    @forelse ($fetchedPlaylists->filter(fn($playlist) => !$this->playlists->contains('id',$playlist['id']) ) as $playlist)
+                                    @forelse ($fetchedPlaylists->filter(fn($playlist) => !$this->playlists->contains('spotify_id',$playlist['id']) ) as $playlist)
                                         <div class="flex space-x-2 cursor-pointer hover:bg-primary-500 rounded-md transition duration-200 p-1 items-center"
                                             x-on:click="setNewPlaylistUrl('{{ $playlist['external_urls']['spotify'] ?? $playlist['id'] }}')">
                                             <img class="object-cover aspect-square size-12"

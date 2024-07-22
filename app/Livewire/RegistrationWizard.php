@@ -138,8 +138,8 @@ class RegistrationWizard extends Component
                 'name' => $fetchedPlaylist['name'],
                 'description' => $fetchedPlaylist['description'] ?? null,
                 'collaborative' => $fetchedPlaylist['collaborative'],
-                'followers_total' => $fetchedPlaylist['tracks']['total'] ?? 0,
-                'tracks_total' => $fetchedPlaylist['followers']['total'] ?? 0,
+                'tracks_total' => $fetchedPlaylist['tracks']['total'] ?? 0,
+                'followers_total' => $fetchedPlaylist['followers']['total'] ?? 0,
                 'genre_id' => null,
                 'screenshots' => null,
                 'image' => $fetchedPlaylist['images'][0]['url'] ?? null, // temporary

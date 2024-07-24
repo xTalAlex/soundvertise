@@ -37,8 +37,8 @@
                     <div class="text-lg font-bold"><a href="{{ route('galaxy') }}">GALAXY</a></div>
 
                 </div>
-                <div><svg class="fill-current stroke-current h-8" viewBox="0 0 256 256" version="1.1"
-                        xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                <div class="hidden sm:block"><svg class="fill-current stroke-current h-8" viewBox="0 0 256 256"
+                        version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                         preserveAspectRatio="xMidYMid">
                         <g>
                             <path
@@ -56,16 +56,10 @@
             </div>
             <div class="class grid place-items-center">
                 {{-- <img class="h-28 mt-44" src="images/soundvertise_logo.png" /> --}}
-                <div class="mt-32">
-                    <div class="text-white text-6xl uppercase font-bold tracking-tight">
-                        <span class="-mr-9">SOUND</span>
-                        <img class="h-24 inline -mt-12" src="images/soundvertise_icon.png" />
-                        <span class="-ml-9">ERTISE</span>
-                    </div>
-                </div>
+                <x-application-logo class="mt-32" />
                 <div class="mt-5 text-xl tracking-[0.2em] font-sans font-thin">let's grow together</div>
                 <div
-                    class="mt-10 text-xl tracking-[0.2em] font-sans font-thin bg-[size:300%] animate-gradient bg-gradient-to-bl from-secondary via-secondary-200 to-primary text-transparent bg-clip-text">
+                    class="mt-10 hidden sm:block tracking-[0.2em] font-sans font-thin bg-[size:300%] animate-gradient bg-gradient-to-bl from-secondary via-secondary-200 to-primary text-transparent bg-clip-text">
                     artist promotion | playlist growth |
                     curators academy</div>
             </div>

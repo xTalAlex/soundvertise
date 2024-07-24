@@ -40,6 +40,15 @@
         <div>
             <div x-show="step==1">
 
+                <div class="pt-4">
+                    <x-input id="spotify_avatar" type="hidden" name="spotify_avatar"
+                        wire:model="userForm.spotify_avatar" :value="old('spotify_avatar')" />
+                    @if ($userForm->spotify_avatar)
+                        <img src="{{ $userForm->spotify_avatar }}"
+                            class="border-2 border-secondary-500 rounded-full size-20 mx-auto">
+                    @endif
+                </div>
+
                 <div>
                     <x-input id="spotify_id" type="hidden" name="spotify_id" wire:model="userForm.spotify_id"
                         :value="old('spotify_id')" required />
@@ -48,15 +57,6 @@
                 <div>
                     <x-input id="spotify_name" type="hidden" name="spotify_name" wire:model="userForm.spotify_name"
                         :value="old('spotify_name')" required />
-                </div>
-
-                <div class="pt-4">
-                    <x-input id="spotify_avatar" type="hidden" name="spotify_avatar"
-                        wire:model="userForm.spotify_avatar" :value="old('spotify_avatar')" />
-                    @if ($userForm->spotify_avatar)
-                        <img src="{{ $userForm->spotify_avatar }}"
-                            class="border-2 border-secondary-500 rounded-full size-20 mx-auto">
-                    @endif
                 </div>
 
                 <div class="mt-4">
@@ -81,6 +81,7 @@
                     <x-label for="password" value="{{ __('Password') }}" required />
                     <x-input id="password" class="block mt-1 w-full" type="password" name="password"
                         placeholder="*******" wire:model="userForm.password" required autocomplete="password" />
+                    <x-input-error for="userForm.password"></x-input-error>
                 </div>
 
                 <div class="mt-4">
@@ -88,6 +89,7 @@
                     <x-input id="password_confirmation" class="block mt-1 w-full" type="password"
                         name="password_confirmation" placeholder="*******" wire:model="userForm.password_confirmation"
                         required autocomplete="password" />
+                    <x-input-error for="userForm.password_confirmation"></x-input-error>
                 </div>
 
                 @if (Laravel\Jetstream\Jetstream::hasTermsAndPrivacyPolicyFeature())
@@ -213,8 +215,8 @@
                                                     :value="old('playlists.{{ $key }}.tracks_total')" required />
                                             </div>
                                             <img class="object-cover aspect-square size-12"
-                                                src="{{ $playlist['image'] }}" />
-                                            <div class="cursor-default">{{ $playlist['name'] }}
+                                                src="{{ $playlist['image'] ?? null }}" />
+                                            <div class="cursor-default">{{ $playlist['name'] ?? '' }}
                                                 <button class="inline-block text-red-500 size-4"
                                                     wire:click="removePlaylist('{{ $playlist['spotify_id'] }}')"
                                                     wire:loading.disabled wire:target="removePlaylist">&times;</button>
@@ -224,12 +226,21 @@
                                             <x-genre-select name="playlists.{{ $key }}.genre_id"
                                                 wire:model="playlists.{{ $key }}.genre_id" :value="old('playlists.{{ $key }}.genre_id')"
                                                 required />
-                                            <x-button x-on:click="alert('NON È IL MOMENTO!!!!');">
-                                                <span>&#128206;</span>
-                                                <span class="text-red-500 w-0 -mt-px">
-                                                    *
-                                                </span>
-                                            </x-button>
+                                            <div>
+                                                <label>
+                                                    <div class="cursor-pointer">
+                                                        @if ($playlist['screenshots'] && count($playlist['screenshots']))
+                                                            <span
+                                                                title="{{ collect($playlist['screenshots'])->map(fn($screenshot) => $screenshot->getClientOriginalName())->join(',') }}">&#128206;</span>
+                                                        @else
+                                                            <span>Upload</span>
+                                                            <span class="text-red-500 w-0 -mt-px">*</span>
+                                                        @endif
+                                                        <input type="file" class="hidden" multiple
+                                                            wire:model="playlists.{{ $key }}.screenshots" />
+                                                    </div>
+                                                </label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

@@ -8,16 +8,16 @@
     </x-slot>
 
     <div class="flex flex-col space-y-4 justify-center items-center font-bold text-white tracking-widest">
-        <div class="flex flex-col md:flex-row space-x-4">
+        <div class="flex flex-row space-x-4">
             <a href="{{ route('pairings.index') }}">
                 <div
-                    class="rounded-full border-2 border-white shadow-2xl w-44 text-center py-3 bg-gradient-to-r from-primary-500 to-primary-600">
+                    class="rounded-full border-2 border-white shadow-2xl w-32 sm:w-44 text-center py-3 bg-gradient-to-r from-primary-500 to-primary-600">
                     REQUEST
                 </div>
             </a>
             <a href="{{ route('pairings.index') }}">
                 <div
-                    class="relative border-2 border-white rounded-full shadow-2xl w-44 text-center py-3 bg-gradient-to-r from-secondary-500 to-secondary-600">
+                    class="relative border-2 border-white rounded-full shadow-2xl w-32 sm:w-44 text-center py-3 bg-gradient-to-r from-secondary-500 to-secondary-600">
                     MATCH <div
                         class="absolute border-2 border-white text-secondary-500 -right-5 font-display  font-bold shadow-xl text-4xl -top-5 rounded-full size-10 bg-gradient-to-tr from-white to-white grid place-items-center">
                         10
@@ -37,7 +37,7 @@
         <canvas id="space" class="bg-black h-screen fixed w-screen inset-0 -z-10">
         </canvas>
         <div class="">
-            <div class="grid grid-cols-2 md:grid-cols-4 mt-6 w-full mx-auto place-items-center">
+            <div class="overflow-hidden sm:overflow-visible grid md:grid-cols-4 mt-6 w-full mx-auto place-items-center">
                 @foreach ($genres as $genre)
                     <a class="" href="{{ route('planet', $genre) }}" wire:navigate>
                         <div class="w-32 planet relative hover:scale-105 transition duration-1000 ease-out"

@@ -29,7 +29,7 @@
 
         <!-- Page Heading -->
         @if (isset($header))
-            <header class="-mt-24">
+            <header class="mt-6 sm:mt-12 lg:-mt-24">
                 <div
                     class="cursor-default max-w-7xl text-4xl font-display  text-center mx-auto py-6 px-4 sm:px-6 lg:px-8">
                     {{ $header }}

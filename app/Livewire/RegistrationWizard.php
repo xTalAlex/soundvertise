@@ -38,7 +38,8 @@ class RegistrationWizard extends Component
         'playlists.*.collaborative' => 'nullable|boolean',
         'playlists.*.followers_total' => 'required|integer',
         'playlists.*.tracks_total' => 'required|integer',
-        // 'playlists.*.screenshots' => 'required|min:2|max:2'
+        'playlists.*.screenshots' => 'required|array|size:2',
+        'playlists.*.screenshots.*' => 'required|mimes:jpg,jpeg,png|max:20000',
     ], attribute: [
         'playlists.*.genre_id' => 'playlist genre',
     ])]
@@ -174,9 +175,11 @@ class RegistrationWizard extends Component
             $user = User::create($this->userForm->all());
 
             // crea playlist
-            foreach ($this->playlists as $playlist) {
-                $playlist = $user->playlists()->create(collect($playlist)->except('image', 'screenshots')->toArray());
-                //attach $playlist['screenshots']
+            foreach ($this->playlists as $playlistData) {
+                $playlist = $user->playlists()->create(collect($playlistData)->except('image', 'screenshots')->toArray());
+                foreach ($playlistData['screenshots'] as $screenshot) {
+                    $playlist->addMedia($screenshot)->toMediaCollection('screenshots');
+                }
             }
 
             Auth::login($user);

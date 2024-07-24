@@ -44,6 +44,7 @@ class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia
     protected $fillable = [
         'name',
         'email',
+        'country_code',
         'password',
         'spotify_id',
         'spotify_name',

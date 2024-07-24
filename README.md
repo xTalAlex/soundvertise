@@ -92,3 +92,81 @@ https://github.com/DO-Solutions/DigitalOcean-AppPlatform-Cron
 https://www.memcachier.com/documentation/laravel
 
 https://www.digitalocean.com/community/questions/how-to-setup-laravel-queue-for-app
+
+# TODO
+
+## General
+
+    - responsive design
+    - rendere navbar più simmetrica
+
+## Registration
+
+    - caricamento screenshot obbligatorio
+        - sostituzione file caricati
+        - ?visualizzazione file caricati
+    - blocco playlist con < 1000 follower
+    - screenshot d'esempio
+    - iscrizione senza playlist
+    - separare login da register
+    - validazione inline
+
+    - avatar overflow
+    - register button scompare durante redirect
+
+## Playlist
+
+    - stato di approvazione playlist
+    - livello playlist
+    - gestire caso in cui playlist approvata venga resa privata o eliminata
+    - aggiornare periodicamente tot followers e tracks (ad ogni submission) [fatto]
+
+## Profile
+
+    - layout
+
+## Galaxy
+
+    - countdown
+    - sfondo bottone choose song
+    - transizione a pianeta singolo
+    - layout pianeta singolo
+    - generazione orbite galaxy main page
+    - creazione submission
+    - aggiungere filtri in base a livello playlist
+    - ctr pairings ctr matches
+
+## Pagina Pairings
+
+    - filtri
+        - richieste ricevute (ciclo corrente)
+            - in base al livello
+            - stima posizione in base a match accettati dall'altro utente
+
+        - match correnti
+        - scheduling attivi
+        - match passati raggruppati per canzone
+
+## Scheduler
+
+    - rimozione canzone dalla playlist
+    - pulizia pairing senza match
+    - riesaminare mensilmente playlist approvate
+
+## Notifiche
+
+    - toggle notifiche da profilo
+
+# Admin
+
+    - widget
+        - submission attive
+    - filtri
+    - processi di cancellazione
+    - soft deletes (user,canzoni,playlist)
+    - aggiornamento manuale dati spotify utente, playlist, canzone
+
+# Subscriptions
+
+    - billing info sync con stripe
+    - invoice automatiche e raccolta taxId

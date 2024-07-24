@@ -12,7 +12,23 @@
             @endif
 
 
-            @livewire('playlist-index')
+            <div class="mt-10 sm:mt-0">
+                <x-action-section>
+
+                    <x-slot name="title">
+                        {{ __('Playlists') }}
+                    </x-slot>
+
+                    <x-slot name="description">
+                        {{ __('Check your playlists status or add a new one.') }}
+                    </x-slot>
+
+                    <x-slot name="content">@livewire('playlist-index')</x-slot>
+
+                </x-action-section>
+            </div>
+
+            <x-section-border />
 
             @if (Laravel\Fortify\Features::enabled(Laravel\Fortify\Features::updatePasswords()))
                 <div class="mt-10 sm:mt-0">

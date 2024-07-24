@@ -8,7 +8,7 @@
             'warning',
         'bg-gray-500': style != 'success' && style != 'danger' && style != 'warning'
     }"
-    class="fixed top-0 inset-x-0" style="display: none;" x-show="show && message"
+    class="fixed z-50 top-0 inset-x-0" style="display: none;" x-show="show && message"
     x-on:banner-message.window="
                 style = event.detail.style;
                 message = event.detail.message;

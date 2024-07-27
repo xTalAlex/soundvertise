@@ -10,10 +10,12 @@ class CountrySelect extends Component
 {
     public $countries;
 
+    public bool $detectLang;
+
     /**
      * Create a new component instance.
      */
-    public function __construct()
+    public function __construct(?bool $detectLang = false)
     {
         $this->countries = collect([
             'it' => 'Italy',
@@ -21,6 +23,8 @@ class CountrySelect extends Component
             'es' => 'Spain',
             'ch' => 'Switzerland',
         ])->sort();
+
+        $this->detectLang = $detectLang;
     }
 
     /**

@@ -59,7 +59,7 @@ class SpotifyController extends Controller
                 $this->spotifyService->updateUser($user, $spotifyUser);
                 Auth::login($user);
 
-                return redirect()->route('galaxy')->banner('Logged in successfully.');
+                return redirect()->route('galaxy');
             } else {
                 $spotifyUser->accessTokenResponseBody['expiration_date'] = Carbon::now()->addSeconds($spotifyUser->accessTokenResponseBody['expires_in']);
                 session()->put('spotifyUser', $spotifyUser);

@@ -52,7 +52,7 @@ class Submitter extends Component
             SubmissionCreated::dispatch($submission);
             MakePairings::dispatch($submission);
             $this->submitted = true;
-            $this->redirectRoute('dashboard');
+            $this->redirectRoute('profile.show');
         }
     }
 

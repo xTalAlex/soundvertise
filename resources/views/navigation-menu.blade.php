@@ -1,4 +1,4 @@
-<nav x-data="{ open: false }">
+<nav class="" x-data="{ open: false }">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8  mt-4 sm:mt-12">
         <div class="grid grid-cols-2 w-full place-items-center">
@@ -90,6 +90,10 @@
 
                                 <x-dropdown-link href="{{ route('profile.show') }}">
                                     {{ __('Profile') }}
+                                </x-dropdown-link>
+
+                                <x-dropdown-link href="{{ route('profile.edit') }}">
+                                    {{ __('Settings') }}
                                 </x-dropdown-link>
 
                                 @if (auth()->user()->isAdmin())

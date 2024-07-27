@@ -34,20 +34,6 @@ Route::middleware([
     Route::get('pairings', \App\Livewire\PairingIndex::class)->name('pairings.index');
 });
 
-Route::middleware([
-    'auth:sanctum',
-    config('jetstream.auth_session'),
-    'verified',
-])->group(function () {
-    Route::get('/dashboard', function () {
-        $submissions = auth()->user()->submissions()
-            ->with('song', 'playlist')
-            ->orderBy('created_at', 'desc')->get();
-
-        return view('dashboard', compact('submissions'));
-    })->name('dashboard');
-});
-
 Route::get('/checkout', function (Illuminate\Http\Request $request) {
     $prices = Laravel\Cashier\Cashier::stripe()->prices->all();
     $stripePriceId = $prices->last()->id;
@@ -90,3 +76,5 @@ Route::view('/checkout/cancel', 'welcome')->name('checkout-cancel');
 Route::get('/billing', function (Illuminate\Http\Request $request) {
     return $request->user()->redirectToBillingPortal(route('home'));
 })->middleware(['auth'])->name('billing');
+
+require_once __DIR__.'/jetstream.php';

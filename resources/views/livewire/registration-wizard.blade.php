@@ -73,7 +73,7 @@
 
                 <div class="mt-4">
                     <x-label for="country" value="{{ __('Country') }}" />
-                    <x-country-select id="country" class="block mt-1 w-full" name="country"
+                    <x-country-select :detectLang="true" id="country" class="block mt-1 w-full" name="country"
                         wire:model="userForm.country" :value="old('country')" required autocomplete="country" />
                 </div>
 
@@ -124,7 +124,7 @@
 
                 <div>
                     <div class="flex" x-data="{
-                        open: true,
+                        open: false,
                         newPlaylistUrl: $wire.entangle('newPlaylistUrl'),
                         setNewPlaylistUrl(url) {
                             this.newPlaylistUrl = url;
@@ -273,15 +273,11 @@
         <div class="mt-8 mb-4 flex justify-center space-x-2">
             <x-button x-cloak x-show="step!=1" wire:click="previousStep">{{ __('Back') }}</x-button>
             <x-button x-cloak x-show="step!=totSteps" wire:click="nextStep">{{ __('Next') }}</x-button>
-            @if (count($playlists))
-                <div>
-                    <x-button type="button" wire:click="register" x-cloak x-show="step==totSteps"
-                        wire:loading.disabled wire:taget="register">
-                        <span>{{ __('Register') }}</span>
-                        <span wire:loading wire:target="register"><x-loading-spinner class="ml-1 size-3" /></span>
-                    </x-button>
-                </div>
-            @endif
+            <x-button type="button" wire:click="register" x-cloak x-show="step==totSteps"
+                wire:loading.attr="disabled" disabled="{{ !count($playlists) }}" wire:target="register">
+                <span>{{ __('Register') }}</span>
+                <span wire:loading wire:target="register"><x-loading-spinner class="ml-1 size-3" /></span>
+            </x-button>
         </div>
 
     </div>

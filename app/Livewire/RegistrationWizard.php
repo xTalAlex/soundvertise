@@ -187,7 +187,7 @@ class RegistrationWizard extends Component
 
         // redirect a profilo
         session()->forget('spotifyUser');
-        session()->flash('flash.banner', 'We are reviewing your playlist. Upload some screenshots.');
+        session()->flash('flash.banner', 'We are reviewing your playlist. It may take up to 48hours.');
         session()->flash('flash.bannerStyle', 'warning');
 
         return $this->redirectRoute('profile.show');

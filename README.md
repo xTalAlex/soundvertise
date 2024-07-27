@@ -98,7 +98,6 @@ https://www.digitalocean.com/community/questions/how-to-setup-laravel-queue-for-
 ## General
 
     - responsive design
-    - rendere navbar più simmetrica
 
 ## Registration
 
@@ -110,9 +109,7 @@ https://www.digitalocean.com/community/questions/how-to-setup-laravel-queue-for-
     - iscrizione senza playlist
     - separare login da register
     - validazione inline
-
     - avatar overflow
-    - register button scompare durante redirect
 
 ## Playlist
 

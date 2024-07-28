@@ -6,6 +6,7 @@ use App\Models\Genre;
 use App\Models\Playlist;
 use App\Services\SpotifyService;
 use Illuminate\Support\Collection;
+use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\Features\SupportFileUploads\WithFileUploads;
@@ -37,6 +38,12 @@ class PlaylistIndex extends Component
     {
         $this->playlists = auth()->user()->playlists()->with('genre', 'media')->get();
         $this->liveFetchedPlaylists = collect();
+    }
+
+    #[On('playlist-added')]
+    public function refreshPlaylists()
+    {
+        $this->playlists = auth()->user()->playlists()->with('genre', 'media')->get();
     }
 
     public function fetchSpotifyPlaylists(SpotifyService $spotifyService)

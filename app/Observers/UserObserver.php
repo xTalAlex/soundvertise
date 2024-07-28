@@ -27,6 +27,10 @@ class UserObserver
      */
     public function deleting(User $user): void
     {
+        //$user->submission()->delete();
+        //$user->pairings(); // set as null user
+        //$user->matches(); // rimuovi canzoni da playlist degli altri
+        //$user->songs()->delete(); // set null user_id
         $user->playlists()->delete();
     }
 

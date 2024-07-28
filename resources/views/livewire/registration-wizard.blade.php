@@ -237,7 +237,8 @@
                                                             <span class="text-red-500 w-0 -mt-px">*</span>
                                                         @endif
                                                         <input type="file" class="hidden" multiple
-                                                            wire:model="playlists.{{ $key }}.screenshots" />
+                                                            wire:model="playlists.{{ $key }}.screenshots"
+                                                            required />
                                                     </div>
                                                 </label>
                                             </div>

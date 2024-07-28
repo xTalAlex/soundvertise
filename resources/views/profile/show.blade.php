@@ -3,7 +3,7 @@
         {{ auth()->user()->name }}
     </x-slot>
 
-    <div class="sm:pb-12">
+    <div>
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
             <div class="grid md:grid-cols-3 gap-12 place-items-center mt-12 mb-20">
                 <div class="order-2 md:order-1">
@@ -18,7 +18,11 @@
                     <!-- Current Profile Photo -->
                     <div class="" x-show="! photoPreview">
                         <img src="{{ auth()->user()->profile_photo_url }}" alt="{{ auth()->user()->name }}"
-                            class="rounded-full size-52 object-cover">
+                            class="rounded-full size-32 sm:size-52 object-cover">
+                    </div>
+
+                    <div class="mx-auto w-fit mt-2">
+                        <a class="opacity-50" href="{{ route('profile.edit') }}">SETTINGS &#9998;</a>
                     </div>
                 </div>
                 <div class="order-3">
@@ -35,7 +39,7 @@
             </div>
         </div>
 
-        <div class="flex justify-center mt-10 sm:mt-0">
+        <div class="max-w-7xl mx-auto my-12">
             @livewire('playlist-index')
         </div>
     </div>

@@ -98,7 +98,7 @@ class SpotifyService
         }
     }
 
-    public function getSpotifyUserPlaylist($spotifyUserId, $spotifyPlaylistId, $accessToken)
+    public function getSpotifyUserPlaylist($spotifyUserId, $accessToken, $spotifyPlaylistId)
     {
         $response = Http::withHeaders([
             'Authorization' => 'Bearer '.$accessToken,
@@ -314,7 +314,7 @@ class SpotifyService
     |
     */
 
-    public function isSpotifyPlaylistImportableByUser(array $playlist, $spotifyUserId): bool
+    public function isSpotifyPlaylistImportableByUser(array $playlist, string $spotifyUserId): bool
     {
         return $playlist['public'] == 'true' && $playlist['owner']['id'] == $spotifyUserId;
     }

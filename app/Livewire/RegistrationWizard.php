@@ -120,7 +120,7 @@ class RegistrationWizard extends Component
             return;
         }
 
-        $response = $spotifyService->getSpotifyUserPlaylist($this->userForm->spotify_id, $playliustSpotifyId, $this->userForm->spotify_access_token);
+        $response = $spotifyService->getSpotifyUserPlaylist($this->userForm->spotify_id, $this->userForm->spotify_access_token, $playliustSpotifyId);
 
         if (isset($response['errors'])) {
             foreach ($response['errors'] as $error => $message) {

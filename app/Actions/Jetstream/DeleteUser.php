@@ -12,6 +12,12 @@ class DeleteUser implements DeletesUsers
      */
     public function delete(User $user): void
     {
+        //$user->submission()->delete();
+        //$user->pairings(); // set as null user
+        //$user->matches(); // rimuovi canzoni da playlist degli altri
+        //$user->songs()->delete(); // set null user_id
+        $user->playlists()->delete();
+
         $user->deleteProfilePhoto();
         $user->tokens->each->delete();
         $user->delete();

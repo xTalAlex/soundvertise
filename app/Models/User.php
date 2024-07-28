@@ -3,12 +3,10 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
-use App\Observers\UserObserver;
 use App\Traits\HasBlacklist;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Models\Contracts\HasAvatar;
 use Filament\Panel;
-use Illuminate\Database\Eloquent\Attributes\ObservedBy;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -25,7 +23,6 @@ use Spatie\MediaLibrary\InteractsWithMedia;
 
 use function Illuminate\Events\queueable;
 
-#[ObservedBy([UserObserver::class])]
 class User extends Authenticatable implements FilamentUser, HasAvatar, HasMedia
 {
     use Billable;

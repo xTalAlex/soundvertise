@@ -66,8 +66,8 @@
                         <div class="relative w-full mt-1">
                             <x-input id="newPlaylistUrl" class="block w-full overflow-ellipsis" type="text"
                                 name="newPlaylistUrl" wire:model.live="newPlaylistUrl" :value="old('newPlaylistUrl')" required
-                                autofocus placeholder="{{ __('Insert your playlist URL') }}"
-                                autocomplete="newPlaylistUrl" x-on:click="open = true" x-on:input="open = false" />
+                                autofocus placeholder="{{ __('Insert your playlist URL') }}" autocomplete="off"
+                                x-on:click="open = true" x-on:input="open = false" />
                         </div>
                         <div class="absolute z-50 w-full bg-black shadow-lg mt-1 rounded-md py-4 px-6" x-cloak
                             x-show="open">

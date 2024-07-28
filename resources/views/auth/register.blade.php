@@ -1,3 +1,3 @@
 <x-guest-layout>
-    @livewire('registration-wizard')
+    @livewire('register-user')
 </x-guest-layout>

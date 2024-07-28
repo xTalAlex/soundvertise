@@ -47,11 +47,11 @@ class UserForm extends Form
     {
         return [
             'name' => 'required',
-            'email' => 'required|min:5',
+            'email' => 'required|min:5|unique:users,email',
             'country' => 'required|min:2|max:3',
             'password' => $this->passwordRules(),
             'password_confirmation' => 'required_with:password',
-            'spotify_id' => 'required|string',
+            'spotify_id' => 'required|string|unique:users,spotify_id',
             'spotify_name' => 'required|string',
             'spotify_avatar' => 'nullable|string',
             'spotify_access_token' => 'required|string',

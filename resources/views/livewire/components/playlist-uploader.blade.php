@@ -62,7 +62,7 @@
                     }
                 }" x-on:click.outside="open = false"
                     wire:init="fetchPlaylists">
-                    <div class="w-full relative">
+                    <div class="w-full relative min-h-96">
                         <div class="relative w-full mt-1">
                             <x-input id="newPlaylistUrl" class="block w-full overflow-ellipsis" type="text"
                                 name="newPlaylistUrl" wire:model.live="newPlaylistUrl" :value="old('newPlaylistUrl')" required

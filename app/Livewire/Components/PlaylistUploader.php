@@ -3,6 +3,7 @@
 namespace App\Livewire\Components;
 
 use App\Models\Genre;
+use App\Models\User;
 use App\Services\SpotifyService;
 use Illuminate\Support\Facades\DB;
 use Livewire\Attributes\Rule;
@@ -12,6 +13,8 @@ use Livewire\WithFileUploads;
 class PlaylistUploader extends Component
 {
     use WithFileUploads;
+
+    public ?User $user;
 
     public $confirmingPlaylistCreation = false;
 
@@ -42,8 +45,9 @@ class PlaylistUploader extends Component
     #[Rule('required|mimes:jpg,jpeg,png|max:20000')]
     public $screenshot2;
 
-    public function mount()
+    public function mount(?User $user)
     {
+        $this->user = $user->spotify_refresh_token ? $user : auth()->user();
         $this->fetchedPlaylists = collect();
     }
 
@@ -54,14 +58,14 @@ class PlaylistUploader extends Component
 
     public function cancelPlaylistCreation()
     {
-        $this->reset();
+        $this->resetExcept('user');
         $this->resetErrorBag();
     }
 
     public function fetchPlaylists(SpotifyService $spotifyService)
     {
-        $userPlaylistsIds = auth()->user()->playlists->pluck('spotify_id');
-        $response = $spotifyService->getUserPlaylists(auth()->user());
+        $userPlaylistsIds = $this->user->playlists->pluck('spotify_id');
+        $response = $spotifyService->getUserPlaylists($this->user);
         if ($response) {
             $this->fetchedPlaylists = $response->filter(fn ($playlist) => ! $userPlaylistsIds->contains($playlist['id']));
         }
@@ -73,7 +77,7 @@ class PlaylistUploader extends Component
 
         $playlistId = $spotifyService->getPlaylistIdFromUrl($this->newPlaylistUrl);
 
-        $response = $spotifyService->getUserPlaylist(auth()->user(), $playlistId);
+        $response = $spotifyService->getUserPlaylist($this->user, $playlistId);
 
         if ($response) {
             if (! $response->has('errors')) {
@@ -109,7 +113,7 @@ class PlaylistUploader extends Component
 
         if ($this->validatedPlaylist) {
             DB::transaction(function () {
-                $stored = auth()->user()->playlists()->updateOrCreate([
+                $stored = $this->user->playlists()->updateOrCreate([
                     'spotify_id' => $this->validatedPlaylist['spotify_id'],
                 ], [
                     'spotify_user_id' => $this->validatedPlaylist['spotify_user_id'], // = auth()->user()->spotify_id,
@@ -127,7 +131,7 @@ class PlaylistUploader extends Component
             });
 
             $this->dispatch('playlist-added');
-            $this->reset();
+            $this->resetExcept('user');
             $this->confirmingPlaylistCreation = false;
         } else {
             //

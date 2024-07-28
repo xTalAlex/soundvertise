@@ -77,4 +77,4 @@ Route::get('/billing', function (Illuminate\Http\Request $request) {
     return $request->user()->redirectToBillingPortal(route('home'));
 })->middleware(['auth'])->name('billing');
 
-require_once __DIR__.'/jetstream.php';
+require __DIR__.'/jetstream.php';

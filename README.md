@@ -60,19 +60,12 @@ https://www.digitalocean.com/community/questions/how-to-setup-laravel-queue-for-
 
 ## Registration
 
-    - caricamento screenshot obbligatorio
-        - sostituzione file caricati
-        - ?visualizzazione file caricati
     - blocco playlist con < 1000 follower
-    - screenshot d'esempio
-    - iscrizione senza playlist
-    - separare login da register
     - validazione inline
     - avatar overflow
 
 ## Playlist
 
-    - uploader
     - controllare errori 404 e 500
     - rimozione playlist > quando non è coinvolta in match attivi
     - stato di approvazione playlist

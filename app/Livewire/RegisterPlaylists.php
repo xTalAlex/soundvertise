@@ -22,6 +22,14 @@ class RegisterPlaylists extends Component
         $this->playlists = auth()->user()->playlists;
     }
 
+    public function complete()
+    {
+        session()->flash('flash.banner', 'We are reviewing your playlist. It may take up to 48hours.');
+        session()->flash('flash.bannerStyle', 'warning');
+
+        return $this->redirectRoute('profile.show');
+    }
+
     #[Layout('layouts.guest')]
     public function render()
     {

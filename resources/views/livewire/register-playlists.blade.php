@@ -56,9 +56,7 @@
         </div>
 
         <div class="mt-8 mb-4 flex justify-center space-x-2">
-            <a href="{{ route('profile.show') }}">
-                <x-button>{{ __('Complete') }}</x-button>
-            </a>
+            <x-button wire:click="complete">{{ __('Complete') }}</x-button>
         </div>
 
     </div>

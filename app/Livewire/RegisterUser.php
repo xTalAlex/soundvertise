@@ -30,15 +30,14 @@ class RegisterUser extends Component
     {
         $spotifyUser = session('spotifyUser');
         if (! $spotifyUser) {
-            session()->flash('flash.banner', 'Session expired.');
-            session()->flash('flash.bannerStyle', 'danger');
-
+            // session()->flash('flash.banner', 'Session expired.');
+            // session()->flash('flash.bannerStyle', 'danger');
             $this->step = 0;
         } else {
             $this->userForm->setUser(collect($spotifyUser));
             if ($this->userForm->spotify_token_expiration <= now()) {
                 session()->forget('spotifyUser');
-                session()->flash('flash.banner', 'Session timed out.');
+                session()->flash('flash.banner', 'Session expired.');
                 session()->flash('flash.bannerStyle', 'danger');
 
                 $this->step = 0;
@@ -97,8 +96,6 @@ class RegisterUser extends Component
         Auth::login($this->user);
 
         session()->forget('spotifyUser');
-        session()->flash('flash.banner', 'We are reviewing your playlist. It may take up to 48hours.');
-        session()->flash('flash.bannerStyle', 'warning');
 
         return $this->redirect(route('register.playlists'), navigate: true);
     }

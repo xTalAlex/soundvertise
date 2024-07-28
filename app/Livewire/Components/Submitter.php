@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Components;
 
 use App\Events\SubmissionCreated;
 use App\Jobs\MakePairings;
@@ -58,6 +58,6 @@ class Submitter extends Component
 
     public function render()
     {
-        return view('livewire.submitter');
+        return view('livewire.components.submitter');
     }
 }

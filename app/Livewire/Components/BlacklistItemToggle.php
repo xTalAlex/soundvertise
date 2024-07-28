@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Components;
 
 use App\Models\User;
 use App\Traits\Blacklistable;
@@ -87,6 +87,6 @@ class BlacklistItemToggle extends Component
 
     public function render()
     {
-        return view('livewire.blacklist-item-toggle');
+        return view('livewire.components.blacklist-item-toggle');
     }
 }

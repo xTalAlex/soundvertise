@@ -3,7 +3,7 @@
         href="{{ route('spotify.redirect') }}">
         <img src="/images/spotify_icon_white.png" class="size-5 sm:size-6" />
         <h2 class="text-wrap ms-3 text-xl font-semibold text-white">
-            Login with Spotify
+            {{ __('Sign in with Spotify') }}
         </h2>
     </a>
 </div>

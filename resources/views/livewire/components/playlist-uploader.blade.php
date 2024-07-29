@@ -1,4 +1,4 @@
-<div>
+<div wire:init="fetchPlaylists">
     <x-secondary-button wire:click="confirmPlaylistCreation" wire:loading.attr="disable"
         wire:target="storePlaylist">{{ __('Add Playlist') }}
         <x-loading-spinner wire:loading wire:target="storePlaylist"></x-loading-spinner>
@@ -6,7 +6,7 @@
 
     <x-dialog-modal wire:model.live="confirmingPlaylistCreation">
         <x-slot name="title">
-            {{ __('Add Playlist') }}</span>
+            <span>{{ __('Add Playlist') }}</span>
         </x-slot>
 
         <x-slot name="content">
@@ -60,8 +60,7 @@
                         $wire.set('newPlaylistUrl', url);
                         this.open = false;
                     }
-                }" x-on:click.outside="open = false"
-                    wire:init="fetchPlaylists">
+                }" x-on:click.outside="open = false">
                     <div class="w-full relative min-h-96">
                         <div class="relative w-full mt-1">
                             <x-input id="newPlaylistUrl" class="block w-full overflow-ellipsis" type="text"

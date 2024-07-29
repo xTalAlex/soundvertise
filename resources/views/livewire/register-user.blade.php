@@ -1,4 +1,4 @@
-<x-authentication-card>
+<x-authentication-card transparent="{{ $step == 0 }}">
     <x-slot name="logo">
 
         @if ($step == 0)
@@ -44,7 +44,9 @@
     }">
         <div>
             @if ($step == 0)
-                <x-spotify-button class="my-4 mx-auto w-fit" />
+                <div class="py-12">
+                    <x-spotify-button class="my-auto mx-auto w-fit" />
+                </div>
             @else
                 <div x-show="step==1">
 
@@ -127,17 +129,17 @@
                         </div>
                     @endif
                 </div>
+
+                <div class="mt-8 mb-4 flex justify-center space-x-2">
+                    <x-button type="button" wire:click="register" wire:loading.attr="disabled" wire:target="register"
+                        x-cloak x-show="step==1">
+                        <span>{{ __('Register') }}</span>
+                        <span wire:loading wire:target="register"><x-loading-spinner class="ml-1 size-3" /></span>
+                    </x-button>
+                    <x-button x-cloak x-show="step==totSteps" wire:click="complete">{{ __('Complete') }}</x-button>
+                </div>
             @endif
 
-        </div>
-
-        <div class="mt-8 mb-4 flex justify-center space-x-2">
-            <x-button type="button" wire:click="register" wire:loading.attr="disabled" wire:target="register" x-cloak
-                x-show="step==1">
-                <span>{{ __('Register') }}</span>
-                <span wire:loading wire:target="register"><x-loading-spinner class="ml-1 size-3" /></span>
-            </x-button>
-            <x-button x-cloak x-show="step==totSteps" wire:click="complete">{{ __('Complete') }}</x-button>
         </div>
 
     </div>

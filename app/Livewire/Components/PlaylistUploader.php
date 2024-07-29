@@ -58,7 +58,7 @@ class PlaylistUploader extends Component
 
     public function cancelPlaylistCreation()
     {
-        $this->resetExcept('user');
+        $this->resetExcept('user', 'fetchedPlaylists');
         $this->resetErrorBag();
     }
 
@@ -131,7 +131,7 @@ class PlaylistUploader extends Component
             });
 
             $this->dispatch('playlist-added');
-            $this->resetExcept('user');
+            $this->resetExcept('user', 'fetchedPlaylists');
             $this->confirmingPlaylistCreation = false;
         } else {
             //

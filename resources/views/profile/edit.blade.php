@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        {{ __('Profile') }}
+        {{ __('Settings') }}
     </x-slot>
 
     <div>

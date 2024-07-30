@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Register;
 
 use App\Livewire\Forms\UserForm;
 use App\Models\Genre;
@@ -102,7 +102,7 @@ class RegisterUser extends Component
 
     public function render()
     {
-        return view('livewire.register-user', [
+        return view('livewire.register.register-user', [
             'genres' => Genre::all(),
         ]);
     }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Register;
 
 use Illuminate\Support\Collection;
 use Livewire\Attributes\Layout;
@@ -33,6 +33,6 @@ class RegisterPlaylists extends Component
     #[Layout('layouts.guest')]
     public function render()
     {
-        return view('livewire.register-playlists');
+        return view('livewire.register.register-playlists');
     }
 }

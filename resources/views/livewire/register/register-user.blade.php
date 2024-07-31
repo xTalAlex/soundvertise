@@ -31,12 +31,12 @@
     <div>
         <div>
             <form>
-                <div class="-mt-10">
+                <div>
                     <x-input id="spotify_avatar" type="hidden" name="spotify_avatar"
                         wire:model="userForm.spotify_avatar" :value="old('spotify_avatar')" />
                     @if ($userForm->spotify_avatar)
                         <img src="{{ $userForm->spotify_avatar }}"
-                            class="object-cover border-2 border-secondary-500 rounded-full size-24 mx-auto">
+                            class="-mt-10 object-cover border-2 border-secondary-500 rounded-full size-24 mx-auto">
                     @endif
                 </div>
 

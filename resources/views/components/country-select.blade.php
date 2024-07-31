@@ -13,7 +13,7 @@ if (detectLang) {
 }" x-modelable="country" {{ $disabled ? 'disabled' : '' }}
     {{ $attributes->merge([
         'class' =>
-            'border-transparent border-secondary-500/20 border-2 focus:ring-0 focus:outline-none focus:border-secondary-500 rounded-md focus:outline-transparent bg-transparent',
+            'border-transparent border-b-secondary-500/20 border-2 focus:ring-0 focus:outline-none focus:border-transparent focus:border-b-secondary-500 focus:outline-transparent bg-transparent',
     ]) }}
     {{ $attributes }} x-on:change="setCountry(event.target.value)">
     <option class="bg-black" value="">-</option>

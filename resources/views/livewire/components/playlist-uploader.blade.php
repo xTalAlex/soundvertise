@@ -76,14 +76,14 @@
 
                 <div class="w-full mt-1 grid">
                     <div class="mt-4 w-full">
-                        <x-label for="genre">{{ __('Playlist main genre') }}</x-label>
+                        <x-label for="genre" required>{{ __('Playlist main genre') }}</x-label>
                         <x-input-error for="genre" class="mt-4" />
                         <x-genre-select class="mt-4" name="genre" wire:model="genre" required />
                     </div>
 
                     <div class="mt-8 w-full">
                         <div x-data="{}">
-                            <x-label for="screenshot" class="group">
+                            <x-label for="screenshot" required class="group">
                                 {{ __('Screenshot showing your playlist growth') }}
                             </x-label>
                             <x-input-error for="screenshot" class="mt-4" />

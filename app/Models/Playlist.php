@@ -53,11 +53,11 @@ class Playlist extends Model implements HasMedia
 
     public function registerMediaCollections(): void
     {
-        $this->addMediaCollection('screenshots')
+        $this->addMediaCollection('screenshot')
             ->acceptsFile(function (File $file) {
                 return in_array($file->mimeType, ['image/jpeg', 'image/png']);
             })
-            ->onlyKeepLatest(2);
+            ->onlyKeepLatest(1);
     }
 
     /**

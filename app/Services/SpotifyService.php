@@ -159,8 +159,6 @@ class SpotifyService
         if ($response->ok()) {
             $playlists = collect([]);
 
-            // filtrare playlist in base a owner e collaborative
-
             collect($response->collect()['items'])->each(fn ($playlist) => $playlists->push($playlist));
 
             $playlists = $playlists->filter(fn ($playlist) => $this->isSpotifyPlaylistImportableByUser($playlist, $spotifyUserId));
@@ -196,8 +194,6 @@ class SpotifyService
 
         if ($response->ok()) {
             $playlists = collect([]);
-
-            // filtrare playlist in base a owner e collaborative
 
             collect($response->collect()['items'])->each(fn ($playlist) => $playlists->push($playlist));
 

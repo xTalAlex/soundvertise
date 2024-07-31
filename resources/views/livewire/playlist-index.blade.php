@@ -15,7 +15,7 @@
                                 <x-danger-button wire:click="deletePlaylist('{{ $playlist->id }}')"
                                     wire:loading.attr="disabled" wire:target="deletePlaylist"
                                     wire:confirm="Playlist con match in corso non possono essere eliminate">
-                                    <x-loading-spinner class="size-5" wire:loading
+                                    <x-loading-spinner class="size-3" wire:loading
                                         wire:target="deletePlaylist"></x-loading-spinner>
                                     <span wire:loading.remove wire:target="deletePlaylist">{{ __('Delete') }}</span>
                                 </x-danger-button>

@@ -24,11 +24,17 @@ Route::prefix('spotify')->group(function () {
     Route::get('callback', [\App\Http\Controllers\SpotifyController::class, 'callback']);
 });
 
+Route::prefix('register')->group(function () {
+    Route::get('user', \App\Livewire\Register\RegisterUser::class)->name('register.user');
+    Route::get('playlists', \App\Livewire\Register\RegisterPlaylists::class)
+        ->middleware(['auth:sanctum', config('jetstream.auth_session')])
+        ->name('register.playlists');
+});
+
 Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
 ])->group(function () {
-    Route::get('register/playlists', \App\Livewire\Register\RegisterPlaylists::class)->name('register.playlists');
     Route::get('playlists', \App\Livewire\PlaylistIndex::class)->name('playlists.index');
     Route::get('songs', \App\Livewire\SongIndex::class)->name('songs.index');
     Route::get('pairings', \App\Livewire\PairingIndex::class)->name('pairings.index');

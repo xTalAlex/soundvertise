@@ -2,21 +2,24 @@
 
 namespace App\Livewire\Components;
 
-use App\Models\Genre;
 use App\Models\User;
 use App\Services\SpotifyService;
 use Illuminate\Support\Facades\DB;
+use Laravel\Jetstream\InteractsWithBanner;
 use Livewire\Attributes\Rule;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
 class PlaylistUploader extends Component
 {
+    use InteractsWithBanner;
     use WithFileUploads;
 
-    public ?User $user;
+    public User $user;
 
     public $confirmingPlaylistCreation = false;
+
+    public $lazyloadPlaylists = false;
 
     public $fetchedPlaylists = [];
 
@@ -39,15 +42,12 @@ class PlaylistUploader extends Component
     #[Rule('required|exists:genres,id')]
     public $genre;
 
-    #[Rule('required|mimes:jpg,jpeg,png|max:20000')]
-    public $screenshot1;
+    #[Rule('required|mimes:jpg,jpeg,png|max:2000')]
+    public $screenshot;
 
-    #[Rule('required|mimes:jpg,jpeg,png|max:20000')]
-    public $screenshot2;
-
-    public function mount(?User $user)
+    public function mount()
     {
-        $this->user = $user->spotify_refresh_token ? $user : auth()->user();
+        $this->user = auth()->user();
         $this->fetchedPlaylists = collect();
     }
 
@@ -83,19 +83,24 @@ class PlaylistUploader extends Component
             if (! $response->has('errors')) {
                 $playlist = $response;
 
-                if ($playlist['tracks']['total'] >= config('soundvertise.min_playlist_followers')) {
-                    $this->validatedPlaylist = [
-                        'spotify_id' => $playlist['id'],
-                        'spotify_user_id' => $playlist['owner']['id'], // = auth()->user()->spotify_id,
-                        'url' => $playlist['external_urls']['spotify'],
-                        'name' => $playlist['name'],
-                        'description' => $playlist['description'],
-                        'collaborative' => $playlist['collaborative'],
-                        'tracks_total' => $playlist['tracks']['total'],
-                        'followers_total' => $playlist['followers']['total'],
-                    ];
+                if ($playlist['followers']['total'] >= config('soundvertise.playlist_min_followers')) {
+                    if ($this->user->playlists()->where('spotify_id', $playlist['id'])->doesntExist()) {
+                        $this->validatedPlaylist = [
+                            'spotify_id' => $playlist['id'],
+                            'spotify_user_id' => $playlist['owner']['id'], // = auth()->user()->spotify_id,
+                            'url' => $playlist['external_urls']['spotify'],
+                            'name' => $playlist['name'],
+                            'description' => $playlist['description'],
+                            'collaborative' => $playlist['collaborative'],
+                            'tracks_total' => $playlist['tracks']['total'],
+                            'followers_total' => $playlist['followers']['total'],
+                            'temp_image' => $playlist['images'][0]['url'] ?? null,
+                        ];
+                    } else {
+                        $this->addError('newPlaylistUrl', 'You have already submitted this playlist.');
+                    }
                 } else {
-                    $this->addError('newPlaylistUrl', 'This playlist does not have enough followers. At least '.config('soundvertise.min_playlist_followers').' required.');
+                    $this->addError('newPlaylistUrl', 'Only playlists with more than '.config('soundvertise.playlist_min_followers').' followers are accepted.');
                 }
             } else {
                 $this->addError('newPlaylistUrl', collect($response['errors'])->first());
@@ -126,11 +131,10 @@ class PlaylistUploader extends Component
                     'followers_total' => $this->validatedPlaylist['followers_total'],
                 ]);
 
-                $stored->addMedia($this->screenshot1)->toMediaCollection('screenshots');
-                $stored->addMedia($this->screenshot2)->toMediaCollection('screenshots');
+                $stored->addMedia($this->screenshot)->toMediaCollection('screenshots');
             });
 
-            $this->dispatch('playlist-added');
+            $this->dispatch('playlist-added', $this->validatedPlaylist);
             $this->resetExcept('user', 'fetchedPlaylists');
             $this->confirmingPlaylistCreation = false;
         } else {
@@ -140,8 +144,6 @@ class PlaylistUploader extends Component
 
     public function render()
     {
-        return view('livewire.components.playlist-uploader', [
-            'genres' => Genre::all(),
-        ]);
+        return view('livewire.components.playlist-uploader');
     }
 }

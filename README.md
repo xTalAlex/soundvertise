@@ -58,6 +58,8 @@ https://www.digitalocean.com/community/questions/how-to-setup-laravel-queue-for-
 
 # TODO
 
+    - navbar fix
+
 ## Registration
 
     - blocco playlist con < 1000 follower
@@ -76,6 +78,7 @@ https://www.digitalocean.com/community/questions/how-to-setup-laravel-queue-for-
 ## Profile
 
     - layout
+    - merge con registration
 
 ## Galaxy
 

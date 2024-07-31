@@ -40,31 +40,28 @@ class SpotifyController extends Controller
         if (Auth::check()) {
             // If spotify_id is not registered or it is associated with the current user
             if (! $user || $user->id == Auth::user()->id) {
-                if ($user) {
-                    $this->spotifyService->updateUser($user, $spotifyUser);
-                }
+                $this->spotifyService->updateUser(Auth::user(), $spotifyUser);
 
                 return ! $user ?
-                    redirect()->route('register')->with(
-                        'spotifyUser', $spotifyUser,
-                    ) :
-                    redirect()->route('galaxy')->banner('Spotify connected successfully.');
+                    redirect()->route('profile.show')->banner('Spotify connected successfully.')
+                    :
+                    redirect()->route('profile.show');
             }
             // If spotify_id is registered but is associated with another user
             else {
-                return redirect()->route('galaxy')->dangerBanner('Spotify ID is already associated to another email.');
+                return redirect()->route('profile.show')->dangerBanner('Spotify ID is already associated to another email.');
             }
         } else {
             if ($user) {
                 $this->spotifyService->updateUser($user, $spotifyUser);
                 Auth::login($user);
 
-                return redirect()->route('galaxy');
+                return redirect()->route('profile.show');
             } else {
                 $spotifyUser->accessTokenResponseBody['expiration_date'] = Carbon::now()->addSeconds($spotifyUser->accessTokenResponseBody['expires_in']);
                 session()->put('spotifyUser', $spotifyUser);
 
-                return redirect()->route('register');
+                return redirect()->route('register.user');
             }
         }
 

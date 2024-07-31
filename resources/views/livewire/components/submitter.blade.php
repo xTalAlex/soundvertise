@@ -8,7 +8,7 @@
                     <option>-</option>
                 @endforelse
             </select>
-            <x-input-error for="selectedSongId"></x-input-error>
+            <x-input-error for="selectedSongId" class="mt-2"></x-input-error>
 
         </div>
         <div>
@@ -19,7 +19,7 @@
                     <option>-</option>
                 @endforelse
             </select>
-            <x-input-error for="selectedPlaylistId"></x-input-error>
+            <x-input-error for="selectedPlaylistId" class="mt-2"></x-input-error>
         </div>
         <div>
             <x-button wire:click="storeSubmission">Submit</x-button>

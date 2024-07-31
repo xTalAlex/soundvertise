@@ -12,10 +12,10 @@
                     <div class="flex-grow">
                         <x-input id="songUrl" class="w-full" type="text" name="songUrl"
                             placeholder="https://open.spotify.com/track/..." wire:model="songUrl" />
-                        <x-input-error for="songUrl"></x-input-error>
+                        <x-input-error for="songUrl" class="mt-2"></x-input-error>
                     </div>
                     <x-button type="submit" wire:click="storeSong">
-                        <x-loading-spinner wire:loading wire:target="storeSong"></x-loading-spinner>
+                        <x-loading-spinner class="size-3" wire:loading wire:target="storeSong"></x-loading-spinner>
                         <span wire:loading.remove wire:target="storeSong">Aggiungi</span>
                     </x-button>
                 </div>
@@ -28,7 +28,7 @@
                                     <div class="mt-4 grid place-items-center">
                                         <x-danger-button type="submit"
                                             wire:click="confirmSongDeletion('{{ $song->id }}')">
-                                            <x-loading-spinner wire:loading
+                                            <x-loading-spinner class="size-3" wire:loading
                                                 wire:target="deleteSong"></x-loading-spinner>
                                             <span wire:loading.remove wire:target="deleteSong">Delete</span>
                                         </x-danger-button>

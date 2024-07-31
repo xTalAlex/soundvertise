@@ -5,6 +5,7 @@ namespace App\View\Components;
 use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
+use Monarobase\CountryList\CountryListFacade;
 
 class CountrySelect extends Component
 {
@@ -17,13 +18,7 @@ class CountrySelect extends Component
      */
     public function __construct(?bool $detectLang = false)
     {
-        $this->countries = collect([
-            'it' => 'Italy',
-            'fr' => 'France',
-            'es' => 'Spain',
-            'ch' => 'Switzerland',
-        ])->sort();
-
+        $this->countries = collect(CountryListFacade::getList('en', 'php'))->sort();
         $this->detectLang = $detectLang;
     }
 

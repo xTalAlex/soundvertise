@@ -9,11 +9,7 @@ return [
     |
     */
 
-    'register' => [
-        'max_playlists' => 5,
-    ],
+    'playlist_min_followers' => 0,
 
-    'min_playlist_followers' => 0,
-
-    'levels' => [50, 100, 300],
+    'playlist_levels' => [50, 100, 300],
 ];

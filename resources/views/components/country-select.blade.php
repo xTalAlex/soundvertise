@@ -8,7 +8,7 @@
     }
 }" x-init="userLang = navigator.language || navigator.userLanguage;
 if (detectLang) {
-    country = userLang?.split('-')[userLang?.split('-').length - 1].toLowerCase() ?? null;
+    country = userLang?.split('-')[userLang?.split('-').length - 1].toUpperCase() ?? null;
     $dispatch('change', country);
 }" x-modelable="country" {{ $disabled ? 'disabled' : '' }}
     {{ $attributes->merge([
@@ -19,7 +19,7 @@ if (detectLang) {
     <option class="bg-black" value="">-</option>
     @foreach ($countries as $code => $name)
         <option class="bg-black" value="{{ $code }}">
-            {{-- <x-icon name="flag-country-{{ $code }}" /> --}}
+            {{-- <x-icon name='flag-country-{{ $code }}' /> --}}
             {{ $name }}
         </option>
     @endforeach

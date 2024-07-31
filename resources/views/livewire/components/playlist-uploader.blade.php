@@ -1,88 +1,54 @@
-<div wire:init="fetchPlaylists">
+<div>
+
+    @if (!$lazyloadPlaylists || ($lazyloadPlaylists && $confirmingPlaylistCreation))
+        <div class="hidden" wire:init="fetchPlaylists"></div>
+    @endif
+
     <x-secondary-button wire:click="confirmPlaylistCreation" wire:loading.attr="disable"
         wire:target="storePlaylist">{{ __('Add Playlist') }}
-        <x-loading-spinner wire:loading wire:target="storePlaylist"></x-loading-spinner>
+        <x-loading-spinner class="size-3" wire:loading wire:target="storePlaylist"></x-loading-spinner>
     </x-secondary-button>
 
     <x-dialog-modal wire:model.live="confirmingPlaylistCreation">
         <x-slot name="title">
-            <span>{{ __('Add Playlist') }}</span>
+            @if (!$validatedPlaylist)
+                <span>{{ __('Add playlist') }}</span>
+            @else
+                <div class="flex items-center space-x-2">
+                    <img src="{{ $validatedPlaylist['temp_image'] }}"
+                        class="size-6 rounded-full aspect-square object-cover" />
+                    <div>{{ $validatedPlaylist['name'] }}</div>
+                </div>
+            @endif
         </x-slot>
 
         <x-slot name="content">
 
-            <x-validation-errors class="mb-4" />
-
-            @if ($validatedPlaylist)
-                {{ __('Select a Genre for your playlist and upload screenshots') }}
-
-                <div class="mt-4 w-fit">
-                    <x-genre-select name="genre" wire:model="genre" required />
-                    <x-input-error for="genre" class="mt-2" />
-                </div>
-
-                <div class="mt-4">
-                    <div class="grid sm:grid-cols-2 gap-2">
-                        <div>
-                            @if ($screenshot1 && $screenshot1->extension())
-                                <img class="h-64 object-contain mx-auto" src="{{ $screenshot1->temporaryUrl() }}" />
-                            @else
-                                {{ __('First screenshot is like this.') }}
-                                <img class="h-64 object-contain mx-auto"
-                                    src="{{ asset('images/example_screenshot_1.jpg') }}" />
-                            @endif
-                            <label class="mt-2 cursor-pointer">
-                                <input type="file" class="hidden" wire:model="screenshot1" required />
-                                {{ __('Upload') }}
-                            </label>
-                        </div>
-
-                        <div>
-                            @if ($screenshot2 && $screenshot2->extension())
-                                <img class="h-64 object-contain mx-auto" src="{{ $screenshot2->temporaryUrl() }}" />
-                            @else
-                                {{ __('Second screenshot this way.') }}
-                                <img class="h-64 object-contain mx-auto"
-                                    src="{{ asset('images/example_screenshot_2.webp') }}" />
-                            @endif
-                            <label class="mt-2 cursor-pointer">
-                                <input type="file" class="hidden" wire:model="screenshot2" required />
-                                {{ __('Upload') }}
-                            </label>
-                        </div>
-                    </div>
-                </div>
-            @else
-                <div class="flex" x-data="{
-                    open: false,
+            @if (!$validatedPlaylist)
+                <div x-data="{
                     newPlaylistUrl: @entangle('newPlaylistUrl'),
                     setNewPlaylistUrl(url) {
                         $wire.set('newPlaylistUrl', url);
-                        this.open = false;
                     }
-                }" x-on:click.outside="open = false">
-                    <div class="w-full relative min-h-96">
-                        <div class="relative w-full mt-1">
-                            <x-input id="newPlaylistUrl" class="block w-full overflow-ellipsis" type="text"
-                                name="newPlaylistUrl" wire:model.live="newPlaylistUrl" :value="old('newPlaylistUrl')" required
-                                autofocus placeholder="{{ __('Insert your playlist URL') }}" autocomplete="off"
-                                x-on:click="open = true" x-on:input="open = false" />
+                }">
+                    <div class="w-full">
+                        <div class="w-full mt-1 opacity-50">
+                            {{ __('Select one of your most recent playlists or provide it\'s Spotify URL.') }}
                         </div>
-                        <div class="absolute z-50 w-full bg-black shadow-lg mt-1 rounded-md py-4 px-6" x-cloak
-                            x-show="open">
-                            <div class="mb-6 select-none text-sm opacity-50">
-                                {{ __('Your most recent playlists') }}
-                            </div>
+                        <div class="w-full mt-1 py-4">
                             <div class="w-full" wire:loading wire:target="fetchPlaylists">
                                 <div class="w-fit mx-auto">
-                                    <x-loading-spinner />
+                                    <x-loading-spinner class="size-6" />
                                 </div>
                             </div>
                             <div wire:loading.remove wire:target="fetchPlaylists"
                                 class="space-y-1 max-h-64 overflow-y-auto">
                                 @forelse ($fetchedPlaylists as $playlist)
-                                    <div class="flex space-x-2 cursor-pointer hover:bg-primary-500 rounded-md transition duration-200 p-1 items-center"
-                                        x-on:click="setNewPlaylistUrl('{{ $playlist['external_urls']['spotify'] ?? $playlist['id'] }}')">
+                                    <div class="flex space-x-2 cursor-pointer hover:bg-primary-500 rounded-md transition duration-300 p-1 items-center"
+                                        x-on:click="setNewPlaylistUrl('{{ $playlist['external_urls']['spotify'] ?? $playlist['id'] }}')"
+                                        :class="newPlaylistUrl ==
+                                            '{{ $playlist['external_urls']['spotify'] ?? $playlist['id'] }}' ?
+                                            'bg-primary-500' : ''">
                                         <img class="object-cover aspect-square size-12"
                                             src="{{ $playlist['images'][0]['url'] }}" />
                                         <div>{{ $playlist['name'] }}</div>
@@ -92,6 +58,54 @@
                                         {{ __('No playlists found') }}
                                     </div>
                                 @endforelse
+                            </div>
+                        </div>
+                        <div class="w-full mt-1">
+                            <x-input id="newPlaylistUrl" class="block w-full overflow-ellipsis" type="text"
+                                name="newPlaylistUrl" wire:model.live="newPlaylistUrl" :value="old('newPlaylistUrl')" required
+                                autofocus placeholder="{{ __('Insert your playlist URL') }}" autocomplete="playlist"
+                                x-on:click="open = true" x-on:input="open = false" />
+                            <x-input-error for="newPlaylistUrl" class="mt-2"></x-input-error>
+                        </div>
+                    </div>
+                </div>
+            @else
+                <div class="w-full mt-1 opacity-50">
+                    {{ __('Select a genre for your playlist and upload the requested screenshot.') }}
+                </div>
+
+                <div class="w-full mt-1 grid">
+                    <div class="mt-4 w-full">
+                        <x-label for="genre">{{ __('Playlist main genre') }}</x-label>
+                        <x-input-error for="genre" class="mt-4" />
+                        <x-genre-select class="mt-4" name="genre" wire:model="genre" required />
+                    </div>
+
+                    <div class="mt-8 w-full">
+                        <div x-data="{}">
+                            <x-label for="screenshot" class="group">
+                                {{ __('Screenshot showing your playlist growth') }}
+                            </x-label>
+                            <x-input-error for="screenshot" class="mt-4" />
+                            <input type="file" class="hidden" wire:model="screenshot" name="screenshot" required
+                                x-ref="screenshotinput" />
+                            <div class="mt-4">
+                                <div class="h-64 w-fit mx-auto group relative cursor-pointer"
+                                    x-on:click="$refs.screenshotinput.click()">
+                                    <img class="h-full object-cover mx-auto"
+                                        src="{{ $screenshot && $screenshot->extension()
+                                            ? $screenshot->temporaryUrl()
+                                            : asset('images/playlist_screenshot_example.jpg') }}" />
+                                    <div
+                                        class="z-10 h-full group-hover:bg-black/80 bg-black/50 absolute inset-0 transition duration-300">
+                                        <div class="grid place-items-center h-full font-medium uppercase tracking-wide">
+                                            <div class="select-none group-hover:scale-110 transition duration-500 group-hover:translate-y-1"
+                                                wire:loading.attr="hidden" wire:target="screenshot">
+                                                {{ __('Upload') }}</div>
+                                            <x-loading-spinner wire:loading wire:target="screenshot" class="size-6" />
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -106,7 +120,7 @@
 
             @if ($validatedPlaylist)
                 <x-button class="ms-3" wire:click="storePlaylist" wire:loading.attr="disabled">
-                    {{ __('Upload') }}
+                    {{ __('Submit') }}
                 </x-button>
             @else
                 <x-button class="ms-3" wire:click="checkPlaylist" wire:loading.attr="disabled"

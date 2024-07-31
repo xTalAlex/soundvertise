@@ -109,7 +109,7 @@ class PlaylistIndex extends Component
 
         if ($spotifyPlaylist) {
 
-            if ($spotifyPlaylist['tracks']['total'] >= config('soundvertise.min_playlist_followers')) {
+            if ($spotifyPlaylist['tracks']['total'] >= config('soundvertise.playlist_min_followers')) {
 
                 $stored = auth()->user()->playlists()->updateOrCreate([
                     'spotify_id' => $spotifyPlaylist['id'],
@@ -136,7 +136,7 @@ class PlaylistIndex extends Component
                     //
                 }
             } else {
-                $this->addError('newPlaylistId', 'This playlist does not have enough followers. At least '.config('soundvertise.min_playlist_followers').' required.');
+                $this->addError('newPlaylistId', 'This playlist does not have enough followers. At least '.config('soundvertise.playlist_min_followers').' required.');
             }
         } else {
             //

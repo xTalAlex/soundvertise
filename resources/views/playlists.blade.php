@@ -18,7 +18,7 @@
                 <form method="POST" action="{{ route('playlists.store') }}">
                     @csrf
                     <x-input type="text" name="playlist_id"></x-input>
-                    <x-input-error for="playlist_id"></x-input-error>
+                    <x-input-error for="playlist_id" class="mt-2"></x-input-error>
                     <x-button type="submit">Invia</x-button>
                 </form>
             </div>

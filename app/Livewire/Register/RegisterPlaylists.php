@@ -13,19 +13,21 @@ class RegisterPlaylists extends Component
 
     public function mount()
     {
-        $this->playlists = auth()->user()->playlists;
+        $this->playlists = collect([]);
     }
 
     #[On('playlist-added')]
-    public function refreshPlaylists()
+    public function refreshPlaylists($newPlaylist)
     {
-        $this->playlists = auth()->user()->playlists;
+        $this->playlists->push($newPlaylist);
     }
 
-    public function complete()
+    public function submit()
     {
-        session()->flash('flash.banner', 'We are reviewing your playlist. It may take up to 48hours.');
-        session()->flash('flash.bannerStyle', 'warning');
+        if (count($this->playlists)) {
+            session()->flash('flash.banner', 'We are reviewing your playlist. It may take up to 48hours.');
+            session()->flash('flash.bannerStyle', 'warning');
+        }
 
         return $this->redirectRoute('profile.show');
     }

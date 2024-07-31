@@ -1,12 +1,9 @@
 <x-authentication-card>
     <x-slot name="logo">
         <ol class="text-white flex items-center w-full p-3 space-x-2 text-sm font-medium text-center shadow-sm sm:text-base sm:p-4 sm:space-x-4 rtl:space-x-reverse"
-            x-data="{
-                step: 2,
-                totSteps: 2
-            }">
+            x-data="{ step: 2 }">
             <li class="flex items-center" x-bind:class="step == 1 ? 'text-primary-500' : ''">
-                <span class="flex items-center justify-center w-5 h-5 me-2 text-xs border rounded-full shrink-0"
+                <span class="flex items-center justify-center w-5 h-5 me-2 text-xs border-2 rounded-full shrink-0"
                     x-bind:class="step == 1 ?
                         'border-primary-500' :
                         'border-current '">
@@ -20,7 +17,7 @@
                 </svg>
             </li>
             <li class="flex items-center" x-bind:class="step == 2 ? 'text-primary-500' : ''">
-                <span class="flex items-center justify-center w-5 h-5 me-2 text-xs border rounded-full shrink-0"
+                <span class="flex items-center justify-center w-5 h-5 me-2 text-xs border-2 rounded-full shrink-0"
                     x-bind:class="step == 2 ?
                         'border-primary-500' :
                         'border-current '">
@@ -34,30 +31,46 @@
     <x-validation-errors class="mb-4" />
 
     <div>
-        <div>
-            <div>
-                <div class="w-fit mx-auto">
-                    @livewire('components.playlist-uploader')
-                </div>
+        <div class="py-6 space-y-6">
+            <div class="text-center mx-auto">
+                {{ __('Add your most active Spotify Playlists (with more than :min_followers followers). For each one, you will have to select a genre and also attach a screenshot of it\'s stats.', ['min_followers' => config('soundvertise.playlist_min_followers')]) }}
+            </div>
+            <div class="w-fit mx-auto">
+                @livewire('components.playlist-uploader')
             </div>
             <div>
                 @forelse ($playlists as $playlist)
-                    <div class="mt-4">
-                        <x-playlist-embed id="{{ $playlist->spotify_id }}" compact="true" />
+                    <div class="flex justify-center items-center space-y-2">
+                        <img class="object-cover aspect-square size-10 rounded-full border-secondary-500"
+                            src="{{ $playlist['temp_image'] }}" />
+                        <div class="ml-2">{{ $playlist['name'] }}</div>
                     </div>
                 @empty
-                    <div class="mt-4 text-center">
-                        <div>{{ __('No playlists or no followers? ') }}</div>
-                        <x-button class="mt-2">{{ __('Contact us') }}</x-button>
+                    <div class="grid place-items-center">
+                        <div class="mt-8 flex justify-center space-x-2">
+                            <div class="text-center text-sm opacity-50">
+                                <div class="max-w-72">
+                                    {{ __('You do not have a playlist at all, or anyone with at least :min_followers followers?', ['min_followers' => config('soundvertise.playlist_min_followers')]) }}
+                                </div>
+                                <div>{{ __('No worries, we can help you grow!') }}</div>
+                            </div>
+                        </div>
+
+                        <div class="w-fit mx-auto mt-2">
+                            <div wire:click="submit"
+                                class="cursor-pointer border-b-2 border-transparent text-secondary-500 hover:border-b-secondary-500 transition duration-500">
+                                {{ __('Contact us') }}</div>
+                        </div>
                     </div>
                 @endforelse
             </div>
-
         </div>
 
-        <div class="mt-8 mb-4 flex justify-center space-x-2">
-            <x-button wire:click="complete">{{ __('Complete') }}</x-button>
-        </div>
+    </div>
 
+    <div class="mt-8 mb-4 flex justify-end w-full">
+        <div class="">
+            <x-button wire:click="submit" disabled="{{ !count($playlists) }}">{{ __('Submit') }}</x-button>
+        </div>
     </div>
 </x-authentication-card>

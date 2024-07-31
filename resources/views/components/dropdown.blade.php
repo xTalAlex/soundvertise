@@ -1,4 +1,9 @@
-@props(['align' => 'right', 'width' => '48', 'contentClasses' => 'py-1 bg-white', 'dropdownClasses' => ''])
+@props([
+    'align' => 'right',
+    'width' => '48',
+    'contentClasses' => 'py-1 backdrop-blur-3xl',
+    'dropdownClasses' => '',
+])
 
 @php
     switch ($align) {
@@ -37,7 +42,7 @@
         x-transition:leave-end="transform opacity-0 scale-95"
         class="absolute z-50 mt-2 {{ $width }} rounded-md shadow-lg {{ $alignmentClasses }} {{ $dropdownClasses }}"
         style="display: none;" @click="open = false">
-        <div class="rounded-md ring-1 ring-black ring-opacity-5 {{ $contentClasses }}">
+        <div class="rounded-md ring-1 ring-secondary-500 ring-opacity-5 {{ $contentClasses }}">
             {{ $content }}
         </div>
     </div>

@@ -26,9 +26,9 @@
             </a>
         </div>
         <div
-            class="rounded-full border-2 border-white shadow-2xl text-center w-44 py-3 bg-gradient-to-r from-black to-black">
+            class="rounded-full border-2 border-white shadow-2xl text-center w-44 py-3 bg-gradient-to-br from-black-800 to-black-950">
             <span
-                class="bg-[size:300%] animate-gradient bg-gradient-to-r from-secondary via-secondary-200 to-primary text-transparent bg-clip-text">CHOOSE
+                class="font-bold bg-[size:300%] animate-gradient bg-gradient-to-r from-secondary via-secondary-200 to-primary text-transparent bg-clip-text">CHOOSE
                 SONG</span>
         </div>
     </div>

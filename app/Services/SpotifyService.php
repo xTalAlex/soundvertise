@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Models\Playlist;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Collection;
@@ -98,31 +97,6 @@ class SpotifyService
         }
     }
 
-    public function getSpotifyUserPlaylist($spotifyUserId, $accessToken, $spotifyPlaylistId)
-    {
-        $response = Http::withHeaders([
-            'Authorization' => 'Bearer '.$accessToken,
-        ])->get($this->endpoint.'/playlists/'.$spotifyPlaylistId, [
-        ]);
-
-        if ($response->ok()) {
-            $playlist = $response->collect()->toArray();
-            if ($this->isSpotifyPlaylistImportableByUser($playlist, $spotifyUserId)) {
-                return $response->collect();
-            } else {
-                $errors = [];
-                if ($playlist['public'] != 'true') {
-                    $errors['not_public'] = __('The playlist is private');
-                }
-                if ($playlist['owner']['id'] != $spotifyUserId) {
-                    $errors['not_owned'] = __('You are not the playlist owner');
-                }
-
-                return collect(compact('errors'));
-            }
-        }
-    }
-
     public function getUserPlaylist(User $user, string $playlistId)
     {
         $response = Http::withHeaders([
@@ -145,40 +119,6 @@ class SpotifyService
 
                 return collect(compact('errors'));
             }
-        }
-    }
-
-    public function getSpotifyUserPlaylists($spotifyUserId, $accessToken)
-    {
-        $response = Http::withHeaders([
-            'Authorization' => 'Bearer '.$accessToken,
-        ])->get($this->endpoint.'/users/'.$spotifyUserId.'/playlists', [
-            'limit' => 50,
-        ]);
-
-        if ($response->ok()) {
-            $playlists = collect([]);
-
-            collect($response->collect()['items'])->each(fn ($playlist) => $playlists->push($playlist));
-
-            $playlists = $playlists->filter(fn ($playlist) => $this->isSpotifyPlaylistImportableByUser($playlist, $spotifyUserId));
-
-            $response->collect()['next'];
-
-            return $playlists;
-        }
-
-        if ($response->unauthorized()) {
-            // prova un refresh token
-
-        }
-
-        if ($response->forbidden()) {
-            // niente da fare
-
-        }
-
-        if ($response->tooManyRequests()) {
         }
     }
 
@@ -222,29 +162,43 @@ class SpotifyService
         }
     }
 
-    /**
-     * @param  array|Collection  $data  contains a list of track uri's and position
-     */
-    public function addSongsToPlaylist(User $user, Playlist $playlist, array|Collection $data)
+    public function getPlaylistCoverImage(User $user, string $playlistId)
     {
         $this->refreshExpiringToken($user);
 
         $response = Http::withHeaders([
             'Authorization' => 'Bearer '.$user->spotify_access_token,
-        ])->post($this->endpoint.'/playlists/'.$playlist->spotify_id.'/tracks', [
+        ])->post($this->endpoint.'/playlists/'.$playlistId.'/images', [
+        ]);
+
+        if ($response->ok()) {
+            return $response->collect()->first();
+        }
+    }
+
+    /**
+     * @param  array|Collection  $data  contains a list of track uri's and position
+     */
+    public function addSongsToPlaylist(User $user, string $playlistId, array|Collection $data)
+    {
+        $this->refreshExpiringToken($user);
+
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer '.$user->spotify_access_token,
+        ])->post($this->endpoint.'/playlists/'.$playlistId.'/tracks', [
         ]);
     }
 
     /**
      * @param  array|Collection  $data  contains a list of track uri'
      */
-    public function removePlaylistSongs(User $user, Playlist $playlist, array|Collection $data)
+    public function removePlaylistSongs(User $user, string $playlistId, array|Collection $data)
     {
         $this->refreshExpiringToken($user);
 
         $response = Http::withHeaders([
             'Authorization' => 'Bearer '.$user->spotify_access_token,
-        ])->delete($this->endpoint.'/playlists/'.$playlist->spotify_id.'/tracks', []);
+        ])->delete($this->endpoint.'/playlists/'.$playlistId.'/tracks', []);
     }
 
     public function getSong(User $user, string $songId)

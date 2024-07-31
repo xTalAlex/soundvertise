@@ -3,14 +3,14 @@
 @php
     switch ($size) {
         case 'sm':
-            $classes = 'text-lg';
+            $classes = 'pr-1 text-lg';
             break;
         default:
-            $classes = 'text-2xl sm:text-6xl';
+            $classes = 'pr-2 text-2xl sm:text-6xl';
     }
 @endphp
 
-<div {{ $attributes->merge(['class' => ' text-current font-sans uppercase font-bold tracking-tight ' . $classes]) }}
+<div {{ $attributes->merge(['class' => 'text-current font-sans uppercase font-bold tracking-tight ' . $classes]) }}
     {{ $attributes }}>
     <span @class([
         '-mr-4 sm:-mr-9' => $size == 'md',

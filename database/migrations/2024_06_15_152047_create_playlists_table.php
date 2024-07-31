@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('spotify_id');
             $table->string('url')->nullable();
             $table->string('name');
+            $table->string('cover_image')->nullable();
             $table->string('description')->nullable();
             $table->boolean('collaborative')->default(false);
             $table->unsignedInteger('followers_total')->default(0);

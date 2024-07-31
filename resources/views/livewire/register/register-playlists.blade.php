@@ -38,12 +38,14 @@
             <div class="w-fit mx-auto">
                 @livewire('components.playlist-uploader')
             </div>
-            <div>
+            <div class="space-y-2">
                 @forelse ($playlists as $playlist)
-                    <div class="flex justify-center items-center space-y-2">
-                        <img class="object-cover aspect-square size-10 rounded-full border-secondary-500"
+                    <div class="flex justify-center items-center space-x-2">
+                        <img class="object-cover aspect-square size-10 rounded-full border-2 border-secondary-500"
                             src="{{ $playlist['temp_image'] }}" />
-                        <div class="ml-2">{{ $playlist['name'] }}</div>
+                        <div class="">{{ $playlist['name'] }}</div>
+                        <button class="text-red-500"
+                            wire:click="confirmPlaylistDeletion('{{ $playlist['spotify_id'] }}')">&times;</button>
                     </div>
                 @empty
                     <div class="grid place-items-center">
@@ -73,4 +75,25 @@
             <x-button wire:click="submit" disabled="{{ !count($playlists) }}">{{ __('Submit') }}</x-button>
         </div>
     </div>
+
+    <!-- Delete Playlist Confirmation Modal -->
+    <x-confirmation-modal wire:model.live="confirmingPlaylistDeletion">
+        <x-slot name="title">
+            {{ __('Delete playlist') }}
+        </x-slot>
+
+        <x-slot name="content">
+            {{ __('Are you sure you would like to delete this playlist?') }}
+        </x-slot>
+
+        <x-slot name="footer">
+            <x-secondary-button wire:click="$toggle('confirmingPlaylistDeletion')" wire:loading.attr="disabled">
+                {{ __('Cancel') }}
+            </x-secondary-button>
+
+            <x-danger-button class="ms-3" wire:click="deletePlaylist" wire:loading.attr="disabled">
+                {{ __('Delete') }}
+            </x-danger-button>
+        </x-slot>
+    </x-confirmation-modal>
 </x-authentication-card>

@@ -13,11 +13,12 @@
                             <x-playlist-embed :id="$playlist->spotify_id" compact="false"></x-playlist-embed>
                             <div class="w-fit mx-auto mt-2">
                                 <x-danger-button wire:click="deletePlaylist('{{ $playlist->id }}')"
-                                    wire:loading.attr="disabled" wire:target="deletePlaylist"
+                                    wire:loading.attr="disabled" wire:target="deletePlaylist('{{ $playlist->id }}')"
                                     wire:confirm="Playlist con match in corso non possono essere eliminate">
                                     <x-loading-spinner class="size-3" wire:loading
-                                        wire:target="deletePlaylist"></x-loading-spinner>
-                                    <span wire:loading.remove wire:target="deletePlaylist">{{ __('Delete') }}</span>
+                                        wire:target="deletePlaylist('{{ $playlist->id }}')"></x-loading-spinner>
+                                    <span wire:loading.remove
+                                        wire:target="deletePlaylist('{{ $playlist->id }}')">{{ __('Delete') }}</span>
                                 </x-danger-button>
                             </div>
                         </div>

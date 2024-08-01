@@ -3,7 +3,7 @@
         {{ auth()->user()->name }}
     </x-slot>
 
-    <div class="my-12 space-y-12" x-data="{ showSettings: true }">
+    <div class="my-12 space-y-12" x-data="{ showSettings: false }">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8 relative">
             <div class="grid md:grid-cols-3 gap-12 place-items-center mb-12">
                 <div class="order-2 md:order-1">

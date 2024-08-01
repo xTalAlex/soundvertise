@@ -125,3 +125,5 @@ https://www.digitalocean.com/community/questions/how-to-setup-laravel-queue-for-
 
     - billing info sync con stripe
     - invoice automatiche e raccolta taxId
+
+# Spotify content attribution

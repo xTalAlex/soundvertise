@@ -1,11 +1,39 @@
 {
+  "node_modules/@fontsource-variable/montserrat/files/montserrat-cyrillic-ext-wght-normal.woff2": {
+    "file": "assets/montserrat-cyrillic-ext-wght-normal-rV1oiNxr.woff2",
+    "src": "node_modules/@fontsource-variable/montserrat/files/montserrat-cyrillic-ext-wght-normal.woff2"
+  },
+  "node_modules/@fontsource-variable/montserrat/files/montserrat-cyrillic-wght-normal.woff2": {
+    "file": "assets/montserrat-cyrillic-wght-normal-CHYi_LmU.woff2",
+    "src": "node_modules/@fontsource-variable/montserrat/files/montserrat-cyrillic-wght-normal.woff2"
+  },
+  "node_modules/@fontsource-variable/montserrat/files/montserrat-latin-ext-wght-normal.woff2": {
+    "file": "assets/montserrat-latin-ext-wght-normal-BIVePy9u.woff2",
+    "src": "node_modules/@fontsource-variable/montserrat/files/montserrat-latin-ext-wght-normal.woff2"
+  },
+  "node_modules/@fontsource-variable/montserrat/files/montserrat-latin-wght-normal.woff2": {
+    "file": "assets/montserrat-latin-wght-normal-BDA6280a.woff2",
+    "src": "node_modules/@fontsource-variable/montserrat/files/montserrat-latin-wght-normal.woff2"
+  },
+  "node_modules/@fontsource-variable/montserrat/files/montserrat-vietnamese-wght-normal.woff2": {
+    "file": "assets/montserrat-vietnamese-wght-normal-BXWSX9tz.woff2",
+    "src": "node_modules/@fontsource-variable/montserrat/files/montserrat-vietnamese-wght-normal.woff2"
+  },
+  "node_modules/@fontsource/schoolbell/files/schoolbell-latin-400-normal.woff": {
+    "file": "assets/schoolbell-latin-400-normal-C8qtHTDx.woff",
+    "src": "node_modules/@fontsource/schoolbell/files/schoolbell-latin-400-normal.woff"
+  },
+  "node_modules/@fontsource/schoolbell/files/schoolbell-latin-400-normal.woff2": {
+    "file": "assets/schoolbell-latin-400-normal-D_Z2-wWK.woff2",
+    "src": "node_modules/@fontsource/schoolbell/files/schoolbell-latin-400-normal.woff2"
+  },
   "resources/css/app.css": {
-    "file": "assets/app-DoM6c8xb.css",
+    "file": "assets/app-CXKLizHY.css",
     "src": "resources/css/app.css",
     "isEntry": true
   },
   "resources/css/filament/admin/theme.css": {
-    "file": "assets/theme-OWL-zco0.css",
+    "file": "assets/theme-BEwzfNPi.css",
     "src": "resources/css/filament/admin/theme.css",
     "isEntry": true
   },
@@ -16,7 +44,7 @@
     "isEntry": true
   },
   "resources/js/galaxy.js": {
-    "file": "assets/galaxy-BOuliFIL.js",
+    "file": "assets/galaxy-DbsGnIXg.js",
     "name": "galaxy",
     "src": "resources/js/galaxy.js",
     "isEntry": true

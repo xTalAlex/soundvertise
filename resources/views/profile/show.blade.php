@@ -42,15 +42,14 @@
             <div class="absolute -top-8 sm:top-0 right-4 sm:right-0">
                 <form method="POST" action="{{ route('logout') }}" x-data>
                     @csrf
-
-                    <x-dropdown-link href="{{ route('logout') }}" @click.prevent="$root.submit();">
-                        {{ __('Log Out') }}
-                    </x-dropdown-link>
+                    <button href="{{ route('logout') }}" @click.prevent="$root.submit();">
+                        <x-icon-logout-r class="text-red-500" />
+                    </button>
                 </form>
             </div>
         </div>
 
-        <div>
+        <div class="sm:px-6 lg:px-8">
             <div class="w-fit mx-auto gap-2 grid sm:grid-cols-2" x-cloak x-show="showSettings"
                 x-transition:enter="transition ease-in-out duration-300"
                 x-transition:enter-start="transform opacity-50 scale-50"
@@ -72,11 +71,7 @@
             </div>
         </div>
 
-        <div class="max-w-7xl mx-auto transition duration-500"
-            :class="{
-                'translate-y-12': showSettings,
-                'translate-y-0': !showSettings
-            }">
+        <div class="max-w-7xl mx-auto transition duration-500">
             @livewire('playlist-index')
         </div>
     </div>

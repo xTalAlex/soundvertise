@@ -33,11 +33,10 @@
                             </div>
 
                             <!-- Delete Button -->
-                            @if (!$playlist->reviewed_at)
+                            @can('delete', $playlist)
                                 <div class="w-fit mx-auto">
-                                    <button class="text-sm text-red-500"
-                                        wire:click="deletePlaylist('{{ $playlist->id }}')" wire:loading.attr="disabled"
-                                        wire:target="deletePlaylist('{{ $playlist->id }}')"
+                                    <button class="text-sm text-red-500" wire:click="deletePlaylist('{{ $playlist->id }}')"
+                                        wire:loading.attr="disabled" wire:target="deletePlaylist('{{ $playlist->id }}')"
                                         wire:confirm="Playlist con match in corso non possono essere eliminate">
                                         <x-loading-spinner class="size-3" wire:loading
                                             wire:target="deletePlaylist('{{ $playlist->id }}')"></x-loading-spinner>
@@ -45,7 +44,7 @@
                                             wire:target="deletePlaylist('{{ $playlist->id }}')">{{ __('Delete') }}</span>
                                     </button>
                                 </div>
-                            @endif
+                            @endcan
                         </div>
                     </div>
                 </div>

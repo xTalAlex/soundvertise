@@ -58,13 +58,10 @@ https://www.digitalocean.com/community/questions/how-to-setup-laravel-queue-for-
 
 # TODO
 
-    - navbar fix
-
 ## Registration
 
     - blocco playlist con < 1000 follower
-    - validazione inline
-    - avatar overflow
+    - AvatarUpdater
 
 ## Playlist
 
@@ -75,15 +72,9 @@ https://www.digitalocean.com/community/questions/how-to-setup-laravel-queue-for-
     - gestire caso in cui playlist approvata venga resa privata o eliminata
     - aggiornare periodicamente tot followers e tracks (ad ogni submission) [fatto]
 
-## Profile
-
-    - layout
-    - merge con registration
-
 ## Galaxy
 
     - countdown
-    - sfondo bottone choose song
     - transizione a pianeta singolo
     - layout pianeta singolo
     - generazione orbite galaxy main page

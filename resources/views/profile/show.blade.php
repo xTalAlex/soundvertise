@@ -3,9 +3,9 @@
         {{ auth()->user()->name }}
     </x-slot>
 
-    <div>
-        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8">
-            <div class="grid md:grid-cols-3 gap-12 place-items-center mt-12 mb-20">
+    <div class="my-12 space-y-12" x-data="{ showSettings: false }">
+        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8 relative">
+            <div class="grid md:grid-cols-3 gap-12 place-items-center mb-12">
                 <div class="order-2 md:order-1">
                     <a href="{{ route('pairings.index') }}">
                         <div
@@ -15,14 +15,16 @@
                     </a>
                 </div>
                 <div class="order-1 md:order-2">
-                    <!-- Current Profile Photo -->
-                    <div class="" x-show="! photoPreview">
+                    <div class="">
                         <img src="{{ auth()->user()->profile_photo_url }}" alt="{{ auth()->user()->name }}"
                             class="rounded-full size-32 sm:size-52 object-cover">
                     </div>
 
                     <div class="mx-auto w-fit mt-2">
-                        <a class="opacity-50" href="{{ route('profile.edit') }}">SETTINGS &#9998;</a>
+                        <button class="opacity-50" x-on:click="showSettings = !showSettings">SETTINGS
+                            <span x-cloak x-show="!showSettings">&#9998;</span>
+                            <span x-cloak x-show="showSettings">&times;</span>
+                        </button>
                     </div>
                 </div>
                 <div class="order-3">
@@ -37,9 +39,35 @@
                     </a>
                 </div>
             </div>
+            <div class="absolute -top-8 sm:top-0 right-4 sm:right-0">
+                <form method="POST" action="{{ route('logout') }}" x-data>
+                    @csrf
+
+                    <x-dropdown-link href="{{ route('logout') }}" @click.prevent="$root.submit();">
+                        {{ __('Log Out') }}
+                    </x-dropdown-link>
+                </form>
+            </div>
         </div>
 
-        <div class="max-w-7xl mx-auto my-12">
+        <div>
+            <div x-cloak x-show="showSettings" x-transition:enter="transition ease-in-out duration-300"
+                x-transition:enter-start="transform opacity-50 scale-50"
+                x-transition:enter-end="transform opacity-100 scale-100"
+                x-transition:leave="transition ease-in duration-200"
+                x-transition:leave-start="transform opacity-50 scale-100 "
+                x-transition:leave-end="transform opacity-0 scale-50">
+                <div class="w-fit mx-auto">
+                    @livewire('update-profile-information-form-simple')
+                </div>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto transition duration-500"
+            :class="{
+                'translate-y-12': showSettings,
+                'translate-y-0': !showSettings
+            }">
             @livewire('playlist-index')
         </div>
     </div>

@@ -4,7 +4,7 @@
     </x-slot>
 
     <div class="my-12 space-y-12" x-data="{
-        showSettings: false,
+        showSettings: true,
         toggleEditing() {
             this.showSettings = !this.showSettings;
             $dispatch('profile-editing-toggled', { value: this.showSettings });
@@ -43,18 +43,18 @@
                     </a>
                 </div>
             </div>
-            <div class="absolute -top-8 sm:top-0 right-4 sm:right-0">
+            <div class="absolute -top-8 lg:top-0 right-4 lg:right-0">
                 <form method="POST" action="{{ route('logout') }}" x-data>
                     @csrf
-                    <button href="{{ route('logout') }}" @click.prevent="$root.submit();">
+                    <button title="{{ __('Logout') }}" href="{{ route('logout') }}" @click.prevent="$root.submit();">
                         <x-icon-logout-r class="text-red-500" />
                     </button>
                 </form>
             </div>
         </div>
 
-        <div class="">
-            <div class="w-fit mx-auto gap-2 grid sm:grid-cols-2" x-cloak x-show="showSettings"
+        <div class="max-w-4xl mx-auto sm:px-6 lg:px-8 px-4">
+            <div class="w-full mx-auto gap-2 grid sm:grid-cols-2" x-cloak x-show="showSettings"
                 x-transition:enter="transition ease-in-out duration-300"
                 x-transition:enter-start="transform opacity-50 scale-50"
                 x-transition:enter-end="transform opacity-100 scale-100"

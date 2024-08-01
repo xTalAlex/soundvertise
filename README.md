@@ -61,7 +61,6 @@ https://www.digitalocean.com/community/questions/how-to-setup-laravel-queue-for-
 ## Registration
 
     - blocco playlist con < 1000 follower
-    - AvatarUpdater
 
 ## Playlist
 

@@ -28,10 +28,11 @@
                             {{ __('Galaxy') }}
                         </div>
                         <div @class([
-                            'font-bold cursor-pointer inline-block text-secondary-500 group-hover:translate-x-px transition duration-300 ease-in-out',
+                            '-ml-1 font-bold cursor-pointer inline-block text-secondary-500 group-hover:translate-x-px transition duration-300 ease-in-out',
                             'hidden' => request()->routeIs('galaxy'),
                         ])>
-                            ></div>
+                            <x-icon-play-arrow-r class="mt-0.5 size-4" />
+                        </div>
                     </a>
                 </div>
 
@@ -63,19 +64,21 @@
             </div>
 
             <div class="flex sm:items-center sm:ms-6 place-self-end my-auto">
-                <!-- Settings Dropdown -->
+                <!-- User Dropdown -->
                 @auth
-                    <form class="ms-3 relative flex space-x-2" method="GET" action="{{ route('profile.show') }}">
-                        <button @class([
-                            'flex text-sm border-2 border-transparent rounded-full focus:outline-none focus:border-secondary-500 transition',
-                            'border-secondary-500' =>
-                                request()->routeIs('profile.show') ||
-                                request()->routeIs('profile.edit'),
-                        ])>
-                            <img class="size-12 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}"
-                                alt="{{ Auth::user()->name }}" />
-                        </button>
-                    </form>
+                    <div>
+                        <a class="ms-3 relative flex space-x-2" href="{{ route('profile.show') }}">
+                            <div @class([
+                                'flex text-sm border-2 rounded-full focus:outline-none focus:border-secondary-500 transition',
+                                request()->routeIs('profile.show') || request()->routeIs('profile.edit')
+                                    ? 'border-secondary-500'
+                                    : 'border-transparent',
+                            ])>
+                                <img class="size-12 rounded-full object-cover" src="{{ Auth::user()->profile_photo_url }}"
+                                    alt="{{ Auth::user()->name }}" />
+                            </div>
+                        </a>
+                    </div>
                 @else
                     <div class="flex justify-between space-x-2">
                         <x-nav-link href="{{ route('login') }}" :active="request()->routeIs('login')">

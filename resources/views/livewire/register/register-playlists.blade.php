@@ -45,7 +45,8 @@
                             src="{{ $playlist['temp_image'] }}" />
                         <div class="">{{ $playlist['name'] }}</div>
                         <button class="text-red-500"
-                            wire:click="confirmPlaylistDeletion('{{ $playlist['spotify_id'] }}')">&times;</button>
+                            wire:click="confirmPlaylistDeletion('{{ $playlist['spotify_id'] }}')"><x-icon-close-r
+                                class="size-4" /></button>
                     </div>
                 @empty
                     <div class="grid place-items-center">

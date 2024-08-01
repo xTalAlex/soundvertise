@@ -3,34 +3,38 @@
         {{ auth()->user()->name }}
     </x-slot>
 
-    <div class="my-12 space-y-12" x-data="{ showSettings: false }">
+    <div class="my-12 space-y-12" x-data="{
+        showSettings: false,
+        toggleEditing() {
+            this.showSettings = !this.showSettings;
+            $dispatch('profile-editing-toggled', { value: this.showSettings });
+        }
+    }">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8 relative">
             <div class="grid md:grid-cols-3 gap-12 place-items-center mb-12">
                 <div class="order-2 md:order-1">
                     <a href="{{ route('pairings.index') }}">
                         <div
-                            class="rounded-full border-2 border-white shadow-2xl w-32 sm:w-44 text-center py-3 bg-gradient-to-r from-primary-500 to-primary-600">
+                            class="rounded-full border-2 border-white shadow-2xl w-44 text-center py-3 bg-gradient-to-r from-primary-500 to-primary-600">
                             REQUEST
                         </div>
                     </a>
                 </div>
                 <div class="order-1 md:order-2">
-                    <div class="">
-                        <img src="{{ auth()->user()->profile_photo_url }}" alt="{{ auth()->user()->name }}"
-                            class="rounded-full size-32 sm:size-52 object-cover">
-                    </div>
+                    @livewire('avatar-uploader')
 
                     <div class="mx-auto w-fit mt-2">
-                        <button class="opacity-50" x-on:click="showSettings = !showSettings">SETTINGS
-                            <span x-cloak x-show="!showSettings">&#9998;</span>
-                            <span x-cloak x-show="showSettings">&times;</span>
+                        <button class="opacity-50" x-on:click="toggleEditing">
+                            <span>{{ __('Settings') }}</span>
+                            <span x-cloak x-show="!showSettings"><x-icon-edit-note-r class="inline size-4" /></span>
+                            <span x-cloak x-show="showSettings"><x-icon-close-r class="inline size-4" /></span>
                         </button>
                     </div>
                 </div>
                 <div class="order-3">
                     <a href="{{ route('pairings.index') }}">
                         <div
-                            class="relative border-2 border-white rounded-full shadow-2xl w-32 sm:w-44 text-center py-3 bg-gradient-to-r from-secondary-500 to-secondary-600">
+                            class="relative border-2 border-white rounded-full shadow-2xl w-44 text-center py-3 bg-gradient-to-r from-secondary-500 to-secondary-600">
                             MATCH <div
                                 class="absolute border-2 border-white text-secondary-500 -right-5 font-display  font-bold shadow-xl text-4xl -top-5 rounded-full size-10 bg-gradient-to-tr from-white to-white grid place-items-center">
                                 10
@@ -49,7 +53,7 @@
             </div>
         </div>
 
-        <div class="sm:px-6 lg:px-8">
+        <div class="">
             <div class="w-fit mx-auto gap-2 grid sm:grid-cols-2" x-cloak x-show="showSettings"
                 x-transition:enter="transition ease-in-out duration-300"
                 x-transition:enter-start="transform opacity-50 scale-50"
@@ -71,7 +75,7 @@
             </div>
         </div>
 
-        <div class="max-w-7xl mx-auto transition duration-500">
+        <div class="px-4 max-w-7xl mx-auto transition duration-500">
             @livewire('playlist-index')
         </div>
     </div>

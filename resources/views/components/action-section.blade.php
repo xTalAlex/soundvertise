@@ -1,3 +1,5 @@
+@props(['transparent' => false])
+
 @php
     $classes = isset($title) ? 'md:grid md:grid-cols-3 md:gap-6' : '';
 @endphp
@@ -11,8 +13,8 @@
         </x-section-title>
     @endif
 
-    <div class="mt-5 md:mt-0 md:col-span-2">
-        <div class="px-4 py-5 sm:p-6 bg-white/5 shadow sm:rounded-lg">
+    <div class="mt-5 md:mt-0 md:col-span-2 {{ $transparent ? '' : 'bg-white/5 shadow sm:rounded-lg' }}">
+        <div class="px-4 py-5 sm:p-6 ">
             {{ $content }}
         </div>
     </div>

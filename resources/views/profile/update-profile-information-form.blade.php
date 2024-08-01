@@ -58,7 +58,7 @@
 
                         @if ($this->user->profile_photo_path)
                             <button class="absolute z-10 text-red-500 top-0 right-0" wire:click="deleteProfilePhoto">
-                                &times;
+                                <x-icon-close-r class="size-4" />
                             </button>
                         @endif
 

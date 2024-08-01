@@ -3,6 +3,7 @@
 namespace App\Livewire;
 
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Validate;
 use Livewire\Component;
 use Livewire\WithFileUploads;
 
@@ -22,6 +23,7 @@ class AvatarUploader extends Component
      *
      * @var mixed
      */
+    #[Validate(['required', 'mimes:jpg,jpeg,png', 'max:1024'])]
     public $photo;
 
     /**
@@ -36,28 +38,23 @@ class AvatarUploader extends Component
         $this->state = $user->withoutRelations()->toArray();
     }
 
+    public function updatedPhoto()
+    {
+        $this->updateProfilePhoto();
+    }
+
     /**
      * Update the user's profile information.
      *
-     * @param  \Laravel\Fortify\Contracts\UpdatesUserProfileInformation  $updater
      * @return \Illuminate\Http\RedirectResponse|null
      */
-    public function updateProfileInformation(UpdatesUserProfileInformation $updater)
+    public function updateProfilePhoto()
     {
         $this->resetErrorBag();
 
-        $updater->update(
-            Auth::user(),
-            $this->photo
-                ? array_merge($this->state, ['photo' => $this->photo])
-                : $this->state
-        );
+        $this->validate();
 
-        if (isset($this->photo)) {
-            return redirect()->route('profile.show');
-        }
-
-        $this->dispatch('saved');
+        Auth::user()->updateProfilePhoto($this->photo);
 
         $this->dispatch('refresh-navigation-menu');
     }
@@ -70,6 +67,8 @@ class AvatarUploader extends Component
     public function deleteProfilePhoto()
     {
         Auth::user()->deleteProfilePhoto();
+
+        $this->photo = null;
 
         $this->dispatch('refresh-navigation-menu');
     }

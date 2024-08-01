@@ -4,7 +4,7 @@
     </x-slot>
 
     <div class="my-12 space-y-12" x-data="{
-        showSettings: true,
+        showSettings: false,
         toggleEditing() {
             this.showSettings = !this.showSettings;
             $dispatch('profile-editing-toggled', { value: this.showSettings });

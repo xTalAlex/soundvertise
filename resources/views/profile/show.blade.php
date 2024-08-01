@@ -3,7 +3,7 @@
         {{ auth()->user()->name }}
     </x-slot>
 
-    <div class="my-12 space-y-12" x-data="{ showSettings: false }">
+    <div class="my-12 space-y-12" x-data="{ showSettings: true }">
         <div class="max-w-4xl mx-auto sm:px-6 lg:px-8 relative">
             <div class="grid md:grid-cols-3 gap-12 place-items-center mb-12">
                 <div class="order-2 md:order-1">
@@ -51,15 +51,24 @@
         </div>
 
         <div>
-            <div x-cloak x-show="showSettings" x-transition:enter="transition ease-in-out duration-300"
+            <div class="w-fit mx-auto gap-2 grid sm:grid-cols-2" x-cloak x-show="showSettings"
+                x-transition:enter="transition ease-in-out duration-300"
                 x-transition:enter-start="transform opacity-50 scale-50"
                 x-transition:enter-end="transform opacity-100 scale-100"
                 x-transition:leave="transition ease-in duration-200"
                 x-transition:leave-start="transform opacity-50 scale-100 "
                 x-transition:leave-end="transform opacity-0 scale-50">
-                <div class="w-fit mx-auto">
-                    @livewire('update-profile-information-form-simple')
+                <div class="w-full mx-auto">
+                    @livewire('profile.custom-update-profile-information-form', ['compact' => true])
                 </div>
+                <div class="w-full mx-auto">
+                    @livewire('profile.custom-update-password-form', ['compact' => true])
+                </div>
+                @if (Laravel\Jetstream\Jetstream::hasAccountDeletionFeatures())
+                    <div class="sm:col-span-2 text-center">
+                        @livewire('profile.custom-delete-user-form', ['compact' => true])
+                    </div>
+                @endif
             </div>
         </div>
 

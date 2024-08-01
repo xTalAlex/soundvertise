@@ -1,16 +1,23 @@
-<x-form-section submit="updateProfileInformation">
-    <x-slot name="title">
-        {{ __('Profile Information') }}
-    </x-slot>
+@php
+    $colSpanClasses = $compact ? 'col-span-6' : 'col-span-6 sm:col-span-4';
+@endphp
 
-    <x-slot name="description">
-        {{ __('Update your account\'s profile information and email address.') }}
-    </x-slot>
+<x-form-section submit="updateProfileInformation">
+
+    @unless ($compact)
+        <x-slot name="title">
+            {{ __('Profile Information') }}
+        </x-slot>
+
+        <x-slot name="description">
+            {{ __('Update your account\'s profile information and email address.') }}
+        </x-slot>
+    @endunless
 
     <x-slot name="form">
         <!-- Profile Photo -->
-        @if (Laravel\Jetstream\Jetstream::managesProfilePhotos())
-            <div x-data="{ photoName: null, photoPreview: null }" class="col-span-6 sm:col-span-4">
+        @if (!$compact && Laravel\Jetstream\Jetstream::managesProfilePhotos())
+            <div x-data="{ photoName: null, photoPreview: null }" class="{{ $colSpanClasses }}">
                 <!-- Profile Photo File Input -->
                 <input type="file" id="photo" class="hidden" wire:model.live="photo" x-ref="photo"
                     x-on:change="
@@ -63,7 +70,7 @@
         @endif
 
         <!-- Name -->
-        <div class="col-span-6 sm:col-span-4">
+        <div class="{{ $colSpanClasses }}">
             <x-label for="name" value="{{ __('Name') }}" />
             <x-input id="name" type="text" class="mt-1 block w-full" wire:model="state.name" required
                 autocomplete="name" />
@@ -71,7 +78,7 @@
         </div>
 
         <!-- Email -->
-        <div class="col-span-6 sm:col-span-4">
+        <div class="{{ $colSpanClasses }}">
             <x-label for="email" value="{{ __('Email') }}" />
             <x-input id="email" type="email" class="mt-1 block w-full" wire:model="state.email" required
                 autocomplete="email" />
@@ -98,7 +105,7 @@
         </div>
 
         <!-- Country -->
-        <div class="col-span-6 sm:col-span-4">
+        <div class="{{ $colSpanClasses }}">
             <x-label for="country" value="{{ __('Country') }}" />
             <x-country-select id="country" class="block mt-1 w-full" name="country" wire:model="state.country"
                 required />

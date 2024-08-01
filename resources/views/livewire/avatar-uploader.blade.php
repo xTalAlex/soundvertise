@@ -10,7 +10,7 @@
         <div x-on:click.prevent="$refs.photo.click()" x-cloak x-show="editing"
             class="cursor-pointer rounded-full overflow-hidden border-secondary-500 border-2 mt-2 w-fit mx-auto size-40 sm:size-52 relative">
             <img src="{{ $this->user->profile_photo_url }}" alt="{{ $this->user->name }}"
-                class="aspect-square size-full object-cover" />
+                class="aspect-square size-40 sm:size-52 object-cover" />
             <div class="absolute inset-0 bg-black/80 z-10" wire:loading>
                 <div class="grid place-items-center h-full">
                     <x-loading-spinner class="size-6" />
@@ -20,7 +20,7 @@
 
         <div class="mt-2 w-fit mx-auto size-40 sm:size-52 relative" x-show="!editing">
             <img src="{{ $this->user->profile_photo_url }}" alt="{{ $this->user->name }}"
-                class="rounded-full aspect-square size-full object-cover border-2 border-secondary-500" />
+                class="rounded-full aspect-square size-40 sm:size-52 object-cover border-2 border-secondary-500" />
         </div>
 
         @if ($this->user->profile_photo_path)

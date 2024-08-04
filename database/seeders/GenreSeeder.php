@@ -31,10 +31,6 @@ class GenreSeeder extends Seeder
                 'position_x' => -20,
                 'position_y' => 20,
             ],
-            'Rock' => [
-                'position_x' => 40,
-                'position_y' => 40,
-            ],
             'Electronic' => [
                 'position_x' => 64,
                 'position_y' => 20,

@@ -19,6 +19,7 @@
     },
     "dependencies": {
         "@fontsource-variable/montserrat": "^5.0.19",
-        "@fontsource/schoolbell": "^5.0.12"
+        "@fontsource/schoolbell": "^5.0.12",
+        "tippy.js": "^6.3.7"
     }
 }

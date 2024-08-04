@@ -66,10 +66,12 @@
             <div class="flex sm:items-center sm:ms-6 place-self-end my-auto">
                 <!-- User Dropdown -->
                 @auth
-                    <a class="hover:text-secondary-500 transition duraiton-300 ease-in-ou"
-                        href="{{ route('filament.admin.pages.dashboard') }}">
-                        <x-icon-theater-comedy-r class="size-10 t" title="{{ __('Admin') }}" />
-                    </a>
+                    @if (auth()->user()->isAdmin())
+                        <a class="hover:text-secondary-500 transition duraiton-300 ease-in-ou"
+                            href="{{ route('filament.admin.pages.dashboard') }}">
+                            <x-icon-theater-comedy-r class="size-10 t" title="{{ __('Admin') }}" />
+                        </a>
+                    @endif
                     <div>
                         <a class="ms-3 relative flex space-x-2" href="{{ route('profile.show') }}">
                             <div @class([

@@ -57,7 +57,7 @@ if (detectLang) {
                     x-on:click="setValue('{{ $value }}','{{ $label }}')" value="{{ $value }}"
                     data-label="{{ $label }}">
                     <div>{{ $label }}</div>
-                    <x-icon class="size-6" name='flag-country-{{ $value }}' />
+                    <x-icon class="size-6" name='flag-country-{{ Str::lower($value) }}' />
                 </li>
             @endforeach
         </ul>

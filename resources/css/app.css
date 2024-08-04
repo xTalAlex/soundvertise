@@ -2,7 +2,10 @@
 @import "@fontsource-variable/montserrat";
 
 @import "tailwindcss/base";
+@import "tippy.js/dist/tippy.css";
+
 @import "tailwindcss/components";
+
 @import "tailwindcss/utilities";
 
 [x-cloak] {

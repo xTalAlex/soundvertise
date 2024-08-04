@@ -26,8 +26,9 @@
                     <div class="mx-auto w-fit mt-2">
                         <button class="opacity-50" x-on:click="toggleEditing">
                             <span>{{ __('Settings') }}</span>
-                            <span x-cloak x-show="!showSettings"><x-icon-edit-note-r class="inline size-4" /></span>
-                            <span x-cloak x-show="showSettings"><x-icon-close-r class="inline size-4" /></span>
+                            <span x-cloak x-show="!showSettings"><x-icon-edit-r class="inline size-4 -mt-0.5" /></span>
+                            <span x-cloak x-show="showSettings"><x-icon-edit-off-r
+                                    class="inline size-4 -mt-0.5" /></span>
                         </button>
                     </div>
                 </div>

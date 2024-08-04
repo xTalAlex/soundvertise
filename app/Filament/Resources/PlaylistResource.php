@@ -22,6 +22,13 @@ class PlaylistResource extends Resource
 
     protected static ?string $navigationGroup = 'Music';
 
+    public static function getNavigationBadge(): ?string
+    {
+        $pendingPlaylistsCount = static::getModel()::pending()->count();
+
+        return $pendingPlaylistsCount ? $pendingPlaylistsCount : null;
+    }
+
     public static function form(Form $form): Form
     {
         return $form
@@ -84,10 +91,17 @@ class PlaylistResource extends Resource
                                             ->multiple()
                                             ->downloadable(),
                                         Forms\Components\TextInput::make('monthly_listeners')
+                                            ->requiredIfAccepted('approved')
                                             ->numeric(),
-                                        Forms\Components\Toggle::make('approved')
-                                            ->required(),
-                                        Forms\Components\DateTimePicker::make('reviewed_at'),
+                                        Forms\Components\Select::make('approved')
+                                            ->options([
+                                                null => 'Under Review',
+                                                false => 'Refused',
+                                                true => 'Approved',
+                                            ])
+                                            ->default(null)
+                                            ->selectablePlaceholder(false),
+                                        Forms\Components\DateTimePicker::make('reviewed_at')->dehydrated(false),
                                     ]),
                                 Forms\Components\Section::make()
                                     ->columnSpan(1)
@@ -108,10 +122,7 @@ class PlaylistResource extends Resource
             ->modifyQueryUsing(fn (Builder $query) => $query->with('user', 'genre'))
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->url(function (?Playlist $record): ?string {
-                        return $record?->url;
-                    })
-                    ->openUrlInNewTab()
+                    ->sortable()
                     ->searchable(),
                 Tables\Columns\TextColumn::make('user.name')
                     ->searchable(),

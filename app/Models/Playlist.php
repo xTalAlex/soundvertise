@@ -2,7 +2,10 @@
 
 namespace App\Models;
 
+use App\Observers\PlaylistObserver;
 use App\Traits\Blacklistable;
+use Illuminate\Database\Eloquent\Attributes\ObservedBy;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -13,6 +16,7 @@ use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Spatie\MediaLibrary\MediaCollections\File;
 
+#[ObservedBy([PlaylistObserver::class])]
 class Playlist extends Model implements HasMedia
 {
     use Blacklistable;
@@ -47,7 +51,6 @@ class Playlist extends Model implements HasMedia
         return [
             'collaborative' => 'boolean',
             'approved' => 'boolean',
-            'reviewed_at' => 'datetime',
         ];
     }
 
@@ -59,6 +62,20 @@ class Playlist extends Model implements HasMedia
             })
             ->onlyKeepLatest(1);
     }
+
+    /**
+     * Scope a query to only include playlists that do not have bene accepted or refused.
+     */
+    public function scopePending(Builder $query): void
+    {
+        $query->where('approved', null)->where('reviewed_at', null);
+    }
+
+    /*
+    |
+    | Relationships
+    |
+    */
 
     /**
      * Get the user that owns the playlist.
@@ -109,4 +126,12 @@ class Playlist extends Model implements HasMedia
             get: fn ($value) => $value ?? ('https://open.spotify.com/playlist/'.$this->spotify_id),
         );
     }
+
+    /*
+    |
+    | Accessors & Mutators
+    |
+    */
+
+    //
 }

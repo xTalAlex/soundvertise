@@ -25,7 +25,7 @@ return new class extends Migration
             $table->boolean('collaborative')->default(false);
             $table->unsignedInteger('followers_total')->default(0);
             $table->unsignedInteger('tracks_total')->default(0);
-            $table->boolean('approved')->default(false);
+            $table->boolean('approved')->nullable();
             $table->datetime('reviewed_at')->nullable();
             $table->unsignedInteger('monthly_listeners')->nullable();
             $table->timestamps();

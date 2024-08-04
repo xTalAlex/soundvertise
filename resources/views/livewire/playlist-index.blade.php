@@ -24,11 +24,16 @@
 
                         <!-- Status-->
                         <div class="flex flex-col space-y-2 jsutify-between">
-                            <div class="text-sm opacity-50">
-                                @if (!$playlist->reviewed_at)
-                                    {{ __('Under Review') }}
+                            <div class="mx-auto">
+                                @if ($playlist->approved)
+                                    <x-icon-verified-r title="{{ __('Approved') }}"
+                                        class="cursor-pointer size-4 text-green-500 opacity-50" />
+                                @elseif ($playlist->approved === false)
+                                    <x-icon-block-r title="{{ __('Refused') }}"
+                                        class="cursor-pointer size-4 text-red-500 opacity-50" />
                                 @else
-                                    {{ $playlist->approved ? __('Approved') : _('Refused') }}
+                                    <x-icon-hourglass-empty-r title="{{ __('Under Review') }}"
+                                        class="cursor-pointer size-4 text-yellow-500 opacity-50" />
                                 @endif
                             </div>
 

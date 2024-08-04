@@ -37,7 +37,8 @@
         <canvas id="space" class="bg-black h-screen fixed w-screen inset-0 -z-10">
         </canvas>
         <div class="">
-            <div class="overflow-hidden sm:overflow-visible grid md:grid-cols-4 mt-6 w-full mx-auto place-items-center">
+            <div
+                class="overflow-hidden sm:overflow-visible grid md:grid-cols-4 mt-12 w-full mx-auto place-items-center">
                 @foreach ($genres as $genre)
                     <a class="" href="{{ route('planet', $genre) }}" wire:navigate>
                         <div class="w-32 planet relative hover:scale-105 transition duration-1000 ease-out"

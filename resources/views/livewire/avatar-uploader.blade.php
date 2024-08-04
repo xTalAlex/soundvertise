@@ -7,8 +7,9 @@
 
         <input type="file" id="photo" class="hidden" wire:model.live="photo" x-ref="photo" />
 
-        <div x-on:click.prevent="$refs.photo.click()" x-cloak x-show="editing"
-            class="cursor-pointer rounded-full overflow-hidden border-secondary-500 border-2 mt-2 w-fit mx-auto size-40 sm:size-52 relative">
+        <div x-on:click="editing && $refs.photo.click()"
+            class="rounded-full overflow-hidden border-secondary-500 border-2 mt-2 w-fit mx-auto size-40 sm:size-52 relative"
+            :class="editing ? 'cursor-pointer' : ''">
             <img src="{{ $this->user->profile_photo_url }}" alt="{{ $this->user->name }}"
                 class="aspect-square size-40 sm:size-52 object-cover" />
             <div class="absolute inset-0 bg-black/80 z-10" wire:loading>
@@ -16,11 +17,6 @@
                     <x-loading-spinner class="size-6" />
                 </div>
             </div>
-        </div>
-
-        <div class="mt-2 w-fit mx-auto size-40 sm:size-52 relative" x-show="!editing">
-            <img src="{{ $this->user->profile_photo_url }}" alt="{{ $this->user->name }}"
-                class="rounded-full aspect-square size-40 sm:size-52 object-cover border-2 border-secondary-500" />
         </div>
 
         @if ($this->user->profile_photo_path)

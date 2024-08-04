@@ -21,7 +21,7 @@ class GenreSeeder extends Seeder
             ],
             'Indie Acoustic / Folk' => [
                 'position_x' => null,
-                'position_y' => null,
+                'position_y' => -20,
             ],
             'Piano / Classical' => [
                 'position_x' => 6,
@@ -32,20 +32,20 @@ class GenreSeeder extends Seeder
                 'position_y' => 20,
             ],
             'Electronic' => [
-                'position_x' => 64,
-                'position_y' => 20,
+                'position_x' => 90,
+                'position_y' => 80,
             ],
             'Lofi / Jazz' => [
                 'position_x' => 16,
-                'position_y' => 32,
+                'position_y' => 50,
             ],
             'Trap / Hip Hop' => [
                 'position_x' => -52,
-                'position_y' => 44,
+                'position_y' => 88,
             ],
             'Rock / Metal' => [
-                'position_x' => 200,
-                'position_y' => 20,
+                'position_x' => -50,
+                'position_y' => 70,
             ],
         ];
         $genresIcons = collect(File::files(public_path('images/planets')))->map(fn ($file) => $file->getPathname());

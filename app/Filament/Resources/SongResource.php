@@ -121,10 +121,6 @@ class SongResource extends Resource
             ->modifyQueryUsing(fn (Builder $query) => $query->with('user', 'genre'))
             ->columns([
                 Tables\Columns\TextColumn::make('name')
-                    ->url(function (?Song $record): ?string {
-                        return $record?->url;
-                    })
-                    ->openUrlInNewTab()
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('spotify_id')

@@ -1,4 +1,4 @@
-<nav class="" x-data="{ open: false }">
+<nav @class(['absolute inset-x-0 top-0' => $transparent]) x-data="{ open: false }">
     <!-- Primary Navigation Menu -->
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8  mt-4 sm:mt-12">
         <div class="grid grid-cols-2 w-full place-items-center">
@@ -28,7 +28,7 @@
                             {{ __('Galaxy') }}
                         </div>
                         <div @class([
-                            '-ml-1 font-bold cursor-pointer inline-block text-secondary-500 group-hover:translate-x-px transition duration-300 ease-in-out',
+                            '-ml-1 font-bold cursor-pointer inline-block text-secondary-500 group-hover:text-primary-500 group-hover:translate-x-px transition duration-1000 ease-in-out',
                             'hidden' => request()->routeIs('galaxy'),
                         ])>
                             <x-icon-play-arrow-r class="mt-0.5 size-4" />
@@ -66,6 +66,10 @@
             <div class="flex sm:items-center sm:ms-6 place-self-end my-auto">
                 <!-- User Dropdown -->
                 @auth
+                    <a class="hover:text-secondary-500 transition duraiton-300 ease-in-ou"
+                        href="{{ route('filament.admin.pages.dashboard') }}">
+                        <x-icon-theater-comedy-r class="size-10 t" title="{{ __('Admin') }}" />
+                    </a>
                     <div>
                         <a class="ms-3 relative flex space-x-2" href="{{ route('profile.show') }}">
                             <div @class([

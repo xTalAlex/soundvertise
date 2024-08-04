@@ -25,7 +25,7 @@
     <x-banner />
 
     <div class="">
-        @livewire('navigation-menu')
+        @livewire('custom-navigation-menu', ['transparent' => !isset($header)])
 
         <!-- Page Heading -->
         @if (isset($header))

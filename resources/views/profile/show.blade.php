@@ -47,7 +47,8 @@
             <div class="absolute -top-8 lg:top-0 right-4 lg:right-0">
                 <form method="POST" action="{{ route('logout') }}" x-data>
                     @csrf
-                    <button title="{{ __('Logout') }}" href="{{ route('logout') }}" @click.prevent="$root.submit();">
+                    <button data-tippy-content="{{ __('Logout') }}" href="{{ route('logout') }}"
+                        @click.prevent="$root.submit();">
                         <x-icon-logout-r class="text-red-500" />
                     </button>
                 </form>

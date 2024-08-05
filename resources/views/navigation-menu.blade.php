@@ -69,7 +69,7 @@
                     @if (auth()->user()->isAdmin())
                         <a class="hover:text-secondary-500 transition duraiton-300 ease-in-ou"
                             href="{{ route('filament.admin.pages.dashboard') }}">
-                            <x-icon-theater-comedy-r class="size-10 t" title="{{ __('Admin') }}" />
+                            <x-icon-theater-comedy-r class="size-10 t" data-tippy-content="{{ __('Admin') }}" />
                         </a>
                     @endif
                     <div>

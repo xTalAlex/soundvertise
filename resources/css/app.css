@@ -3,6 +3,7 @@
 
 @import "tailwindcss/base";
 @import "tippy.js/dist/tippy.css";
+@import "tippy.js/themes/translucent.css";
 
 @import "tailwindcss/components";
 

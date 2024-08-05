@@ -34,30 +34,50 @@
     </div>
 
     <div class="">
+        <div class="hidden">
+            <x-loading-spinner class="size-32" id="tippyc" />
+        </div>
         <canvas id="space" class="bg-black h-screen fixed w-screen inset-0 -z-10">
         </canvas>
         <div class="">
             <div
-                class="overflow-hidden sm:overflow-visible grid md:grid-cols-4 mt-12 w-full mx-auto place-items-center">
+                class="overflow-hidden sm:overflow-visible grid md:grid-cols-4 gap-y-12 md:gap-y-0 mt-6 w-full mx-auto place-items-center">
                 @foreach ($genres as $genre)
-                    <a class="" href="{{ route('planet', $genre) }}" wire:navigate>
-                        <div class="w-32 planet relative hover:scale-105 transition duration-1000 ease-out"
-                            style="top:{{ $genre->position_y ?? 0 }}px; left:{{ $genre->position_x ?? 0 }}px">
-                            @if ($genre->icon)
-                                <img class="drop-shadow-2xl" src="{{ $genre->icon }}" />
-                            @else
-                                <div class="shadow-2xl m-auto grid place-items-center rounded-full size-20 bg-gradient-to-br from-primary to-secondary"
-                                    @if ($genre->primary_color && $genre->secondary_color) style="
+                    <div class="h-full w-full grid place-items-center relative p-6"
+                        style="top:{{ $genre->position_y ?? 0 }}px; left:{{ $genre->position_x ?? 0 }}px">
+                        <div class="absolute top-0 left-0">
+                            @foreach ($genre->playlists as $playlist)
+                                <div
+                                    class="m-1 size-6 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-full orbit">
+                                </div>
+
+                                @push('bottom')
+                                    <script type="module">
+                                        window.tippy('.orbit', {
+                                            content: () => document.getElementById('tippyc').cloneNode(true),
+                                        });
+                                    </script>
+                                @endpush
+                            @endforeach
+                        </div>
+                        <a class="" href="{{ route('planet', $genre) }}" wire:navigate>
+                            <div class="w-32 planet relative hover:scale-105 transition duration-1000 ease-out">
+                                @if ($genre->icon)
+                                    <img class="drop-shadow-2xl" src="{{ $genre->icon }}" />
+                                @else
+                                    <div class="shadow-2xl m-auto grid place-items-center rounded-full size-20 bg-gradient-to-br from-primary to-secondary"
+                                        @if ($genre->primary_color && $genre->secondary_color) style="
                                         --tw-gradient-from: {{ $genre->primary_color }} var(--tw-gradient-from-position);
                                         --tw-gradient-to: {{ $genre->secondary_color }} var(--tw-gradient-to-position);
                                     " @endif>
-                                    <div class="text-white font-extrabold uppercase text-center text-sm px-4">
-                                        {{ $genre->name }}
+                                        <div class="text-white font-extrabold uppercase text-center text-sm px-4">
+                                            {{ $genre->name }}
+                                        </div>
                                     </div>
-                                </div>
-                            @endif
-                        </div>
-                    </a>
+                                @endif
+                            </div>
+                        </a>
+                    </div>
                 @endforeach
             </div>
         </div>

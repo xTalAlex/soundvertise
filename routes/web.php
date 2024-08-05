@@ -8,6 +8,9 @@ Route::get('/', function () {
 
 Route::get('/galaxy', function () {
     $genres = App\Models\Genre::query()
+        ->with(['playlists' => function ($query) {
+            $query->approved();
+        }])
         ->orderBy('order', 'asc')
         ->orderBy('id', 'asc')
         ->get();

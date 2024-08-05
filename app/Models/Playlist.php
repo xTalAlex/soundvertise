@@ -64,11 +64,19 @@ class Playlist extends Model implements HasMedia
     }
 
     /**
-     * Scope a query to only include playlists that do not have bene accepted or refused.
+     * Scope a query to only include playlists that do not have been accepted or refused.
      */
     public function scopePending(Builder $query): void
     {
         $query->where('approved', null)->where('reviewed_at', null);
+    }
+
+    /**
+     * Scope a query to only include playlists that have been accepted.
+     */
+    public function scopeApproved(Builder $query): void
+    {
+        $query->where('approved', true);
     }
 
     /*

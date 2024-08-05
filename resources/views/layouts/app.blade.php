@@ -43,8 +43,14 @@
         </main>
     </div>
 
-    @stack('modals')
+    <script type="module">
+        window.tippy('[data-tippy-content]');
+    </script>
+
     @stack('bottom')
+
+    @stack('modals')
+
     @livewireScripts
 </body>
 

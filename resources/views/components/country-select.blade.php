@@ -39,8 +39,7 @@ if (detectLang) {
 }" x-modelable="value" {{ $disabled ? 'disabled' : '' }}
     x-effect="getLabelByValue(value)" {{ $attributes }} x-on:click.away="open = false" class="relative w-full">
     <!-- Button -->
-    <button x-on:click.prevent="open = true" x-on:focus="open = true"
-        :class="{ 'text-opacity-50': disabled || value === '' }"
+    <button x-on:click.prevent="toggleOpen" :class="{ 'text-opacity-50': disabled || value === '' }"
         {{ $attributes->merge(['class' => 'w-full py-2 px-2 bg-transparent flex items-center justify-between ' . $borderClasses]) }}>
         <span class="w-full pr-6 overflow-hidden text-left overflow-ellipsis" x-text="displayedText"></span>
         <x-icon-keyboard-arrow-down-r class="size-4" />

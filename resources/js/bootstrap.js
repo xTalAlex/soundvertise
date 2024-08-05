@@ -5,3 +5,5 @@ window.axios.defaults.headers.common["X-Requested-With"] = "XMLHttpRequest";
 
 import tippy from "tippy.js";
 window.tippy = tippy;
+
+window.tippy.setDefaultProps({ theme: "translucent", duration: [600, 300] });

@@ -6,8 +6,7 @@
                 {{-- <img class="h-28 mt-44" src="images/soundvertise_logo.png" /> --}}
                 <x-application-logo class="mt-32" />
                 <div class="mt-5 text-xl tracking-[0.2em] font-sans font-thin">let's grow together</div>
-                <div
-                    class="mt-10 hidden sm:block tracking-[0.2em] font-sans font-thin bg-[size:300%] animate-gradient bg-gradient-to-bl from-secondary via-secondary-200 to-primary text-transparent bg-clip-text">
+                <div class="mt-10 hidden sm:block tracking-[0.2em] font-sans font-thin animated-gradient-text">
                     artist promotion | playlist growth |
                     curators academy</div>
             </div>
@@ -30,8 +29,7 @@
                 </p>
 
                 <div class="mt-32 relative">
-                    <ul
-                        class="pb-10 text-5xl space-y-2 tracking-[0.2em] font-sans font-thin bg-[size:300%] animate-gradient bg-gradient-to-bl from-secondary via-secondary-200 to-primary text-transparent bg-clip-text">
+                    <ul class="pb-10 text-5xl space-y-2 tracking-[0.2em] font-sans font-thin animated-gradient-text">
                         <li>+listeners</li>
                         <li>+fans</li>
                         <li>+music</li>

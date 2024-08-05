@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Livewire;
+namespace App\Livewire\Components;
 
 use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Validate;
@@ -85,6 +85,6 @@ class AvatarUploader extends Component
 
     public function render()
     {
-        return view('livewire.avatar-uploader');
+        return view('livewire.components.avatar-uploader');
     }
 }

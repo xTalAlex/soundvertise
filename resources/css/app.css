@@ -1,14 +1,29 @@
 @import "@fontsource/schoolbell";
 @import "@fontsource-variable/montserrat";
 
+/* The base layer is for things like reset rules or default styles applied to plain HTML elements. */
 @import "tailwindcss/base";
+
 @import "tippy.js/dist/tippy.css";
 @import "tippy.js/themes/translucent.css";
 
+/* The components layer is for class-based styles that you want to be able to override with utilities. */
 @import "tailwindcss/components";
 
+/* The utilities layer is for small, single-purpose classes that should always take precedence over any other styles. */
 @import "tailwindcss/utilities";
+
+@layer components {
+    .animated-gradient-text {
+        @apply bg-[size:300%] animate-gradient bg-gradient-to-br from-secondary via-secondary-200 to-primary text-transparent bg-clip-text;
+    }
+}
 
 [x-cloak] {
     display: none;
+}
+
+.tippy-box[data-theme~="translucent"] {
+    background-color: transparent;
+    border-radius: theme("borderRadius.lg");
 }

@@ -23,7 +23,7 @@
                     </x-nav-link> --}}
                     <a class="group flex items-center" href="{{ route('galaxy') }}">
                         <div @class([
-                            'pb-1 group-hover:border-secondary-500 transition duration-300 ease-in-out group-focus:outline-none border-transparent pt-1 px-1 font-bold uppercase bg-[size:300%] animate-gradient bg-gradient-to-r from-secondary via-secondary-200 to-primary text-transparent bg-clip-text',
+                            'pb-1 group-hover:border-secondary-500 transition duration-300 ease-in-out group-focus:outline-none border-transparent pt-1 px-1 font-bold uppercase animated-gradient-text',
                         ])>
                             {{ __('Galaxy') }}
                         </div>

@@ -21,7 +21,7 @@
                     </a>
                 </div>
                 <div class="order-1 md:order-2">
-                    @livewire('avatar-uploader')
+                    @livewire('components.avatar-uploader')
 
                     <div class="mx-auto w-fit mt-2">
                         <button class="opacity-50" x-on:click="toggleEditing">

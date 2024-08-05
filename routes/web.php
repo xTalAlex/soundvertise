@@ -38,8 +38,6 @@ Route::middleware([
     'auth:sanctum',
     config('jetstream.auth_session'),
 ])->group(function () {
-    Route::get('playlists', \App\Livewire\PlaylistIndex::class)->name('playlists.index');
-    Route::get('songs', \App\Livewire\SongIndex::class)->name('songs.index');
     Route::get('pairings', \App\Livewire\PairingIndex::class)->name('pairings.index');
 });
 

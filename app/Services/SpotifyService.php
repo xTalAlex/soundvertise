@@ -269,8 +269,13 @@ class SpotifyService
         return $playlist['public'] == 'true' && $playlist['owner']['id'] == $spotifyUserId;
     }
 
-    public function getPlaylistIdFromUrl($playlistUrl): string
+    public function getPlaylistIdFromUrl(string $playlistUrl): string
     {
-        return Str::between($playlistUrl ?? '', 'playlist/', '?');
+        return Str::between($playlistUrl, 'playlist/', '?');
+    }
+
+    public function getSongIdFromUrl(string $songUrl): string
+    {
+        return Str::between($songUrl, 'track/', '?');
     }
 }

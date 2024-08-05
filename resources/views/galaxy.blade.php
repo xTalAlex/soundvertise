@@ -7,33 +7,32 @@
         {{ __('Galaxy') }}
     </x-slot>
 
-    <div class="flex flex-col space-y-4 justify-center items-center font-bold text-white tracking-widest">
-        <div class="flex flex-row space-x-4">
-            <a href="{{ route('pairings.index') }}">
-                <div
-                    class="rounded-full border-2 border-white shadow-2xl w-32 sm:w-44 text-center py-3 bg-gradient-to-r from-primary-500 to-primary-600">
-                    REQUEST
-                </div>
-            </a>
-            <a href="{{ route('pairings.index') }}">
-                <div
-                    class="relative border-2 border-white rounded-full shadow-2xl w-32 sm:w-44 text-center py-3 bg-gradient-to-r from-secondary-500 to-secondary-600">
-                    MATCH <div
-                        class="absolute border-2 border-white text-secondary-500 -right-5 font-display  font-bold shadow-xl text-4xl -top-5 rounded-full size-10 bg-gradient-to-tr from-white to-white grid place-items-center">
-                        10
+    @auth
+        <div class="flex flex-col space-y-4 justify-center items-center text-white">
+            <div class="flex flex-row space-x-4">
+                <a href="{{ route('pairings.index') }}">
+                    <div
+                        class="font-bold tracking-widest rounded-full border-2 border-white shadow-2xl w-32 sm:w-44 text-center py-3 bg-gradient-to-r from-primary-500 to-primary-600">
+                        REQUEST
                     </div>
-                </div>
-            </a>
+                </a>
+                <a href="{{ route('pairings.index') }}">
+                    <div
+                        class="relative border-2 border-white rounded-full shadow-2xl w-32 sm:w-44 text-center py-3 bg-gradient-to-r from-secondary-500 to-secondary-600">
+                        MATCH <div
+                            class="font-bold tracking-widest absolute border-2 border-white text-secondary-500 -right-5 font-display shadow-xl text-4xl -top-5 rounded-full size-10 bg-gradient-to-tr from-white to-white grid place-items-center">
+                            10
+                        </div>
+                    </div>
+                </a>
+            </div>
+            @livewire('components.submitter')
         </div>
-        <div
-            class="rounded-full border-2 border-white shadow-2xl text-center w-44 py-3 bg-gradient-to-br from-black-800 to-black-950">
-            <span
-                class="font-bold bg-[size:300%] animate-gradient bg-gradient-to-r from-secondary via-secondary-200 to-primary text-transparent bg-clip-text">CHOOSE
-                SONG</span>
-        </div>
-    </div>
+    @endauth
 
-    <div class="">
+    <div @class([
+        'md:mt-24' => auth()->guest(),
+    ])>
         <div class="hidden">
             <x-loading-spinner class="size-32" id="tippyc" />
         </div>

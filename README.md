@@ -58,6 +58,11 @@ https://www.digitalocean.com/community/questions/how-to-setup-laravel-queue-for-
 
 # TODO
 
+-   sistemare loading spinner e attributo disabled per bottoni
+-   centrare elementi absolute quando parent è più stretto
+-   temi tippy > come utilizzare le classi tailwind per fare i temi
+-   spostare le modal livewire con teleport o spostare direttamente tutto il componente x-modal
+
 ## Registration
 
     - blocco playlist con < 1000 follower

@@ -5,17 +5,20 @@ namespace App\Livewire\Components;
 use App\Events\SubmissionCreated;
 use App\Jobs\MakePairings;
 use App\Models\Genre;
+use App\Models\Playlist;
+use App\Models\Song;
 use App\Models\Submission;
+use Illuminate\Support\Facades\Auth;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
 class Submitter extends Component
 {
+    public Song $song;
+
     public Genre $genre;
 
-    public $songs;
-
-    public $playlists;
+    public Playlist $playlist;
 
     public $submitted = false;
 
@@ -27,13 +30,9 @@ class Submitter extends Component
 
     public function mount()
     {
-        $this->songs = auth()->user()->songs()
-            ->where(fn ($query) => $query->where('genre_id', $this->genre->id)
-                ->orWhere('genre_id', null)
-            )->get();
-        $this->playlists = auth()->user()->playlists()->where('genre_id', $this->genre->id)->get();
-        $this->selectedSongId = $this->songs->first()?->id;
-        $this->selectedPlaylistId = $this->playlists->first()?->id;
+        if (Auth::check()) {
+            // selectable genres by playlist pluck genre_id
+        }
     }
 
     public function storeSubmission()
@@ -42,6 +41,8 @@ class Submitter extends Component
         // policy per non mandare submission doppie
 
         $this->validate();
+
+        dd('STORE SUBMISSION');
 
         $submission = auth()->user()->submissions()->create([
             'song_id' => $this->selectedSongId,

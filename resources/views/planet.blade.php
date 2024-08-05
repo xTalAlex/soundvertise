@@ -9,7 +9,7 @@
         <div class="">
             @auth
                 <div class="w-fit mx-auto mt-12">
-                    <livewire:submitter class="ml-32" :genre="$genre" />
+                    @livewire('components.submitter')
                 </div>
             @endauth
             <div class="grid grid-cols-1 mt-32 container mx-auto place-items-center gap-10">
